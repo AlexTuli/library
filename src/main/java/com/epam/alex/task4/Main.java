@@ -1,5 +1,7 @@
 package com.epam.alex.task4;
 
+import org.apache.log4j.Logger;
+
 /**
  * Created by AlexTuli on 11/20/15.
  *
@@ -7,7 +9,9 @@ package com.epam.alex.task4;
  */
 public class Main {
 
+    public final static Logger logger = Logger.getLogger(Main.class);
+
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        logger.info("Hello world!");
     }
 }
