@@ -4,15 +4,20 @@ It's a library management system.
 
 ### Use cases
 -------------------
-1) Keep records about users (readers) in library
+1) USERS:
 
-2) Keep records about books in library
+Registration.
+Show list of books in subscription.
+Request for new book.
+Return old book.
+See notification
 
-3) Control of creating, adding and editing info about users
+2) ADMINISTRATION:
 
-4) Control of creating, adding and editing info about books (also get info, ex: summary of book)
+Get list of users
+Notify users about debts
+Block users
 
-5) ?
 
 ### To-Do
 ------------------
@@ -22,8 +27,12 @@ It's a library management system.
 
 3) Entity's
 
-4) Create a pull of connections
+4) Create a pool of connections
 
 5) Add sessions and filter (?)
 
-6)
+6) Add login system
+
+7) Add registration
+
+8)
