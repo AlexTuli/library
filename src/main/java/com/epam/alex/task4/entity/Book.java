@@ -1,7 +1,7 @@
 package com.epam.alex.task4.entity;
 
 /**
- * Class describes book.
+ * Class describes book. Contains ID of the book and it's name
  * Created by AlexTuli on 11/20/15.
  *
  * @author Bocharnikov Alexandr
@@ -16,7 +16,7 @@ public class Book {
 
     }
 
-    public  Book(String nameOfBook) {
+    public Book(String nameOfBook) {
         this.nameOfBook = nameOfBook;
     }
 

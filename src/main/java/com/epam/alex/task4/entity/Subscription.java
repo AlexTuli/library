@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * This is subscription for users of library. This class contains name of user and
+ * book list (books that user take from library)
  * Created by AlexTuli on 11/22/15.
  *
  * @author Bocharnikov Alexandr
@@ -30,7 +32,7 @@ public class Subscription {
         return bookList.get(index);
     }
 
-    public void addBook (Book book) {
+    public void addBook(Book book) {
         bookList.add(book);
     }
 

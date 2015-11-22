@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Class describes library. Library contains books.
  * Created by AlexTuli on 11/20/15.
  *
  * @author Bocharnikov Alexandr

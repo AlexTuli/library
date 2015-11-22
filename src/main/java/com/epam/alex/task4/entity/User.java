@@ -1,8 +1,8 @@
 package com.epam.alex.task4.entity;
 
-import javax.jws.soap.SOAPBinding;
-
 /**
+ * Class describes user of library. Have name of user, subscription of user and id of user.
+ * <p>
  * Created by AlexTuli on 11/22/15.
  *
  * @author Bocharnikov Alexandr
@@ -15,13 +15,13 @@ public class User {
 
     private String id;
 
-    public User (){
-
+    public User() {
+        subscription = new Subscription(name);
     }
 
-    public User(String name, Subscription subscription, String id) {
+    public User(String name, String id) {
         this.name = name;
-        this.subscription = subscription;
+        subscription = new Subscription(name);
         this.id = id;
     }
 
