@@ -16,12 +16,11 @@ public class User {
     private String id;
 
     public User() {
-        subscription = new Subscription(name);
+
     }
 
     public User(String name, String id) {
         this.name = name;
-        subscription = new Subscription(name);
         this.id = id;
     }
 

@@ -1,5 +1,8 @@
 package com.epam.alex.task4.servlet;
 
+import com.epam.alex.task4.dao.SubscriptionDao;
+import org.apache.log4j.Logger;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,14 +16,25 @@ import java.io.IOException;
  * @author Bocharnikov Alexandr
  */
 
-@WebServlet(name = "MainServlet")
+@WebServlet(name = "MainServlet", urlPatterns = "/controller")
 public class MainServlet extends HttpServlet {
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public final static Logger logger = Logger.getLogger(MainServlet.class);
+    public static final String PARAMETER_ACTION = "action";
 
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        String action = request.getParameter(PARAMETER_ACTION);
+
+        switch (action) {
+            case "get-subscription" :
+                SubscriptionDao subscriptionDao = new SubscriptionDao();
+                subscriptionDao.read();
+                break;
+        }
 
     }
 }

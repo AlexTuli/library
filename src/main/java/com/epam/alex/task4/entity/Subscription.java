@@ -12,16 +12,12 @@ import java.util.List;
  */
 public class Subscription {
 
-    private String nameOfUser;
+    private User user;
 
     private List<Book> bookList;
 
     public Subscription() {
         bookList = new ArrayList<>();
-    }
-
-    public Subscription(String nameOfUser) {
-        this.nameOfUser = nameOfUser;
     }
 
     public List<Book> getBookList() {
@@ -32,16 +28,20 @@ public class Subscription {
         return bookList.get(index);
     }
 
+    public void removeBook(int index) {
+        bookList.remove(index);
+    }
+
     public void addBook(Book book) {
         bookList.add(book);
     }
 
-    public String getNameOfUser() {
-        return nameOfUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setNameOfUser(String nameOfUser) {
-        this.nameOfUser = nameOfUser;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -51,21 +51,15 @@ public class Subscription {
 
         Subscription that = (Subscription) o;
 
-        if (!nameOfUser.equals(that.nameOfUser)) return false;
-        return !(bookList != null ? !bookList.equals(that.bookList) : that.bookList != null);
+        if (!user.equals(that.user)) return false;
+        return bookList.equals(that.bookList);
 
     }
 
     @Override
     public int hashCode() {
-        int result = nameOfUser.hashCode();
-        result = 31 * result + (bookList != null ? bookList.hashCode() : 0);
+        int result = user.hashCode();
+        result = 31 * result + bookList.hashCode();
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "This is subscription of user: " + nameOfUser +
-                "\nHe take " + bookList.size() + " books from library";
     }
 }

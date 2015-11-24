@@ -10,22 +10,28 @@ public class Book {
 
     private String id;
 
-    private String nameOfBook;
+    private String title;
+
+    private String author;
 
     public Book() {
 
     }
 
-    public Book(String nameOfBook) {
-        this.nameOfBook = nameOfBook;
+    public String getAuthor() {
+        return author;
     }
 
-    public String getNameOfBook() {
-        return nameOfBook;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
-    public void setNameOfBook(String nameOfBook) {
-        this.nameOfBook = nameOfBook;
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getId() {
@@ -43,21 +49,23 @@ public class Book {
 
         Book book = (Book) o;
 
-        if (id != null ? !id.equals(book.id) : book.id != null) return false;
-        return nameOfBook.equals(book.nameOfBook);
+        if (!id.equals(book.id)) return false;
+        if (title != null ? !title.equals(book.title) : book.title != null) return false;
+        return !(author != null ? !author.equals(book.author) : book.author != null);
 
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + nameOfBook.hashCode();
+        int result = id.hashCode();
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (author != null ? author.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
-        return "Name of book: " + nameOfBook +
+        return "Name of book: " + title +
                 "ID: " + id;
     }
 }

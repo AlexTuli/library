@@ -10,7 +10,6 @@
 <div align="center">Your messages: </div>
 <%@ include file="/norify.jsp" %>
 
-<div align="center">Your books:</div>
 <%@ include file="/subscriptions.jsp"%>
 
 <div><a href="${pageContext.request.contextPath}/new-book.jsp">Request for a new book</a></div>
