@@ -1,6 +1,7 @@
 package com.epam.alex.task4.servlet;
 
 import com.epam.alex.task4.dao.SubscriptionDao;
+import com.epam.alex.task4.entity.User;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -32,7 +33,7 @@ public class MainServlet extends HttpServlet {
         switch (action) {
             case "get-subscription" :
                 SubscriptionDao subscriptionDao = new SubscriptionDao();
-                subscriptionDao.read();
+                subscriptionDao.read(new User("AlexTuli", 1));
                 break;
         }
 

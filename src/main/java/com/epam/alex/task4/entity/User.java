@@ -13,13 +13,13 @@ public class User {
 
     private Subscription subscription;
 
-    private String id;
+    private int id;
 
     public User() {
 
     }
 
-    public User(String name, String id) {
+    public User(String name, int id) {
         this.name = name;
         this.id = id;
     }
@@ -40,11 +40,11 @@ public class User {
         this.subscription = subscription;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -55,9 +55,9 @@ public class User {
 
         User user = (User) o;
 
+        if (id != user.id) return false;
         if (!name.equals(user.name)) return false;
-        if (subscription != null ? !subscription.equals(user.subscription) : user.subscription != null) return false;
-        return !(id != null ? !id.equals(user.id) : user.id != null);
+        return !(subscription != null ? !subscription.equals(user.subscription) : user.subscription != null);
 
     }
 
@@ -65,7 +65,7 @@ public class User {
     public int hashCode() {
         int result = name.hashCode();
         result = 31 * result + (subscription != null ? subscription.hashCode() : 0);
-        result = 31 * result + (id != null ? id.hashCode() : 0);
+        result = 31 * result + id;
         return result;
     }
 
