@@ -14,7 +14,7 @@ public class SubscriptionDao {
 
     // TODO ADD DRIVER AND FIX read() METHOD
 
-    public static final String MY_LIBRARY_URL = "jdbc:h2:~/temp/library/myLibrary";
+    public static final String MY_LIBRARY_URL = "jdbc:h2:$0/myLibrary";
     public static final String READ_SUBSCRIPTION = "SELECT * FROM\n" +
             "(SELECT * FROM\n" +
             "(SELECT SUBSCRIPTION.ID\n" +
