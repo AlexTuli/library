@@ -62,4 +62,12 @@ public class Subscription {
         result = 31 * result + bookList.hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Subscription{" +
+                "user=" + user +
+                ", bookList=" + bookList +
+                '}';
+    }
 }

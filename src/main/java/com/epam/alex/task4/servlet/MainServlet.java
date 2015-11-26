@@ -1,9 +1,11 @@
 package com.epam.alex.task4.servlet;
 
 import com.epam.alex.task4.dao.SubscriptionDao;
+import com.epam.alex.task4.entity.Subscription;
 import com.epam.alex.task4.entity.User;
 import org.apache.log4j.Logger;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,6 +26,7 @@ public class MainServlet extends HttpServlet {
     public static final String PARAMETER_ACTION = "action";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -33,9 +36,12 @@ public class MainServlet extends HttpServlet {
         switch (action) {
             case "get-subscription" :
                 SubscriptionDao subscriptionDao = new SubscriptionDao();
-                subscriptionDao.read(new User("AlexTuli", 1));
+                Subscription alexTuli = subscriptionDao.read(new User("AlexTuli", 1));
+                request.setAttribute("book", alexTuli.getBookList());
                 break;
         }
+
+        request.getRequestDispatcher("/user-index.jsp").forward(request, response);
 
     }
 }
