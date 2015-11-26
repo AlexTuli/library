@@ -8,7 +8,7 @@ package com.epam.alex.task4.entity;
  */
 public class Book {
 
-    private String id;
+    private int id;
 
     private String title;
 
@@ -34,11 +34,11 @@ public class Book {
         this.title = title;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -49,7 +49,7 @@ public class Book {
 
         Book book = (Book) o;
 
-        if (!id.equals(book.id)) return false;
+        if (id != book.id) return false;
         if (title != null ? !title.equals(book.title) : book.title != null) return false;
         return !(author != null ? !author.equals(book.author) : book.author != null);
 
@@ -57,7 +57,7 @@ public class Book {
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
+        int result = id;
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (author != null ? author.hashCode() : 0);
         return result;

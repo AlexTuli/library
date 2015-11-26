@@ -1,5 +1,8 @@
 package com.epam.alex.task4;
 
+import com.epam.alex.task4.entity.Book;
+import com.epam.alex.task4.entity.Subscription;
+import com.epam.alex.task4.entity.User;
 import org.apache.log4j.Logger;
 
 /**
@@ -12,6 +15,9 @@ public class Main {
     public final static Logger logger = Logger.getLogger(Main.class);
 
     public static void main(String[] args) {
-        logger.info("Hello world!");
+        /*
+        FOR TESTS
+         */
+
     }
 }

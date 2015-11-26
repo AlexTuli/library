@@ -6,11 +6,17 @@ It's a library management system.
 -------------------
 1) USERS:
 
-Registration.
-Show list of books in subscription.
-Request for new book.
+Look for books in library +++
+Show list of books in subscription. +
+
 Return old book.
+
+Request for new book.
+
 See notification
+
+
+Registration.
 
 2) ADMINISTRATION:
 
@@ -21,21 +27,18 @@ Block users
 
 ### To-Do
 ------------------
-1) Add h2 (SQL db)
 
-2) Add pages (request for book, get info about book, get info about current user, ?)
+1) Create a pool of connections
 
-3) Entity's
+2) Add sessions and filter (?)
 
-4) Create a pool of connections
+3) Add registration
 
-5) Add sessions and filter (?)
+4) Add login system
 
-6) Add login system
+5) Release USE CASES
 
-7) Add registration
+6) Make pages better looking
 
-8)
+7) ADD COMMENTS!
 
-### MODEL 
-_____________________

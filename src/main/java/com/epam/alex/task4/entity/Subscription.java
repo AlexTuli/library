@@ -12,6 +12,8 @@ import java.util.List;
  */
 public class Subscription {
 
+    private int ID;
+
     private User user;
 
     private List<Book> bookList;
@@ -44,6 +46,15 @@ public class Subscription {
         this.user = user;
     }
 
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -51,15 +62,17 @@ public class Subscription {
 
         Subscription that = (Subscription) o;
 
+        if (ID != that.ID) return false;
         if (!user.equals(that.user)) return false;
-        return bookList.equals(that.bookList);
+        return !(bookList != null ? !bookList.equals(that.bookList) : that.bookList != null);
 
     }
 
     @Override
     public int hashCode() {
-        int result = user.hashCode();
-        result = 31 * result + bookList.hashCode();
+        int result = ID;
+        result = 31 * result + user.hashCode();
+        result = 31 * result + (bookList != null ? bookList.hashCode() : 0);
         return result;
     }
 
