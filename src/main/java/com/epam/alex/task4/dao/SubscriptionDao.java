@@ -1,6 +1,5 @@
 package com.epam.alex.task4.dao;
 
-import com.epam.alex.task4.entity.Book;
 import com.epam.alex.task4.entity.Subscription;
 import com.epam.alex.task4.entity.User;
 
@@ -71,10 +70,11 @@ public class SubscriptionDao {
 
     /**
      * Update subscription in DB
+     *
      * @param subscription - subscribe of User
      * @return - subscribe of User
      */
-    public Subscription update (Subscription subscription){
+    public Subscription update(Subscription subscription) {
 
 
         // TODO FINISH THAT
@@ -98,6 +98,7 @@ public class SubscriptionDao {
 
     /**
      * Create empty subscription
+     *
      * @param subscription - subscription of User
      */
     public void create(Subscription subscription) {
@@ -113,7 +114,7 @@ public class SubscriptionDao {
         }
     }
 
-    public boolean remove (Subscription subscription) {
+    public boolean remove(Subscription subscription) {
 
         boolean b = false;
 

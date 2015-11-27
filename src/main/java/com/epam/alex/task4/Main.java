@@ -1,8 +1,5 @@
 package com.epam.alex.task4;
 
-import com.epam.alex.task4.entity.Book;
-import com.epam.alex.task4.entity.Subscription;
-import com.epam.alex.task4.entity.User;
 import org.apache.log4j.Logger;
 
 /**

@@ -46,7 +46,7 @@ public class MainServlet extends HttpServlet {
         BookDao bookDao;
 
         switch (action) {
-            case "get-subscription" :
+            case "get-subscription":
                 subscriptionDao = new SubscriptionDao();
                 //TODO CHANGE FROM ALEXTULI TO %USERNAME%
                 Subscription alexTuli = subscriptionDao.read(new User("AlexTuli", 1));
@@ -68,7 +68,7 @@ public class MainServlet extends HttpServlet {
                 List<Book> books = bookDao.readAll();
                 request.setAttribute("books", books);
                 break;
-            case "delete-book" :
+            case "delete-book":
                 subscriptionDao = new SubscriptionDao();
                 int idDelete = Integer.parseInt(request.getParameter("id"));
                 request.getSession();

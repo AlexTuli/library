@@ -28,7 +28,8 @@ public class BookDao {
 
     public List<Book> readAll() {
         List<Book> result = new ArrayList<>();
-        try (Connection connection = DriverManager.getConnection(MY_LIBRARY_URL, "sa", "sa")) {
+        try (Connection connection = com.epam.alex.task4.connection.Connection.getConnection()) {
+
             PreparedStatement readAll = connection.prepareStatement(SELECT_ALL_BOOKS);
             readAll.execute();
             ResultSet resultSet = readAll.getResultSet();
@@ -40,7 +41,7 @@ public class BookDao {
                 result.add(temp);
             }
         } catch (SQLException e) {
-            throw new DaoException("Trouble in BookDAO.readAll()",e);
+            throw new DaoException("Trouble in BookDAO.readAll()", e);
         }
         return result;
     }
@@ -59,7 +60,7 @@ public class BookDao {
                 result.setAuthor("AUTHOR");
             }
         } catch (SQLException e) {
-            throw new DaoException("Trouble in BookDAO.read()",e);
+            throw new DaoException("Trouble in BookDAO.read()", e);
         }
         return result;
     }

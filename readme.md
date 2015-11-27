@@ -8,12 +8,12 @@ It's a library management system.
 
 Look for books in library +++
 Show list of books in subscription. +
+See notification+
 
 Return old book.
 
 Request for new book.
 
-See notification
 
 
 Registration.

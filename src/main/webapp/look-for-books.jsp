@@ -1,4 +1,3 @@
-
 <%--
   Created by IntelliJ IDEA.
   User: alexandr
@@ -15,6 +14,7 @@
 <form action="${pageContext.request.contextPath}/controller" method="get">
     <input type="hidden" name="action" value="check-books"/>
     <input type="submit" value="Get books list"/>
+
     <div align="center">Books in library:</div>
     <div align="center"> ${books}</div>
 </form>
