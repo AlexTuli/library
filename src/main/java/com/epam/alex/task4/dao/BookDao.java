@@ -1,5 +1,6 @@
 package com.epam.alex.task4.dao;
 
+import com.epam.alex.task4.dbcp.ConnectionPool;
 import com.epam.alex.task4.entity.Book;
 
 import java.sql.*;
@@ -28,7 +29,9 @@ public class BookDao {
 
     public List<Book> readAll() {
         List<Book> result = new ArrayList<>();
-        try (Connection connection = com.epam.alex.task4.connection.Connection.getConnection()) {
+        Connection connection = null;
+        try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             PreparedStatement readAll = connection.prepareStatement(SELECT_ALL_BOOKS);
             readAll.execute();
@@ -42,6 +45,8 @@ public class BookDao {
             }
         } catch (SQLException e) {
             throw new DaoException("Trouble in BookDAO.readAll()", e);
+        } finally {
+            ConnectionPool.getInstance().returnConnection(connection);
         }
         return result;
     }

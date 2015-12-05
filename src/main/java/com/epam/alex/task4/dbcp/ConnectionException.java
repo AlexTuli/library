@@ -1,4 +1,4 @@
-package com.epam.alex.task4.connection;
+package com.epam.alex.task4.dbcp;
 
 /**
  * Created by AlexTuli on 11/27/15.

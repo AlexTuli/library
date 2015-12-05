@@ -1,5 +1,7 @@
 package com.epam.alex.task4;
 
+import com.epam.alex.task4.propmanager.KeyPropertyReader;
+import com.epam.alex.task4.propmanager.PropertyReader;
 import org.apache.log4j.Logger;
 
 /**

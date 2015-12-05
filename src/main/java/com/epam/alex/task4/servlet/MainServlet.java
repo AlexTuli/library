@@ -1,5 +1,9 @@
 package com.epam.alex.task4.servlet;
 
+import com.epam.alex.task4.action.Action;
+import com.epam.alex.task4.action.ActionFactory;
+import com.epam.alex.task4.action.Authorize;
+import com.epam.alex.task4.action.CheckBooks;
 import com.epam.alex.task4.dao.BookDao;
 import com.epam.alex.task4.dao.NotificationDao;
 import com.epam.alex.task4.dao.SubscriptionDao;
@@ -44,8 +48,11 @@ public class MainServlet extends HttpServlet {
         String action = request.getParameter(PARAMETER_ACTION);
         SubscriptionDao subscriptionDao;
         BookDao bookDao;
-
         switch (action) {
+            case "authorize" :
+                Action action3 = new Authorize();
+                action3.execute(request, response);
+                return;
             case "get-subscription":
                 subscriptionDao = new SubscriptionDao();
                 //TODO CHANGE FROM ALEXTULI TO %USERNAME%
@@ -64,10 +71,9 @@ public class MainServlet extends HttpServlet {
                 subscriptionDao.update(alexTuli1);
                 break;
             case "check-books":
-                bookDao = new BookDao();
-                List<Book> books = bookDao.readAll();
-                request.setAttribute("books", books);
-                break;
+                Action check = ActionFactory.getAction(action);
+                check.execute(request, response);
+                return;
             case "delete-book":
                 subscriptionDao = new SubscriptionDao();
                 int idDelete = Integer.parseInt(request.getParameter("id"));

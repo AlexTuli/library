@@ -11,6 +11,15 @@
     <title>Main page</title>
 </head>
 <body>
+
+<form action="${pageContext.request.contextPath}/controller" method="get">
+    <input type="hidden" name="action" value="authorize"/><br/>
+    <input type="text" name="login" id="login" placeholder="Enter login"/><br/>
+    <input type="password" name="password" id="password" placeholder="Enter password"/><br/>
+    <input type="submit" value="Login"/>
+</form>
+
+
 <a href="user-index.jsp">User-index</a>
 <a href="admin-index.jsp">Admin-index</a>
 </body>
