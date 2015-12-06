@@ -10,9 +10,7 @@ import java.util.List;
  *
  * @author Bocharnikov Alexandr
  */
-public class Subscription {
-
-    private int ID;
+public class Subscription extends AbstractEntity{
 
     private User user;
 
@@ -46,33 +44,24 @@ public class Subscription {
         this.user = user;
     }
 
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
         Subscription that = (Subscription) o;
 
-        if (ID != that.ID) return false;
         if (!user.equals(that.user)) return false;
-        return !(bookList != null ? !bookList.equals(that.bookList) : that.bookList != null);
+        return bookList.equals(that.bookList);
 
     }
 
     @Override
     public int hashCode() {
-        int result = ID;
+        int result = super.hashCode();
         result = 31 * result + user.hashCode();
-        result = 31 * result + (bookList != null ? bookList.hashCode() : 0);
+        result = 31 * result + bookList.hashCode();
         return result;
     }
 

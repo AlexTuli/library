@@ -12,11 +12,7 @@ import java.util.Set;
  *
  * @author Bocharnikov Alexandr
  */
-public class KeyPropertyReader implements PropertyReader {
-
-    /**
-     * Name of property file
-     */
+public class FullPropertyReader implements PropertyReader {
 
     /**
      * Read property by fileName
@@ -30,14 +26,14 @@ public class KeyPropertyReader implements PropertyReader {
         Properties prop = new Properties();
         InputStream input;
         try {
-            input = KeyPropertyReader.class.getClassLoader().getResourceAsStream(fileName);
+            input = FullPropertyReader.class.getClassLoader().getResourceAsStream(fileName);
             prop.load(input);
             Set<String> strings = prop.stringPropertyNames();
             for (String string : strings) {
                 result.put(string, prop.getProperty(string));
             }
         } catch (IOException e) {
-            throw new PropertyReaderException("Trouble in KeyPropertyReader", e);
+            throw new PropertyReaderException("Trouble in FullPropertyReader", e);
         }
         return result;
     }

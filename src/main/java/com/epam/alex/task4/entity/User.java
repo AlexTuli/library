@@ -7,21 +7,19 @@ package com.epam.alex.task4.entity;
  *
  * @author Bocharnikov Alexandr
  */
-public class User {
+public class User extends AbstractEntity{
 
     private String name;
 
     private Subscription subscription;
-
-    private int id;
 
     public User() {
 
     }
 
     public User(String name, int id) {
+        super(id);
         this.name = name;
-        this.id = id;
     }
 
     public String getName() {
@@ -40,32 +38,24 @@ public class User {
         this.subscription = subscription;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
         User user = (User) o;
 
-        if (id != user.id) return false;
         if (!name.equals(user.name)) return false;
-        return !(subscription != null ? !subscription.equals(user.subscription) : user.subscription != null);
+        return subscription.equals(user.subscription);
 
     }
 
     @Override
     public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + (subscription != null ? subscription.hashCode() : 0);
-        result = 31 * result + id;
+        int result = super.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + subscription.hashCode();
         return result;
     }
 

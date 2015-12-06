@@ -5,9 +5,7 @@ package com.epam.alex.task4.entity;
  *
  * @author Bocharnikov Alexandr
  */
-public class Notification {
-
-    private int ID;
+public class Notification extends AbstractEntity{
 
     private String text;
 
@@ -19,14 +17,6 @@ public class Notification {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
     }
 
     public String getText() {
@@ -41,10 +31,10 @@ public class Notification {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
         Notification that = (Notification) o;
 
-        if (ID != that.ID) return false;
         if (!text.equals(that.text)) return false;
         return user.equals(that.user);
 
@@ -52,7 +42,7 @@ public class Notification {
 
     @Override
     public int hashCode() {
-        int result = ID;
+        int result = super.hashCode();
         result = 31 * result + text.hashCode();
         result = 31 * result + user.hashCode();
         return result;
