@@ -48,7 +48,7 @@ public class SubscriptionDao extends AbstractDao {
     }
 
     @Override
-    protected AbstractEntity getEntity(PreparedStatement statement) {
+    protected AbstractEntity parseResultSet(PreparedStatement statement) {
         return null;
     }
 

@@ -4,6 +4,7 @@ import com.epam.alex.task4.entity.AbstractEntity;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -47,12 +48,13 @@ public abstract class AbstractDao<T extends AbstractEntity> {
     }
 
     public AbstractEntity read(int id) {
-        AbstractEntity result;
+        T result;
         try {
             preparedStatement = connection.prepareStatement(getReadQuery());
             preparedStatement = setFieldsInReadStatement(preparedStatement, id);
             preparedStatement.execute();
-            result = getEntity(preparedStatement);
+
+            result = parseResultSet(preparedStatement.getResultSet());
         } catch (SQLException e) {
             throw new DaoException("Trouble by reading in DAO",e);
         }
@@ -78,17 +80,17 @@ public abstract class AbstractDao<T extends AbstractEntity> {
 
     protected abstract String getReadQuery();
 
-    protected abstract AbstractEntity getEntity(PreparedStatement statement);
+    protected abstract T parseResultSet(ResultSet resultSet);
 
-    protected abstract PreparedStatement setFieldsInDeleteStatement(PreparedStatement preparedStatement, AbstractEntity entity);
+    protected abstract PreparedStatement setFieldsInDeleteStatement(PreparedStatement preparedStatement, T entity);
 
     protected abstract PreparedStatement setFieldsInReadStatement(PreparedStatement preparedStatement, int id);
 
-    protected abstract PreparedStatement setFieldsInCreateStatement(PreparedStatement statement, AbstractEntity entity);
+    protected abstract PreparedStatement setFieldsInCreateStatement(PreparedStatement statement, T entity);
 
     protected abstract PreparedStatement setFieldsInCreateStatement(PreparedStatement statement , int id);
 
-    protected abstract PreparedStatement setFieldsInUpdateStatement(PreparedStatement preparedStatement, AbstractEntity entity);
+    protected abstract PreparedStatement setFieldsInUpdateStatement(PreparedStatement preparedStatement, T entity);
 
 
 }
