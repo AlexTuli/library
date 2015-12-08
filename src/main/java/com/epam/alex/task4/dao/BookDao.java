@@ -39,7 +39,10 @@ public class BookDao extends AbstractDao{
             throw new DaoException("Trouble in BookDAO.readAll()", e);
         }
         return result;
+
     }
+
+
 
     @Override
     protected String getUpdateQuery() {

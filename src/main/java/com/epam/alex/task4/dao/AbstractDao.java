@@ -12,7 +12,7 @@ import java.sql.SQLException;
  *
  * @author Bocharnikov Alexandr
  */
-public abstract class AbstractDao {
+public abstract class AbstractDao<T extends AbstractEntity> {
 
     protected Connection connection;
 
@@ -23,23 +23,23 @@ public abstract class AbstractDao {
     }
 
     /**
-     * Create a row in table
-     * @param entity entity
+     * Create a row in a table
+     * @param t entity
      */
-    public void create(AbstractEntity entity){
+    public void create(T t){
         try {
             preparedStatement = connection.prepareStatement(getCreateQuery());
-            preparedStatement = setFieldsInCreateStatement(preparedStatement, entity);
+            preparedStatement = setFieldsInCreateStatement(preparedStatement, t);
             this.preparedStatement.execute();
         } catch (SQLException e) {
             throw new DaoException("Trouble by creating in DAO",e);
         }
     }
 
-    public void update(AbstractEntity entity) {
+    public void update(T t) {
         try {
             preparedStatement = connection.prepareStatement(getUpdateQuery());
-            preparedStatement = setFieldsInUpdateStatement(preparedStatement, entity);
+            preparedStatement = setFieldsInUpdateStatement(preparedStatement, t);
             preparedStatement.execute();
         } catch (SQLException e) {
             throw new DaoException("Trouble by updating in DAO",e);
@@ -60,10 +60,10 @@ public abstract class AbstractDao {
 
     }
 
-    public void delete(AbstractEntity entity) {
+    public void delete(T t) {
         try {
             preparedStatement = connection.prepareStatement(getDeleteQuery());
-            preparedStatement = setFieldsInDeleteStatement(preparedStatement, entity);
+            preparedStatement = setFieldsInDeleteStatement(preparedStatement, t);
             preparedStatement.execute();
         } catch (SQLException e) {
             throw new DaoException("Trouble by deleting in DAO",e);
