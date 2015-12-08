@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Abstract Dao. Here I use template pattern
@@ -37,18 +39,8 @@ public abstract class AbstractDao<T extends AbstractEntity> {
         }
     }
 
-    public void update(T t) {
-        try {
-            preparedStatement = connection.prepareStatement(getUpdateQuery());
-            preparedStatement = setFieldsInUpdateStatement(preparedStatement, t);
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            throw new DaoException("Trouble by updating in DAO",e);
-        }
-    }
-
-    public AbstractEntity read(int id) {
-        T result;
+    public List<T> read(int id) {
+        List<T> result;
         try {
             preparedStatement = connection.prepareStatement(getReadQuery());
             preparedStatement = setFieldsInReadStatement(preparedStatement, id);
@@ -59,7 +51,30 @@ public abstract class AbstractDao<T extends AbstractEntity> {
             throw new DaoException("Trouble by reading in DAO",e);
         }
         return result;
+    }
 
+    public List<T> readAll() {
+        List<T> result = new ArrayList<>();
+        try {
+            PreparedStatement readAll = connection.prepareStatement(getReadAllQuery());
+            readAll.execute();
+            ResultSet resultSet = readAll.getResultSet();
+            result.addAll(parseResultSet(resultSet));
+
+        } catch (SQLException e) {
+            throw new DaoException("Trouble in BookDAO.readAll()", e);
+        }
+        return result;
+    }
+
+    public void update(T t) {
+        try {
+            preparedStatement = connection.prepareStatement(getUpdateQuery());
+            preparedStatement = setFieldsInUpdateStatement(preparedStatement, t);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            throw new DaoException("Trouble by updating in DAO",e);
+        }
     }
 
     public void delete(T t) {
@@ -78,9 +93,11 @@ public abstract class AbstractDao<T extends AbstractEntity> {
 
     protected abstract String getDeleteQuery();
 
+    protected abstract String getReadAllQuery();
+
     protected abstract String getReadQuery();
 
-    protected abstract T parseResultSet(ResultSet resultSet);
+    protected abstract List<T> parseResultSet(ResultSet resultSet);
 
     protected abstract PreparedStatement setFieldsInDeleteStatement(PreparedStatement preparedStatement, T entity);
 

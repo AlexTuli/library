@@ -1,7 +1,5 @@
 package com.epam.alex.task4.dao;
 
-import com.epam.alex.task4.dbcp.ConnectionPool;
-import com.epam.alex.task4.entity.AbstractEntity;
 import com.epam.alex.task4.entity.Book;
 
 import java.sql.*;
@@ -13,7 +11,7 @@ import java.util.List;
  *
  * @author Bocharnikov Alexandr
  */
-public class BookDao extends AbstractDao{
+public class BookDao extends AbstractDao<Book>{
 
     public static final String SELECT_ALL_BOOKS = "SELECT * FROM BOOK";
 
@@ -65,12 +63,12 @@ public class BookDao extends AbstractDao{
     }
 
     @Override
-    protected AbstractEntity parseResultSet(PreparedStatement statement) {
+    protected Book parseResultSet(ResultSet resultSet) {
         return null;
     }
 
     @Override
-    protected PreparedStatement setFieldsInDeleteStatement(PreparedStatement preparedStatement, AbstractEntity entity) {
+    protected PreparedStatement setFieldsInDeleteStatement(PreparedStatement preparedStatement, Book book) {
         return null;
     }
 
@@ -85,7 +83,7 @@ public class BookDao extends AbstractDao{
     }
 
     @Override
-    protected PreparedStatement setFieldsInCreateStatement(PreparedStatement statement, AbstractEntity entity) {
+    protected PreparedStatement setFieldsInCreateStatement(PreparedStatement statement, Book book) {
         return null;
     }
 
@@ -95,7 +93,7 @@ public class BookDao extends AbstractDao{
     }
 
     @Override
-    protected PreparedStatement setFieldsInUpdateStatement(PreparedStatement preparedStatement, AbstractEntity entity) {
+    protected PreparedStatement setFieldsInUpdateStatement(PreparedStatement preparedStatement, Book book) {
         return null;
     }
 
