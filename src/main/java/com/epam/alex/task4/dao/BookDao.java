@@ -13,48 +13,24 @@ import java.util.List;
  */
 public class BookDao extends AbstractDao<Book>{
 
-    public static final String SELECT_ALL_BOOKS = "SELECT * FROM BOOK";
-
-    public BookDao(Connection connection) {
-        super(connection);
-    }
-
-    //TODO What do with this special method? Add to abstract, or stay here?
-    public List<Book> readAll() {
-        List<Book> result = new ArrayList<>();
-        try {
-            PreparedStatement readAll = connection.prepareStatement(SELECT_ALL_BOOKS);
-            readAll.execute();
-            ResultSet resultSet = readAll.getResultSet();
-            while (resultSet.next()) {
-                Book temp = new Book();
-                temp.setAuthor(resultSet.getString("AUTHOR"));
-                temp.setTitle(resultSet.getString("TITLE"));
-                temp.setId(resultSet.getInt("ID"));
-                result.add(temp);
-            }
-        } catch (SQLException e) {
-            throw new DaoException("Trouble in BookDAO.readAll()", e);
-        }
-        return result;
-
-    }
-
-
-
-    @Override
-    protected String getUpdateQuery() {
-        return null;
+    public BookDao(Connection connection, DaoFactory factory) {
+        super(connection, factory);
     }
 
     @Override
     protected String getCreateQuery() {
-        return null;
+        return "INSERT INTO BOOK (ID, AUTHOR, TITLE) VALUES (DEFAULT, ?, ?)";
     }
 
     @Override
-    protected String getDeleteQuery() {
-        return null;
+    protected PreparedStatement setFieldsInCreateStatement(PreparedStatement statement, Book book) {
+        try {
+            statement.setString(1, book.getAuthor());
+            statement.setString(2, book.getTitle());
+        } catch (SQLException e) {
+            throw new DaoException("Trouble in BookDao by setFieldsInCreateStatement", e);
+        }
+        return statement;
     }
 
     @Override
@@ -63,85 +39,69 @@ public class BookDao extends AbstractDao<Book>{
     }
 
     @Override
-    protected Book parseResultSet(ResultSet resultSet) {
-        return null;
+    protected String getReadAllQuery() {
+        return "SELECT * FROM BOOK";
     }
 
     @Override
-    protected PreparedStatement setFieldsInDeleteStatement(PreparedStatement preparedStatement, Book book) {
-        return null;
-    }
-
-    @Override
-    protected PreparedStatement setFieldsInReadStatement(PreparedStatement preparedStatement, int id) {
+    protected PreparedStatement setFieldsInReadStatement(PreparedStatement statement, int id) {
         try {
-            preparedStatement.setInt(1, id);
+            statement.setInt(1, id);
         } catch (SQLException e) {
             throw new DaoException("Trouble with creating Read Statement in BookDao", e);
         }
-        return preparedStatement;
+        return statement;
     }
 
     @Override
-    protected PreparedStatement setFieldsInCreateStatement(PreparedStatement statement, Book book) {
-        return null;
+    protected String getUpdateQuery() {
+        return "UPDATE BOOK SET AUTHOR = ?, TITLE = ? WHERE ID LIKE ?";
     }
 
     @Override
-    protected PreparedStatement setFieldsInCreateStatement(PreparedStatement statement, int id) {
-        return null;
+    protected PreparedStatement setFieldsInUpdateStatement(PreparedStatement statement, Book book) {
+        try {
+            statement.setString(1, book.getAuthor());
+            statement.setString(2, book.getTitle());
+            statement.setInt(3, book.getId());
+        } catch (SQLException e) {
+            throw new DaoException("Trouble in BookDao by setFieldInUpdateStatement", e);
+        }
+        return statement;
     }
 
     @Override
-    protected PreparedStatement setFieldsInUpdateStatement(PreparedStatement preparedStatement, Book book) {
-        return null;
+    protected String getDeleteQuery() {
+        return "DELETE FROM BOOK WHERE ID LiKE ?";
+    }
+
+    @Override
+    protected PreparedStatement setFieldsInDeleteStatement(PreparedStatement statement, Book book) {
+        try {
+            statement.setInt(1, book.getId());
+        } catch (SQLException e) {
+            throw new DaoException("Trouble in BookDao by setFieldsInDeleteStatement()", e);
+        }
+        return statement;
     }
 
 
-//    public static final String SELECT_ALL_BOOKS = "SELECT * FROM BOOK";
-//    public static final String SELECT_BOOK_BY_ID = "SELECT * FROM BOOK WHERE  ID LIKE ?";
-//    public static final String MY_LIBRARY_URL = "jdbc:h2:~/temp/library/myLibrary";
-//
-//    public List<Book> readAll() {
-//        List<Book> result = new ArrayList<>();
-//        Connection connection = null;
-//        try {
-//            connection = ConnectionPool.getInstance().getConnection();
-//
-//            PreparedStatement readAll = connection.prepareStatement(SELECT_ALL_BOOKS);
-//            readAll.execute();
-//            ResultSet resultSet = readAll.getResultSet();
-//            while (resultSet.next()) {
-//                Book temp = new Book();
-//                temp.setAuthor(resultSet.getString("AUTHOR"));
-//                temp.setTitle(resultSet.getString("TITLE"));
-//                temp.setId(resultSet.getInt("ID"));
-//                result.add(temp);
-//            }
-//        } catch (SQLException e) {
-//            throw new DaoException("Trouble in BookDAO.readAll()", e);
-//        } finally {
-//            ConnectionPool.getInstance().returnConnection(connection);
-//        }
-//        return result;
-//    }
-//
-//    public Book read(int id) {
-//        Book result = new Book();
-//        try (Connection connection = DriverManager.getConnection(MY_LIBRARY_URL, "sa", "sa")) {
-//            PreparedStatement read = connection.prepareStatement(SELECT_BOOK_BY_ID);
-//            read.setInt(1, id);
-//            read.execute();
-//            ResultSet resultSet = read.getResultSet();
-//            // TODO ADD VALIDATION! resultSet have to contain only 1 result
-//            while (resultSet.next()) {
-//                result.setId(resultSet.getInt("ID"));
-//                result.setTitle(resultSet.getString("TITLE"));
-//                result.setAuthor("AUTHOR");
-//            }
-//        } catch (SQLException e) {
-//            throw new DaoException("Trouble in BookDAO.read()", e);
-//        }
-//        return result;
-//    }
+
+    @Override
+    protected List<Book> parseResultSet(ResultSet resultSet) {
+        List<Book> result = new ArrayList<>();
+        try {
+            while (resultSet.next()){
+                Book temp = new Book();
+                temp.setAuthor(resultSet.getString("AUTHOR"));
+                temp.setTitle(resultSet.getString("TITLE"));
+                temp.setId(resultSet.getInt("ID"));
+                result.add(temp);
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Trouble in BookDAO parseResultSet(ResultSet)", e);
+        }
+        return result;
+    }
+
 }

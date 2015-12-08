@@ -9,7 +9,11 @@ public class Notification extends AbstractEntity{
 
     private String text;
 
-    User user;
+    private User user;
+
+    public Notification() {
+
+    }
 
     public User getUser() {
         return user;

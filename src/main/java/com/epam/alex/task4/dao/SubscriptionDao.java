@@ -5,22 +5,18 @@ import com.epam.alex.task4.entity.Subscription;
 import com.epam.alex.task4.entity.User;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by AlexTuli on 11/23/15.
  *
  * @author Bocharnikov Alexandr
  */
-public class SubscriptionDao extends AbstractDao {
+public class SubscriptionDao extends AbstractDao<Subscription> {
 
-    public SubscriptionDao(Connection connection) {
-        super(connection);
-    }
-
-    @Override
-    protected String getUpdateQuery() {
-        //TODO Write SQL query
-        return "";
+    public SubscriptionDao(Connection connection, DaoFactory factory) {
+        super(connection, factory);
     }
 
     @Override
@@ -30,9 +26,13 @@ public class SubscriptionDao extends AbstractDao {
     }
 
     @Override
-    protected String getDeleteQuery() {
-        return "DELETE FROM SUBSCRIPTION_BOOK " +
-                "WHERE SUBSCRIPTION_ID LIKE ? AND BOOK_ID LIKE ?";
+    protected PreparedStatement setFieldsInCreateStatement(PreparedStatement statement , Subscription subscription) {
+        try {
+            statement.setInt(1, subscription.getUser().getId());
+        } catch (SQLException e) {
+            throw new DaoException("Trouble in SubscriptionDao by setFieldsInCreateStatement()", e);
+        }
+        return statement;
     }
 
     @Override
@@ -48,46 +48,77 @@ public class SubscriptionDao extends AbstractDao {
     }
 
     @Override
-    protected AbstractEntity parseResultSet(PreparedStatement statement) {
-        return null;
-    }
-
-    @Override
-    protected PreparedStatement setFieldsInDeleteStatement(PreparedStatement preparedStatement, AbstractEntity entity) {
-        return null;
-    }
-
-    @Override
-    protected PreparedStatement setFieldsInReadStatement(PreparedStatement preparedStatement, int id) {
+    protected PreparedStatement setFieldsInReadStatement(PreparedStatement statement, int id) {
         try {
-            preparedStatement.setInt(1, id);
+            statement.setInt(1, id);
         } catch (SQLException e) {
             throw new DaoException("Trouble in creating Read statement Subscription", e);
         }
-        return null;
+        return statement;
     }
 
     @Override
-    protected PreparedStatement setFieldsInCreateStatement(PreparedStatement statement , AbstractEntity entity) {
-        Subscription subscription = (Subscription) entity;
+    protected String getReadAllQuery() {
+        return "SELECT BOOK.ID, USER_ID, SUBSCRIPTION_ID FROM SUBSCRIPTION\n" +
+                "INNER JOIN SUBSCRIPTION_BOOK ON SUBSCRIPTION.ID = SUBSCRIPTION_BOOK.SUBSCRIPTION_ID\n" +
+                "INNER JOIN BOOK ON SUBSCRIPTION_BOOK.BOOK_ID = BOOK.ID\n" +
+                "ORDER BY SUBSCRIPTION_ID";
+    }
+
+    @Override
+    protected List<Subscription> parseResultSet(ResultSet resultSet) {
+        List<Subscription> result = new ArrayList<>();
         try {
-            statement.setInt(1, subscription.getUser().getId());
+            while (resultSet.next()){
+                //TODO Finish work after implement userDao
+                DaoFactory factory = getFactory();
+                factory.getDao("user");
+                resultSet.getInt("USER_ID");
+
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException("Trouble in SubscriptionDao by parseResultSet()", e);
         }
-
-        return statement;
-    }
-
-    @Override
-    protected PreparedStatement setFieldsInCreateStatement(PreparedStatement statement, int id) {
-
-        return statement;
-    }
-
-    @Override
-    protected PreparedStatement setFieldsInUpdateStatement(PreparedStatement preparedStatement, AbstractEntity entity) {
         return null;
+    }
+
+    @Override
+    protected String getUpdateQuery() {
+        return "UPDATE SUBSCRIPTION_BOOK SET BOOK_ID = ? WHERE SUBSCRIPTION_ID LIKE ? AND BOOK_ID LIKE ?";
+    }
+
+    @Override
+    protected PreparedStatement setFieldsInUpdateStatement(PreparedStatement statement, Subscription subscription) {
+        // TODO Figure out this
+        //statement.setInt(1);
+        return null;
+    }
+
+    /**
+     * SQL query to delete one book from subscription
+     * @return
+     */
+    @Override
+    protected String getDeleteQuery() {
+        return "DELETE FROM SUBSCRIPTION_BOOK " +
+                "WHERE SUBSCRIPTION_ID LIKE ? AND BOOK_ID LIKE ?";
+    }
+
+    /**
+     * Set to statement first book to delete     *
+     * @param statement
+     * @param subscription
+     * @return
+     */
+    @Override
+    protected PreparedStatement setFieldsInDeleteStatement(PreparedStatement statement, Subscription subscription) {
+        try {
+            statement.setInt(1, subscription.getId());
+            statement.setInt(2, subscription.getBook(0).getId());
+        } catch (SQLException e) {
+            throw new DaoException("Trouble in SubscriptionDAO by setFieldsInDeleteStatement",e);
+        }
+        return statement;
     }
 
 }
@@ -122,7 +153,6 @@ public class SubscriptionDao extends AbstractDao {
 //
 //        Subscription result = new Subscription();
 //
-//        // TODO change "sa" to username & password
 //        try (Connection connection = DriverManager.getConnection(MY_LIBRARY_URL, "sa", "sa")) {
 //
 //            PreparedStatement preparedStatement = connection.prepareStatement(READ_SUBSCRIPTION);

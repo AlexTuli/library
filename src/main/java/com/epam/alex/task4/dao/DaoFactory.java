@@ -17,9 +17,9 @@ public class DaoFactory {
     public DaoFactory(Connection connection) {
         this.connection = connection;
         daoMap = new HashMap<>();
-        daoMap.put("book", new BookDao());
-        daoMap.put("notification", new NotificationDao());
-        daoMap.put("subscription", new SubscriptionDao());
+        daoMap.put("book", new BookDao(connection, this));
+        daoMap.put("notification", new NotificationDao(connection, this));
+        daoMap.put("subscription", new SubscriptionDao(connection, this));
     }
 
     public Object getDao(String name) {

@@ -30,7 +30,7 @@ Block users
 
 1) Create a pool of connections
 
-2) Add sessions and filter (?)
+2) Add sessions and filter
 
 3) Add registration
 

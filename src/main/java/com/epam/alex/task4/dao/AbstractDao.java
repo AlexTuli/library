@@ -19,10 +19,13 @@ public abstract class AbstractDao<T extends AbstractEntity> {
 
     protected Connection connection;
 
+    private DaoFactory factory;
+
     private PreparedStatement preparedStatement;
 
-    public AbstractDao(Connection connection) {
+    public AbstractDao(Connection connection, DaoFactory factory) {
         this.connection = connection;
+        this.factory = factory;
     }
 
     /**
@@ -39,18 +42,23 @@ public abstract class AbstractDao<T extends AbstractEntity> {
         }
     }
 
-    public List<T> read(int id) {
+    public T read(int id) {
         List<T> result;
         try {
             preparedStatement = connection.prepareStatement(getReadQuery());
             preparedStatement = setFieldsInReadStatement(preparedStatement, id);
-            preparedStatement.execute();
-
-            result = parseResultSet(preparedStatement.getResultSet());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            result = parseResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoException("Trouble by reading in DAO",e);
         }
-        return result;
+        if (result == null || result.size() == 0) {
+            return null;
+        }
+        if (result.size() > 1) {
+            throw new DaoException("Received more than one record.");
+        }
+        return result.iterator().next();
     }
 
     public List<T> readAll() {
@@ -87,27 +95,29 @@ public abstract class AbstractDao<T extends AbstractEntity> {
         }
     }
 
-    protected abstract String getUpdateQuery();
-
     protected abstract String getCreateQuery();
-
-    protected abstract String getDeleteQuery();
-
-    protected abstract String getReadAllQuery();
-
-    protected abstract String getReadQuery();
-
-    protected abstract List<T> parseResultSet(ResultSet resultSet);
-
-    protected abstract PreparedStatement setFieldsInDeleteStatement(PreparedStatement preparedStatement, T entity);
-
-    protected abstract PreparedStatement setFieldsInReadStatement(PreparedStatement preparedStatement, int id);
 
     protected abstract PreparedStatement setFieldsInCreateStatement(PreparedStatement statement, T entity);
 
-    protected abstract PreparedStatement setFieldsInCreateStatement(PreparedStatement statement , int id);
+    protected abstract String getReadQuery();
 
-    protected abstract PreparedStatement setFieldsInUpdateStatement(PreparedStatement preparedStatement, T entity);
+    protected abstract String getReadAllQuery();
+
+    protected abstract PreparedStatement setFieldsInReadStatement(PreparedStatement statement, int id);
+
+    protected abstract String getUpdateQuery();
+
+    protected abstract PreparedStatement setFieldsInUpdateStatement(PreparedStatement statement, T entity);
+
+    protected abstract String getDeleteQuery();
+
+    protected abstract PreparedStatement setFieldsInDeleteStatement(PreparedStatement statement, T entity);
+
+    protected abstract List<T> parseResultSet(ResultSet resultSet);
+
+    protected final DaoFactory getFactory() {
+        return this.factory;
+    }
 
 
 }
