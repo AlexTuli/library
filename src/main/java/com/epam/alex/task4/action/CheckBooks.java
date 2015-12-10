@@ -1,6 +1,8 @@
 package com.epam.alex.task4.action;
 
+import com.epam.alex.task4.dao.AbstractDao;
 import com.epam.alex.task4.dao.BookDao;
+import com.epam.alex.task4.dao.DaoFactory;
 import com.epam.alex.task4.entity.Book;
 
 import javax.servlet.ServletException;
@@ -16,10 +18,18 @@ import java.util.List;
  */
 public class CheckBooks implements Action {
 
+    DaoFactory factory;
+    public CheckBooks(DaoFactory factory){
+        this.factory = factory;
+    }
+
+    /**
+     * Return all books in library
+     */
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-        BookDao bookDao = new BookDao();
-        List<Book> books = bookDao.readAll();
+        AbstractDao book = factory.getDao("book");
+        List<Book> books = book.readAll();
         request.setAttribute("books", books);
         try {
             request.getRequestDispatcher("/look-for-books.jsp").forward(request, response);

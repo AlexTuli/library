@@ -12,7 +12,7 @@ import java.util.Map;
 public class DaoFactory {
 
     private Connection connection;
-    private Map<String, Object> daoMap;
+    private Map<String, AbstractDao> daoMap;
 
     public DaoFactory(Connection connection) {
         this.connection = connection;
@@ -22,7 +22,7 @@ public class DaoFactory {
         daoMap.put("subscription", new SubscriptionDao(connection, this));
     }
 
-    public Object getDao(String name) {
+    public AbstractDao getDao(String name) {
         return daoMap.get(name);
     }
 
