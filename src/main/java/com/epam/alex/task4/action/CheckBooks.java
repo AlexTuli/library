@@ -16,18 +16,18 @@ import java.util.List;
  *
  * @author Bocharnikov Alexandr
  */
-public class CheckBooks implements Action {
+public class CheckBooks extends AbstractAction {
 
-    DaoFactory factory;
+
     public CheckBooks(DaoFactory factory){
-        this.factory = factory;
+        super(factory);
     }
 
     /**
      * Return all books in library
      */
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         AbstractDao book = factory.getDao("book");
         List<Book> books = book.readAll();
         request.setAttribute("books", books);
@@ -36,6 +36,6 @@ public class CheckBooks implements Action {
         } catch (ServletException | IOException e) {
             throw new ActionException("Exception in process of checking books", e);
         }
-
+        return null;
     }
 }

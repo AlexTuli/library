@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: alexandr
-  Date: 11/26/15
-  Time: 12:57 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -12,7 +5,8 @@
 </head>
 <body>
 
-<form action="${pageContext.request.contextPath}/controller" method="get">
+<div> ${error} </div>
+<form action="${pageContext.request.contextPath}/controller" method="post">
     <input type="hidden" name="action" value="authorize"/><br/>
     <input type="text" name="login" id="login" placeholder="Enter login"/><br/>
     <input type="password" name="password" id="password" placeholder="Enter password"/><br/>
@@ -20,7 +14,7 @@
 </form>
 
 
-<a href="user-index.jsp">User-index</a>
-<a href="admin-index.jsp">Admin-index</a>
+<a href="WEB-INF/user-cabinet.jsp">User-index</a>
+<a href="WEB-INF/admin-cabinet.jsp">Admin-index</a>
 </body>
 </html>

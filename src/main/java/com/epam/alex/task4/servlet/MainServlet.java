@@ -13,6 +13,8 @@ import com.epam.alex.task4.entity.Subscription;
 import com.epam.alex.task4.entity.User;
 import org.apache.log4j.Logger;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,66 +32,110 @@ import java.util.List;
 @WebServlet(name = "MainServlet", urlPatterns = "/controller")
 public class MainServlet extends HttpServlet {
 
-    public final static Logger logger = Logger.getLogger(MainServlet.class);
-    public static final String PARAMETER_ACTION = "action";
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request, response);
+    private final static Logger logger = Logger.getLogger(MainServlet.class);
+    private static final String PARAMETER_ACTION = "action";
+    private ActionFactory factory;
+
+    @Override
+    public void init() throws ServletException {
+        factory = new ActionFactory();
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        processRequest(request, response);
+    @Override
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        processRequest(req, resp);
 
     }
 
-    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        String action = request.getParameter(PARAMETER_ACTION);
-        SubscriptionDao subscriptionDao;
-        BookDao bookDao;
-        switch (action) {
-            case "authorize" :
-                Action action3 = new Authorize();
-                action3.execute(request, response);
-                return;
-            case "get-subscription":
-                subscriptionDao = new SubscriptionDao();
-                //TODO CHANGE FROM ALEXTULI TO %USERNAME%
-                Subscription alexTuli = subscriptionDao.read(new User("AlexTuli", 1));
-                request.setAttribute("book", alexTuli.getBookList());
-                break;
-            case "add-book-to-subscription":
-                subscriptionDao = new SubscriptionDao();
-
-                //TODO ADD VALIDATION
-                int id = Integer.parseInt(request.getParameter("id"));
-                bookDao = new BookDao();
-                Book book = bookDao.read(id);
-                Subscription alexTuli1 = subscriptionDao.read(new User("AlexTuli", 1));
-                alexTuli1.addBook(book);
-                subscriptionDao.update(alexTuli1);
-                break;
-            case "check-books":
-                Action check = ActionFactory.getAction(action);
-                check.execute(request, response);
-                return;
-            case "delete-book":
-                subscriptionDao = new SubscriptionDao();
-                int idDelete = Integer.parseInt(request.getParameter("id"));
-                request.getSession();
-                // TODO THINK ABOUT HOW TO GET USER_ID OR GET USER_SUBSCRIPTION
-                //boolean isSuccessful= subscriptionDao.remove();  TODO FIX IT
-                //if (isSuccessful) request.setAttribute("message", "Book is deleted");
-                request.setAttribute("message", "Book is not deleted");
-                break;
-            case "get-notification":
-                NotificationDao notificationDao = new NotificationDao();
-                List<Notification> result = notificationDao.get(new User("AlexTuli", 1));
-//                notificationDao.remove(result);
-                request.setAttribute("message", result);
+        logger.debug("Start process request");
+        String actionName = getActionName(request);
+        logger.debug("Get ActionFactory");
+        logger.debug("Get Action");
+        Action action = factory.getAction(actionName);
+        logger.debug("Action start");
+        String view = action.execute(request, response);
+        if (view.startsWith("redirect:")){
+            logger.debug("Redirecting");
+            response.sendRedirect(getRedirectLocation(view));
+            return;
         }
-
-        request.getRequestDispatcher("/user-index.jsp").forward(request, response);
+        logger.debug("forwarding");
+        request.getRequestDispatcher("/WEB-INF/"+view+".jsp").forward(request, response);
     }
+
+    private String getRedirectLocation(String view) {
+        return getServletContext().getContextPath() + "/controller?action=" + view.substring(9);
+    }
+
+    private String getActionName(HttpServletRequest request) {
+        return request.getParameter(PARAMETER_ACTION);
+    }
+
+
+    //
+//    public final static Logger logger = Logger.getLogger(MainServlet.class);
+//    public static final String PARAMETER_ACTION = "action";
+//
+//    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        processRequest(request, response);
+//    }
+//
+//    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//
+//        processRequest(request, response);
+//
+//    }
+//
+//    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//
+//        String action = request.getParameter(PARAMETER_ACTION);
+//        SubscriptionDao subscriptionDao;
+//        BookDao bookDao;
+//        switch (action) {
+//            case "authorize" :
+//                Action action3 = new Authorize();
+//                action3.execute(request, response);
+//                return;
+//            case "get-subscription":
+//                subscriptionDao = new SubscriptionDao();
+//                //TODO CHANGE FROM ALEXTULI TO %USERNAME%
+//                Subscription alexTuli = subscriptionDao.read(new User("AlexTuli", 1));
+//                request.setAttribute("book", alexTuli.getBookList());
+//                break;
+//            case "add-book-to-subscription":
+//                subscriptionDao = new SubscriptionDao();
+//
+//                //TODO ADD VALIDATION
+//                int id = Integer.parseInt(request.getParameter("id"));
+//                bookDao = new BookDao();
+//                Book book = bookDao.read(id);
+//                Subscription alexTuli1 = subscriptionDao.read(new User("AlexTuli", 1));
+//                alexTuli1.addBook(book);
+//                subscriptionDao.update(alexTuli1);
+//                break;
+//            case "check-books":
+//                Action check = ActionFactory.getAction(action);
+//                check.execute(request, response);
+//                return;
+//            case "delete-book":
+//                subscriptionDao = new SubscriptionDao();
+//                int idDelete = Integer.parseInt(request.getParameter("id"));
+//                request.getSession();
+//                // TODO THINK ABOUT HOW TO GET USER_ID OR GET USER_SUBSCRIPTION
+//                //boolean isSuccessful= subscriptionDao.remove();  TODO FIX IT
+//                //if (isSuccessful) request.setAttribute("message", "Book is deleted");
+//                request.setAttribute("message", "Book is not deleted");
+//                break;
+//            case "get-notification":
+//                NotificationDao notificationDao = new NotificationDao();
+//                List<Notification> result = notificationDao.get(new User("AlexTuli", 1));
+////                notificationDao.remove(result);
+//                request.setAttribute("message", result);
+//        }
+//
+//        request.getRequestDispatcher("/user-cabinet.jsp").forward(request, response);
+//    }
 }

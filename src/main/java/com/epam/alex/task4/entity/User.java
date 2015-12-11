@@ -9,25 +9,32 @@ package com.epam.alex.task4.entity;
  */
 public class User extends AbstractEntity{
 
-    private String name;
+    private String login;
+
+    private String password;
 
     private Subscription subscription;
+
+    private Role role;
 
     public User() {
 
     }
 
-    public User(String name, int id) {
-        super(id);
-        this.name = name;
+    public String getPassword() {
+        return password;
     }
 
-    public String getName() {
-        return name;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public Subscription getSubscription() {
@@ -38,6 +45,14 @@ public class User extends AbstractEntity{
         this.subscription = subscription;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -46,7 +61,7 @@ public class User extends AbstractEntity{
 
         User user = (User) o;
 
-        if (!name.equals(user.name)) return false;
+        if (!login.equals(user.login)) return false;
         return subscription.equals(user.subscription);
 
     }
@@ -54,13 +69,13 @@ public class User extends AbstractEntity{
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + name.hashCode();
+        result = 31 * result + login.hashCode();
         result = 31 * result + subscription.hashCode();
         return result;
     }
 
     @Override
     public String toString() {
-        return "Name of user: " + name;
+        return "Login of user: " + login;
     }
 }

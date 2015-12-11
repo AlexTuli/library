@@ -1,6 +1,7 @@
 package com.epam.alex.task4.dao;
 
 import com.epam.alex.task4.entity.AbstractEntity;
+import com.epam.alex.task4.entity.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -45,19 +46,42 @@ public abstract class AbstractDao<T extends AbstractEntity> {
     public T read(int id) {
         List<T> result;
         try {
-            preparedStatement = connection.prepareStatement(getReadQuery());
-            preparedStatement = setFieldsInReadStatement(preparedStatement, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
+
+            PreparedStatement read = connection.prepareStatement(getReadQuery());
+            read = setFieldsInReadStatement(read, id);
+            ResultSet resultSet = read.executeQuery();
             result = parseResultSet(resultSet);
+
         } catch (SQLException e) {
             throw new DaoException("Trouble by reading in DAO",e);
         }
         if (result == null || result.size() == 0) {
-            return null;
+            throw new DaoException("Record not found");
         }
         if (result.size() > 1) {
             throw new DaoException("Received more than one record.");
         }
+
+        return result.iterator().next();
+    }
+
+    public T read(T t) {
+        List<T> result = null;
+        try {
+            preparedStatement = connection.prepareStatement(getReadByEntityQuery());
+            preparedStatement = setFieldsInReadByEntityStatement(preparedStatement, t);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            result = parseResultSet(resultSet);
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+        if (result == null || result.size() == 0) {
+            throw new DaoException("Record not found");
+        }
+        if (result.size() > 1) {
+            throw new DaoException("Received more than one record.");
+        }
+
         return result.iterator().next();
     }
 
@@ -101,7 +125,11 @@ public abstract class AbstractDao<T extends AbstractEntity> {
 
     protected abstract String getReadQuery();
 
+    protected abstract String getReadByEntityQuery();
+
     protected abstract String getReadAllQuery();
+
+    protected abstract PreparedStatement setFieldsInReadByEntityStatement(PreparedStatement preparedStatement, T t);
 
     protected abstract PreparedStatement setFieldsInReadStatement(PreparedStatement statement, int id);
 
@@ -115,9 +143,9 @@ public abstract class AbstractDao<T extends AbstractEntity> {
 
     protected abstract List<T> parseResultSet(ResultSet resultSet);
 
+
+
     protected final DaoFactory getFactory() {
         return this.factory;
     }
-
-
 }

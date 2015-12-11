@@ -39,8 +39,18 @@ public class BookDao extends AbstractDao<Book>{
     }
 
     @Override
+    protected String getReadByEntityQuery() {
+        return null;
+    }
+
+    @Override
     protected String getReadAllQuery() {
         return "SELECT * FROM BOOK";
+    }
+
+    @Override
+    protected PreparedStatement setFieldsInReadByEntityStatement(PreparedStatement preparedStatement, Book book) {
+        return null;
     }
 
     @Override

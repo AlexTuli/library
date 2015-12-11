@@ -40,6 +40,11 @@ public class NotificationDao extends AbstractDao<Notification>{
         return "SELECT TEXT FROM NOTIFICATION WHERE USER_ID LIKE ?";
     }
 
+    @Override
+    protected String getReadByEntityQuery() {
+        return null;
+    }
+
     /**
      *
      * @param statement
@@ -59,6 +64,11 @@ public class NotificationDao extends AbstractDao<Notification>{
     @Override
     protected String getReadAllQuery() {
         return "SELECT TEXT, USER_ID FROM NOTIFICATION";
+    }
+
+    @Override
+    protected PreparedStatement setFieldsInReadByEntityStatement(PreparedStatement preparedStatement, Notification notification) {
+        return null;
     }
 
     @Override

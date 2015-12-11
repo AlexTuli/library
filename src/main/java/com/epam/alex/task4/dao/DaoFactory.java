@@ -11,6 +11,8 @@ import java.util.Map;
  */
 public class DaoFactory {
 
+
+
     private Connection connection;
     private Map<String, AbstractDao> daoMap;
 
@@ -20,10 +22,13 @@ public class DaoFactory {
         daoMap.put("book", new BookDao(connection, this));
         daoMap.put("notification", new NotificationDao(connection, this));
         daoMap.put("subscription", new SubscriptionDao(connection, this));
+        daoMap.put("user", new UserDao(connection, this));
+        daoMap.put("role", new RoleDao(connection, this));
     }
 
     public AbstractDao getDao(String name) {
         return daoMap.get(name);
     }
+
 
 }

@@ -5,9 +5,15 @@ package com.epam.alex.task4.entity;
  *
  * @author Bocharnikov Alexandr
  */
-public class Role {
+public class Role extends AbstractEntity{
+
+    int id;
 
     String role;
+
+    public Role() {
+
+    }
 
     public Role(String role) {
         this.role = role;
@@ -19,6 +25,16 @@ public class Role {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override

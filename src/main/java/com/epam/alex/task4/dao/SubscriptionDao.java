@@ -48,6 +48,11 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
     }
 
     @Override
+    protected String getReadByEntityQuery() {
+        return null;
+    }
+
+    @Override
     protected PreparedStatement setFieldsInReadStatement(PreparedStatement statement, int id) {
         try {
             statement.setInt(1, id);
@@ -63,6 +68,11 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
                 "INNER JOIN SUBSCRIPTION_BOOK ON SUBSCRIPTION.ID = SUBSCRIPTION_BOOK.SUBSCRIPTION_ID\n" +
                 "INNER JOIN BOOK ON SUBSCRIPTION_BOOK.BOOK_ID = BOOK.ID\n" +
                 "ORDER BY SUBSCRIPTION_ID";
+    }
+
+    @Override
+    protected PreparedStatement setFieldsInReadByEntityStatement(PreparedStatement preparedStatement, Subscription subscription) {
+        return null;
     }
 
     @Override
