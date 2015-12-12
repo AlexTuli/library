@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author Bocharnikov Alexandr
  */
-public class RoleDao extends  AbstractDao<Role> {
+public class RoleDao extends AbstractDao<Role> {
 
     public RoleDao(Connection connection, DaoFactory factory) {
         super(connection, factory);
@@ -94,5 +94,11 @@ public class RoleDao extends  AbstractDao<Role> {
             throw new DaoException("Trouble by parsing result in RoleDAO", e);
         }
         return result;
+    }
+
+    @Override
+    protected int parseGeneratedKeys(ResultSet generatedKeys) {
+
+        return 0;
     }
 }

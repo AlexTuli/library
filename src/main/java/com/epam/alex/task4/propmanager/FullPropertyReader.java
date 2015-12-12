@@ -1,6 +1,7 @@
 package com.epam.alex.task4.propmanager;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -16,6 +17,7 @@ public class FullPropertyReader implements PropertyReader {
 
     /**
      * Read property by fileName
+     *
      * @param fileName - fileName of property
      * @return Map of properties
      * @throws PropertyReaderException

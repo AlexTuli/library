@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author Bocharnikov Alexandr
  */
-public class Subscription extends AbstractEntity{
+public class Subscription extends AbstractEntity {
 
     private User user;
 

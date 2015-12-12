@@ -1,6 +1,7 @@
 package com.epam.alex.task4.dao;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +11,6 @@ import java.util.Map;
  * @author Bocharnikov Alexandr
  */
 public class DaoFactory {
-
 
 
     private Connection connection;
@@ -28,6 +28,22 @@ public class DaoFactory {
 
     public AbstractDao getDao(String name) {
         return daoMap.get(name);
+    }
+
+    public void startTransaction() throws SQLException {
+        connection.setAutoCommit(false);
+    }
+
+    public void commit() throws SQLException {
+        connection.commit();
+    }
+
+    public void rollback() throws SQLException {
+        connection.rollback();
+    }
+
+    public void stopTransaction() throws SQLException {
+        connection.setAutoCommit(true);
     }
 
 

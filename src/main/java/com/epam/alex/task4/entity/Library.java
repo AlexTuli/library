@@ -6,7 +6,7 @@ package com.epam.alex.task4.entity;
  *
  * @author Bocharnikov Alexandr
  */
-public class Library extends AbstractEntity{
+public class Library extends AbstractEntity {
 
     private String name;
 

@@ -2,7 +2,10 @@ package com.epam.alex.task4.dao;
 
 import com.epam.alex.task4.entity.Book;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +14,7 @@ import java.util.List;
  *
  * @author Bocharnikov Alexandr
  */
-public class BookDao extends AbstractDao<Book>{
+public class BookDao extends AbstractDao<Book> {
 
     public BookDao(Connection connection, DaoFactory factory) {
         super(connection, factory);
@@ -96,12 +99,11 @@ public class BookDao extends AbstractDao<Book>{
     }
 
 
-
     @Override
     protected List<Book> parseResultSet(ResultSet resultSet) {
         List<Book> result = new ArrayList<>();
         try {
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 Book temp = new Book();
                 temp.setAuthor(resultSet.getString("AUTHOR"));
                 temp.setTitle(resultSet.getString("TITLE"));
@@ -112,6 +114,12 @@ public class BookDao extends AbstractDao<Book>{
             throw new DaoException("Trouble in BookDAO parseResultSet(ResultSet)", e);
         }
         return result;
+    }
+
+    @Override
+    protected int parseGeneratedKeys(ResultSet generatedKeys) {
+
+        return 0;
     }
 
 }

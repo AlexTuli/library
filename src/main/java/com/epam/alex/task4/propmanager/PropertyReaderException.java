@@ -1,7 +1,5 @@
 package com.epam.alex.task4.propmanager;
 
-import java.io.FileNotFoundException;
-
 /**
  * Created by AlexTuli on 12/5/15.
  *

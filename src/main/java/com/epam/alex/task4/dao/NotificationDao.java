@@ -1,10 +1,11 @@
 package com.epam.alex.task4.dao;
 
 import com.epam.alex.task4.entity.Notification;
-import com.epam.alex.task4.entity.Subscription;
-import com.epam.alex.task4.entity.User;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  *
  * @author Bocharnikov Alexandr
  */
-public class NotificationDao extends AbstractDao<Notification>{
+public class NotificationDao extends AbstractDao<Notification> {
 
     public NotificationDao(Connection connection, DaoFactory factory) {
         super(connection, factory);
@@ -46,9 +47,8 @@ public class NotificationDao extends AbstractDao<Notification>{
     }
 
     /**
-     *
      * @param statement
-     * @param id USER_ID NOT NOTIFICATION ID
+     * @param id        USER_ID NOT NOTIFICATION ID
      * @return
      */
     @Override
@@ -75,7 +75,7 @@ public class NotificationDao extends AbstractDao<Notification>{
     protected List<Notification> parseResultSet(ResultSet resultSet) {
         List<Notification> result = new ArrayList<>();
         try {
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 Notification temp = new Notification();
                 temp.setText(resultSet.getString("TEXT"));
                 result.add(temp);
@@ -84,6 +84,12 @@ public class NotificationDao extends AbstractDao<Notification>{
             throw new DaoException("Trouble in NotificationDAO by parseResultSet", e);
         }
         return result;
+    }
+
+    @Override
+    protected int parseGeneratedKeys(ResultSet generatedKeys) {
+
+        return 0;
     }
 
     @Override

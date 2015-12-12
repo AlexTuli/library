@@ -13,7 +13,8 @@
 <%@ include file="/WEB-INF/subscriptions.jsp" %>
 
 
-<div><a href="${pageContext.request.contextPath}/WEB-INF/insert-book-to-subscription.jsp">Request for a new book</a></div>
+<div><a href="${pageContext.request.contextPath}/WEB-INF/insert-book-to-subscription.jsp">Request for a new book</a>
+</div>
 <div><a href="${pageContext.request.contextPath}/WEB-INF/return-book.jsp">Return old book</a></div>
 
 <div align="center">

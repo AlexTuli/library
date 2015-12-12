@@ -1,8 +1,5 @@
 package com.epam.alex.task4.propmanager;
 
-import com.epam.alex.task4.action.Action;
-
-import java.util.HashMap;
 import java.util.Map;
 
 /**

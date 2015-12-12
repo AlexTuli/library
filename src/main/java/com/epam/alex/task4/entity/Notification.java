@@ -5,7 +5,7 @@ package com.epam.alex.task4.entity;
  *
  * @author Bocharnikov Alexandr
  */
-public class Notification extends AbstractEntity{
+public class Notification extends AbstractEntity {
 
     private String text;
 

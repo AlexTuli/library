@@ -28,17 +28,11 @@ Block users
 ### To-Do
 ------------------
 
-1) Create a pool of connections
-
-2) Add sessions and filter
+2) Add filter
 
 3) Add registration
 
-4) Add login system
-
 5) Release USE CASES
-
-6) Make pages better looking
 
 7) ADD COMMENTS!
 

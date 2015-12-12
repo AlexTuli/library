@@ -20,5 +20,8 @@ public abstract class AbstractAction implements Action {
 
     public abstract String execute(HttpServletRequest request, HttpServletResponse response);
 
-
+    @Override
+    public String toString() {
+        return getClass().getName();
+    }
 }

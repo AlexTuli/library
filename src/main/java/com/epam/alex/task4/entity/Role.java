@@ -5,7 +5,7 @@ package com.epam.alex.task4.entity;
  *
  * @author Bocharnikov Alexandr
  */
-public class Role extends AbstractEntity{
+public class Role extends AbstractEntity {
 
     int id;
 

@@ -1,10 +1,11 @@
 package com.epam.alex.task4.dao;
 
-import com.epam.alex.task4.entity.AbstractEntity;
 import com.epam.alex.task4.entity.Subscription;
-import com.epam.alex.task4.entity.User;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
     }
 
     @Override
-    protected PreparedStatement setFieldsInCreateStatement(PreparedStatement statement , Subscription subscription) {
+    protected PreparedStatement setFieldsInCreateStatement(PreparedStatement statement, Subscription subscription) {
         try {
             statement.setInt(1, subscription.getUser().getId());
         } catch (SQLException e) {
@@ -79,7 +80,7 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
     protected List<Subscription> parseResultSet(ResultSet resultSet) {
         List<Subscription> result = new ArrayList<>();
         try {
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 //TODO Finish work after implement userDao
                 DaoFactory factory = getFactory();
                 factory.getDao("user");
@@ -90,6 +91,12 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
             throw new DaoException("Trouble in SubscriptionDao by parseResultSet()", e);
         }
         return null;
+    }
+
+    @Override
+    protected int parseGeneratedKeys(ResultSet generatedKeys) {
+
+        return 0;
     }
 
     @Override
@@ -106,6 +113,7 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
 
     /**
      * SQL query to delete one book from subscription
+     *
      * @return
      */
     @Override
@@ -116,6 +124,7 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
 
     /**
      * Set to statement first book to delete     *
+     *
      * @param statement
      * @param subscription
      * @return
@@ -126,7 +135,7 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
             statement.setInt(1, subscription.getId());
             statement.setInt(2, subscription.getBook(0).getId());
         } catch (SQLException e) {
-            throw new DaoException("Trouble in SubscriptionDAO by setFieldsInDeleteStatement",e);
+            throw new DaoException("Trouble in SubscriptionDAO by setFieldsInDeleteStatement", e);
         }
         return statement;
     }

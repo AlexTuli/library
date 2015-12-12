@@ -1,5 +1,6 @@
-package com.epam.alex.task4.action;
+package com.epam.alex.task4.action.redirect;
 
+import com.epam.alex.task4.action.AbstractAction;
 import com.epam.alex.task4.dao.DaoFactory;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,6 @@ public class AdminCabinet extends AbstractAction {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        return "admin-cabinet";
+        return request.getContextPath() + "/WEB-INF/admin-cabinet.jsp";
     }
 }

@@ -1,7 +1,6 @@
 package com.epam.alex.task4.action;
 
 import com.epam.alex.task4.dao.AbstractDao;
-import com.epam.alex.task4.dao.BookDao;
 import com.epam.alex.task4.dao.DaoFactory;
 import com.epam.alex.task4.entity.Book;
 
@@ -19,7 +18,7 @@ import java.util.List;
 public class CheckBooks extends AbstractAction {
 
 
-    public CheckBooks(DaoFactory factory){
+    public CheckBooks(DaoFactory factory) {
         super(factory);
     }
 

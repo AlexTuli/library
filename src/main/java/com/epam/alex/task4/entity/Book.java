@@ -6,7 +6,7 @@ package com.epam.alex.task4.entity;
  *
  * @author Bocharnikov Alexandr
  */
-public class Book extends AbstractEntity{
+public class Book extends AbstractEntity {
 
     private String title;
 
@@ -31,7 +31,6 @@ public class Book extends AbstractEntity{
     public void setTitle(String title) {
         this.title = title;
     }
-
 
 
     @Override

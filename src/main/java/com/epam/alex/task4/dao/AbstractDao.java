@@ -1,7 +1,6 @@
 package com.epam.alex.task4.dao;
 
 import com.epam.alex.task4.entity.AbstractEntity;
-import com.epam.alex.task4.entity.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,29 +30,30 @@ public abstract class AbstractDao<T extends AbstractEntity> {
 
     /**
      * Create a row in a table
+     *
      * @param t entity
      */
-    public void create(T t){
+    public void create(T t) throws DaoException {
         try {
             preparedStatement = connection.prepareStatement(getCreateQuery());
             preparedStatement = setFieldsInCreateStatement(preparedStatement, t);
             this.preparedStatement.execute();
+            preparedStatement.close();
         } catch (SQLException e) {
-            throw new DaoException("Trouble by creating in DAO",e);
+            throw new DaoException("Trouble by creating in DAO", e);
         }
     }
 
-    public T read(int id) {
+    public T read(int id) throws DaoException {
         List<T> result;
         try {
-
-            PreparedStatement read = connection.prepareStatement(getReadQuery());
-            read = setFieldsInReadStatement(read, id);
-            ResultSet resultSet = read.executeQuery();
+            preparedStatement = connection.prepareStatement(getReadQuery());
+            preparedStatement = setFieldsInReadStatement(preparedStatement, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
             result = parseResultSet(resultSet);
-
+            preparedStatement.close();
         } catch (SQLException e) {
-            throw new DaoException("Trouble by reading in DAO",e);
+            throw new DaoException("Trouble by reading in DAO", e);
         }
         if (result == null || result.size() == 0) {
             throw new DaoException("Record not found");
@@ -65,13 +65,14 @@ public abstract class AbstractDao<T extends AbstractEntity> {
         return result.iterator().next();
     }
 
-    public T read(T t) {
+    public T read(T t) throws DaoException {
         List<T> result = null;
         try {
             preparedStatement = connection.prepareStatement(getReadByEntityQuery());
             preparedStatement = setFieldsInReadByEntityStatement(preparedStatement, t);
             ResultSet resultSet = preparedStatement.executeQuery();
             result = parseResultSet(resultSet);
+            preparedStatement.close();
         } catch (SQLException e) {
             throw new DaoException(e);
         }
@@ -85,37 +86,39 @@ public abstract class AbstractDao<T extends AbstractEntity> {
         return result.iterator().next();
     }
 
-    public List<T> readAll() {
+    public List<T> readAll() throws DaoException {
         List<T> result = new ArrayList<>();
         try {
-            PreparedStatement readAll = connection.prepareStatement(getReadAllQuery());
-            readAll.execute();
-            ResultSet resultSet = readAll.getResultSet();
+            preparedStatement = connection.prepareStatement(getReadAllQuery());
+            preparedStatement.execute();
+            ResultSet resultSet = preparedStatement.getResultSet();
             result.addAll(parseResultSet(resultSet));
-
+            preparedStatement.close();
         } catch (SQLException e) {
             throw new DaoException("Trouble in BookDAO.readAll()", e);
         }
         return result;
     }
 
-    public void update(T t) {
+    public void update(T t) throws DaoException {
         try {
             preparedStatement = connection.prepareStatement(getUpdateQuery());
             preparedStatement = setFieldsInUpdateStatement(preparedStatement, t);
             preparedStatement.execute();
+            preparedStatement.close();
         } catch (SQLException e) {
-            throw new DaoException("Trouble by updating in DAO",e);
+            throw new DaoException("Trouble by updating in DAO", e);
         }
     }
 
-    public void delete(T t) {
+    public void delete(T t) throws DaoException {
         try {
             preparedStatement = connection.prepareStatement(getDeleteQuery());
             preparedStatement = setFieldsInDeleteStatement(preparedStatement, t);
             preparedStatement.execute();
+            preparedStatement.close();
         } catch (SQLException e) {
-            throw new DaoException("Trouble by deleting in DAO",e);
+            throw new DaoException("Trouble by deleting in DAO", e);
         }
     }
 
@@ -143,7 +146,7 @@ public abstract class AbstractDao<T extends AbstractEntity> {
 
     protected abstract List<T> parseResultSet(ResultSet resultSet);
 
-
+    protected abstract int parseGeneratedKeys(ResultSet generatedKeys);
 
     protected final DaoFactory getFactory() {
         return this.factory;

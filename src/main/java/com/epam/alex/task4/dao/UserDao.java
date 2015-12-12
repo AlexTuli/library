@@ -1,10 +1,8 @@
 package com.epam.alex.task4.dao;
 
-import com.epam.alex.task4.entity.AbstractEntity;
 import com.epam.alex.task4.entity.Role;
 import com.epam.alex.task4.entity.User;
 
-import javax.jws.soap.SOAPBinding;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,12 +23,19 @@ public class UserDao extends AbstractDao<User> {
 
     @Override
     protected String getCreateQuery() {
-        return "INSERT INTO";
+        return "INSERT INTO USER (NAME, PASSWORD, ROLE_ID) VALUES (?, ?, ?)";
     }
 
     @Override
-    protected PreparedStatement setFieldsInCreateStatement(PreparedStatement statement, User entity) {
-        return null;
+    protected PreparedStatement setFieldsInCreateStatement(PreparedStatement statement, User user) {
+        try {
+            statement.setString(1, user.getLogin());
+            statement.setString(2, user.getPassword());
+            statement.setInt(3, user.getRole().getId());
+        } catch (SQLException e) {
+            throw new DaoException("Can not set fields in create statement", e);
+        }
+        return statement;
     }
 
     @Override
@@ -104,5 +109,18 @@ public class UserDao extends AbstractDao<User> {
             throw new DaoException("Trouble by parsing resultSet in UserDao");
         }
         return users;
+    }
+
+    @Override
+    protected int parseGeneratedKeys(ResultSet generatedKeys) {
+        int id = 0;
+        try {
+            while (generatedKeys.next()) {
+                id = generatedKeys.getInt("ID");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
     }
 }

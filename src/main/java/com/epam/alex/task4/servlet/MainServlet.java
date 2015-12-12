@@ -2,26 +2,14 @@ package com.epam.alex.task4.servlet;
 
 import com.epam.alex.task4.action.Action;
 import com.epam.alex.task4.action.ActionFactory;
-import com.epam.alex.task4.action.Authorize;
-import com.epam.alex.task4.action.CheckBooks;
-import com.epam.alex.task4.dao.BookDao;
-import com.epam.alex.task4.dao.NotificationDao;
-import com.epam.alex.task4.dao.SubscriptionDao;
-import com.epam.alex.task4.entity.Book;
-import com.epam.alex.task4.entity.Notification;
-import com.epam.alex.task4.entity.Subscription;
-import com.epam.alex.task4.entity.User;
 import org.apache.log4j.Logger;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by AlexTuli on 11/22/15.
@@ -52,18 +40,21 @@ public class MainServlet extends HttpServlet {
 
         logger.debug("Start process request");
         String actionName = getActionName(request);
-        logger.debug("Get ActionFactory");
-        logger.debug("Get Action");
+        logger.debug("Get Action " + actionName);
         Action action = factory.getAction(actionName);
-        logger.debug("Action start");
+        logger.debug("Action" + action + "start");
         String view = action.execute(request, response);
-        if (view.startsWith("redirect:")){
+        if (view == null) {
+            request.getRequestDispatcher(getServletContext().getContextPath() + "/index.jsp").forward(request, response);
+            return;
+        }
+        if (view.startsWith("redirect:")) {
             logger.debug("Redirecting");
             response.sendRedirect(getRedirectLocation(view));
             return;
         }
         logger.debug("forwarding");
-        request.getRequestDispatcher("/WEB-INF/"+view+".jsp").forward(request, response);
+        request.getRequestDispatcher(view).forward(request, response);
     }
 
     private String getRedirectLocation(String view) {
