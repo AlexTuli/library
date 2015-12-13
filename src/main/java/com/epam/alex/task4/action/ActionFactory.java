@@ -2,6 +2,7 @@ package com.epam.alex.task4.action;
 
 import com.epam.alex.task4.action.redirect.AdminCabinet;
 import com.epam.alex.task4.action.redirect.RedirectToRegisterUser;
+import com.epam.alex.task4.action.redirect.RedirectToRequestForBook;
 import com.epam.alex.task4.action.redirect.ToIndex;
 import com.epam.alex.task4.dao.DaoFactory;
 import com.epam.alex.task4.dbcp.ConnectionPool;
@@ -31,6 +32,8 @@ public class ActionFactory {
         actionMap.put("registration-user", new RegisteredUser(factory));
         actionMap.put("create-subscription", new CreateSubscription(factory));
         actionMap.put("create-subscription", new CreateSubscription(factory));
+        actionMap.put("request-for-book", new RequestForBook(factory));
+        actionMap.put("redirect-to-request-for-book", new RedirectToRequestForBook(factory));
     }
 
     public Action getAction(String action) {
