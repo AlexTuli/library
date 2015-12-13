@@ -5,11 +5,13 @@
     <title>Subscriptions</title>
 </head>
 <body>
+<%--TODO THIS IS NOT WORK IF SUBSCRIPTION IS HAVE NO BOOK FIX IT--%>
 <c:if test="${subscription.bookList.size() > 0}">
 
 <div align="center">
     <h2>Your books:</h2>
 </div>
+
     <div align="left">
         -------------------------------------------------------------------------------------------<br/>
         <c:forEach items="${subscription.bookList}" var="book">

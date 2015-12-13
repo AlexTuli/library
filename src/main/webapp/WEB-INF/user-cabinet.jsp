@@ -23,7 +23,7 @@
 
 <div>Your notification:</div>
 <%--TODO Implement notification--%>
-<div align="center"> ${notification}</div>
+<div align="center"> ${param.notification}</div>
 
 
 </body>

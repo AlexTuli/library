@@ -13,7 +13,7 @@
 <body>
 <div>Add book to you're subscription:</div>
 <form action="${pageContext.request.contextPath}/controller" method="post">
-    <input type="hidden" name="action" value="add-book-to-subscription"/>
+    <input type="hidden" name="action" value="request-for-book"/>
     <input type="text" name="id" id="id" placeholder="Enter book ID"/>
     <button type="submit">Add book!</button>
 </form>

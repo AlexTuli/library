@@ -42,7 +42,7 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
 
     @Override
     protected String getReadQuery() {
-        return "SELECT BOOK.TITLE, BOOK.AUTHOR, BOOK_ID FROM\n" +
+        return "SELECT BOOK.TITLE, BOOK.AUTHOR, BOOK_ID, SUBSCRIPTION_ID FROM\n" +
                 "(SELECT * FROM\n" +
                 "(SELECT SUBSCRIPTION.ID\n" +
                 "FROM USER\n" +
@@ -84,19 +84,31 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
     protected List<Subscription> parseResultSet(ResultSet resultSet) {
         List<Subscription> result = new ArrayList<>();
         try {
-            Subscription subscription = new Subscription();
+            int temp = -1;
+            Subscription subscription = null;
             while (resultSet.next()) {
-//                BOOK.TITLE, BOOK.AUTHOR, BOOK_ID
-                // TODO: 12/13/15 ADD SUBSCRIPTION_ID and IF IT THE SAME AS PREVIOUS ADD BOOK TO OLD SUBSCRIPTION ELSE TO NEW
+//              SUBSCRIPTION_ID BOOK.TITLE, BOOK.AUTHOR, BOOK_ID
+                int id = resultSet.getInt(4);
+                if (temp != id){
+                    temp = id;
+                    if (subscription != null) {
+                        result.add(subscription);
+                    }
+                    subscription = new Subscription();
+                    subscription.setId(id);
+                }
                 log.debug("Creating new book");
                 Book book = new Book();
                 book.setTitle(resultSet.getString(1));
                 book.setAuthor(resultSet.getString(2));
                 book.setId(resultSet.getInt(3));
                 log.debug("Book: " + book.getId() + " adding to subscription");
-                subscription.addBook(book);
+                if (subscription != null) {
+                    subscription.addBook(book);
+                }
             }
             result.add(subscription);
+
         } catch (SQLException e) {
             throw new DaoException("Trouble in SubscriptionDao by parseResultSet()", e);
         }
@@ -109,16 +121,27 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
         return 0;
     }
 
+    /**
+     * To update subscription should get to DAO subscription with only 1 new book and id of subscription
+     */
     @Override
     protected String getUpdateQuery() {
-        return "UPDATE SUBSCRIPTION_BOOK SET BOOK_ID = ? WHERE SUBSCRIPTION_ID LIKE ? AND BOOK_ID LIKE ?";
+//        UPDATE SUBSCRIPTION_BOOK SET BOOK_ID = ? WHERE SUBSCRIPTION_ID LIKE ? AND BOOK_ID LIKE ?
+        return "INSERT INTO SUBSCRIPTION_BOOK (BOOK_ID, SUBSCRIPTION_ID) VALUES (?, ?)";
     }
 
+    /**
+     * To update subscription should get to DAO subscription with only 1 new book and id of subscription
+     */
     @Override
     protected PreparedStatement setFieldsInUpdateStatement(PreparedStatement statement, Subscription subscription) {
-        // TODO Figure out this
-        //statement.setInt(1);
-        return null;
+        try {
+            statement.setInt(1, subscription.getBook(0).getId());
+            statement.setInt(2, subscription.getId());
+        } catch (SQLException e) {
+            throw new DaoException("Trouble by setFieldInUpdateStatement in SubscriptiopnDao", e);
+        }
+        return statement;
     }
 
     /**
