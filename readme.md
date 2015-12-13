@@ -7,11 +7,12 @@ It's a library management system.
 1) USERS:
 
 Look for books in library +++
+Show list of books in subscription. +
+Login +
 Registration. +
 
 
-Show list of books in subscription. +
-See notification+
+See notification-
 
 Return old book.
 

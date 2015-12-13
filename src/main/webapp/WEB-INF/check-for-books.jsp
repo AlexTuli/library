@@ -14,5 +14,7 @@
             <b>Book ID: </b><c:out value="${book.id}"/><br/>
         </c:forEach>
     </div>
+    <!--TODO Implement it! -->
+<a href="/controller/?action=back">Come back</a>
 </body>
 </html>

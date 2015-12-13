@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <title>Main page</title>
@@ -20,10 +21,9 @@
     <a href="${pageContext.request.contextPath}/controller?action=check-books">Get list books in library</a>
 </div>
 
-<!-- PROBABLY I CAN REDIRECT ALL MESEGES HERE (ex:Book added, or smthg else) -->
-<div>Message:</div>
-<%@ include file="/WEB-INF/user-notification.jsp" %>
-<div align="center"> ${message}</div>
+<div>Your notification:</div>
+<%--TODO Implement notification--%>
+<div align="center"> ${notification}</div>
 
 
 </body>

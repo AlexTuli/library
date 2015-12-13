@@ -4,14 +4,15 @@
     <title>Subscriptions</title>
 </head>
 <body>
-<div align="center">Your books:</div>
-<div>
-    <form action="${pageContext.request.contextPath}/controller" method="get">
-        <input type="hidden" name="action" value="get-subscription"/>
-        <input type="submit" value="Get book list"/>
-
-        <p>Book: ${book}</p>
-    </form>
-</div>
+<div align="center"><h2>Your books:</h2></div>
+    <div align="left">
+        -------------------------------------------------------------------------------------------<br/>
+        <c:forEach items="${subscription.bookList}" var="book">
+            <b>Book tittle: </b><c:out value="${book.title}"/>
+            <b>Book author: </b><c:out value="${book.author}"/>
+            <b>Book ID: </b><c:out value="${book.id}"/><br/>
+            -------------------------------------------------------------------------------------------<br/>
+        </c:forEach>
+    </div>
 </body>
 </html>

@@ -3,7 +3,6 @@ package com.epam.alex.task4.action;
 import com.epam.alex.task4.action.redirect.AdminCabinet;
 import com.epam.alex.task4.action.redirect.RedirectToRegisterUser;
 import com.epam.alex.task4.action.redirect.ToIndex;
-import com.epam.alex.task4.action.redirect.UserCabinet;
 import com.epam.alex.task4.dao.DaoFactory;
 import com.epam.alex.task4.dbcp.ConnectionPool;
 

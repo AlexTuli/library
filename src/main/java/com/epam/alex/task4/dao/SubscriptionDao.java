@@ -1,6 +1,8 @@
 package com.epam.alex.task4.dao;
 
+import com.epam.alex.task4.entity.Book;
 import com.epam.alex.task4.entity.Subscription;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,6 +17,8 @@ import java.util.List;
  * @author Bocharnikov Alexandr
  */
 public class SubscriptionDao extends AbstractDao<Subscription> {
+
+    private static final Logger log = Logger.getLogger(SubscriptionDao.class);
 
     public SubscriptionDao(Connection connection, DaoFactory factory) {
         super(connection, factory);
@@ -45,7 +49,7 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
                 "INNER JOIN SUBSCRIPTION ON USER_ID = USER.ID\n" +
                 "WHERE USER_ID LIKE ?)\n" +
                 "INNER JOIN SUBSCRIPTION_BOOK WHERE ID LIKE SUBSCRIPTION_BOOK.SUBSCRIPTION_ID)\n" +
-                "INNER JOIN BOOK ON BOOK_ID = BOOK.ID;";
+                "INNER JOIN BOOK ON BOOK_ID = BOOK.ID";
     }
 
     @Override
@@ -80,17 +84,23 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
     protected List<Subscription> parseResultSet(ResultSet resultSet) {
         List<Subscription> result = new ArrayList<>();
         try {
+            Subscription subscription = new Subscription();
             while (resultSet.next()) {
-                //TODO Finish work after implement userDao
-                DaoFactory factory = getFactory();
-                factory.getDao("user");
-                resultSet.getInt("USER_ID");
-
+//                BOOK.TITLE, BOOK.AUTHOR, BOOK_ID
+                // TODO: 12/13/15 ADD SUBSCRIPTION_ID and IF IT THE SAME AS PREVIOUS ADD BOOK TO OLD SUBSCRIPTION ELSE TO NEW
+                log.debug("Creating new book");
+                Book book = new Book();
+                book.setTitle(resultSet.getString(1));
+                book.setAuthor(resultSet.getString(2));
+                book.setId(resultSet.getInt(3));
+                log.debug("Book: " + book.getId() + " adding to subscription");
+                subscription.addBook(book);
             }
+            result.add(subscription);
         } catch (SQLException e) {
             throw new DaoException("Trouble in SubscriptionDao by parseResultSet()", e);
         }
-        return null;
+        return result;
     }
 
     @Override
