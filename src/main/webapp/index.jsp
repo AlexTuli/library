@@ -14,5 +14,7 @@
 </form>
 
 <div><a href="${pageContext.request.contextPath}/controller?action=registration">Register</a></div>
+
+<a href="${pageContext.request.contextPath}/controller?action=check-books">Get list books in library</a>
 </body>
 </html>

@@ -5,10 +5,9 @@
 </head>
 <body>
 
-<!-- TODO Change "user" to %username% -->
-<div align="center">Hello, User!</div>
-<div align="center">Your messages:</div>
-<%@ include file="/WEB-INF/norify.jsp" %>
+<div align="center">Hello, ${sessionScope.user.login}</div>
+<!--<div align="center">Your messages:</div>-->
+
 
 <%@ include file="/WEB-INF/subscriptions.jsp" %>
 
@@ -18,7 +17,7 @@
 <div><a href="${pageContext.request.contextPath}/WEB-INF/return-book.jsp">Return old book</a></div>
 
 <div align="center">
-    <%@ include file="/WEB-INF/look-for-books.jsp" %>
+    <a href="${pageContext.request.contextPath}/controller?action=check-books">Get list books in library</a>
 </div>
 
 <!-- PROBABLY I CAN REDIRECT ALL MESEGES HERE (ex:Book added, or smthg else) -->

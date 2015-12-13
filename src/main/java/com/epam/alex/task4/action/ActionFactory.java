@@ -31,6 +31,7 @@ public class ActionFactory {
         actionMap.put("registration", new RedirectToRegisterUser(factory));
         actionMap.put("registration-user", new RegisteredUser(factory));
         actionMap.put("create-subscription", new CreateSubscription(factory));
+        actionMap.put("create-subscription", new CreateSubscription(factory));
     }
 
     public Action getAction(String action) {

@@ -7,6 +7,9 @@ It's a library management system.
 1) USERS:
 
 Look for books in library +++
+Registration. +
+
+
 Show list of books in subscription. +
 See notification+
 
@@ -16,7 +19,6 @@ Request for new book.
 
 
 
-Registration.
 
 2) ADMINISTRATION:
 
@@ -27,10 +29,9 @@ Block users
 
 ### To-Do
 ------------------
+1) Session and listener, auto-return connection after user log-out(or session die)
 
 2) Add filter
-
-3) Add registration
 
 5) Release USE CASES
 

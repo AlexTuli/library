@@ -3,6 +3,7 @@ package com.epam.alex.task4.action;
 import com.epam.alex.task4.dao.AbstractDao;
 import com.epam.alex.task4.dao.DaoFactory;
 import com.epam.alex.task4.entity.Book;
+import com.sun.istack.internal.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,8 @@ import java.util.List;
  */
 public class CheckBooks extends AbstractAction {
 
+    private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(CheckBooks.class);
+    private static final Logger logger = Logger.getLogger(CheckBooks.class);
 
     public CheckBooks(DaoFactory factory) {
         super(factory);
@@ -27,14 +30,13 @@ public class CheckBooks extends AbstractAction {
      */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+
+        log.info("Read all books in library");
         AbstractDao book = factory.getDao("book");
+        log.debug("BookDao.readAll");
         List<Book> books = book.readAll();
         request.setAttribute("books", books);
-        try {
-            request.getRequestDispatcher("/look-for-books.jsp").forward(request, response);
-        } catch (ServletException | IOException e) {
-            throw new ActionException("Exception in process of checking books", e);
-        }
-        return null;
+        log.debug("Return redirect");
+        return request.getContextPath() + "/WEB-INF/check-for-books.jsp";
     }
 }
