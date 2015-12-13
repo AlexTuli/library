@@ -92,14 +92,12 @@ public class MainServlet extends HttpServlet {
 //                return;
 //            case "get-subscription":
 //                subscriptionDao = new SubscriptionDao();
-//                //TODO CHANGE FROM ALEXTULI TO %USERNAME%
 //                Subscription alexTuli = subscriptionDao.read(new User("AlexTuli", 1));
 //                request.setAttribute("book", alexTuli.getBookList());
 //                break;
 //            case "add-book-to-subscription":
 //                subscriptionDao = new SubscriptionDao();
 //
-//                //TODO ADD VALIDATION
 //                int id = Integer.parseInt(request.getParameter("id"));
 //                bookDao = new BookDao();
 //                Book book = bookDao.read(id);
@@ -115,8 +113,7 @@ public class MainServlet extends HttpServlet {
 //                subscriptionDao = new SubscriptionDao();
 //                int idDelete = Integer.parseInt(request.getParameter("id"));
 //                request.getSession();
-//                // TODO THINK ABOUT HOW TO GET USER_ID OR GET USER_SUBSCRIPTION
-//                //boolean isSuccessful= subscriptionDao.remove();  TODO FIX IT
+//                //boolean isSuccessful= subscriptionDao.remove();
 //                //if (isSuccessful) request.setAttribute("message", "Book is deleted");
 //                request.setAttribute("message", "Book is not deleted");
 //                break;

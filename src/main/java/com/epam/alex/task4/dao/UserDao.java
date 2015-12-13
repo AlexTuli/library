@@ -2,6 +2,7 @@ package com.epam.alex.task4.dao;
 
 import com.epam.alex.task4.entity.Role;
 import com.epam.alex.task4.entity.User;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,13 +18,15 @@ import java.util.List;
  */
 public class UserDao extends AbstractDao<User> {
 
+    private static final Logger log = Logger.getLogger(UserDao.class);
+
     public UserDao(Connection connection, DaoFactory factory) {
         super(connection, factory);
     }
 
     @Override
     protected String getCreateQuery() {
-        return "INSERT INTO USER (NAME, PASSWORD, ROLE_ID) VALUES (?, ?, ?)";
+        return "INSERT INTO USER (NAME, PASSWORD, ROLE_ID, ID) VALUES (?, ?, ?, DEFAULT)";
     }
 
     @Override
@@ -113,14 +116,18 @@ public class UserDao extends AbstractDao<User> {
 
     @Override
     protected int parseGeneratedKeys(ResultSet generatedKeys) {
+        log.debug("Inside parseGeneratedKeys");
         int id = 0;
         try {
             while (generatedKeys.next()) {
-                id = generatedKeys.getInt("ID");
+                log.debug("Try to get ID");
+                id = generatedKeys.getInt(1);
+                log.debug("ID is " + id);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException("Can't parse generated keys", e);
         }
+        log.debug("Return ID");
         return id;
     }
 }

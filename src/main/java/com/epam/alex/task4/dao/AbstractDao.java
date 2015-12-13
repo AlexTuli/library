@@ -1,6 +1,7 @@
 package com.epam.alex.task4.dao;
 
 import com.epam.alex.task4.entity.AbstractEntity;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,6 +17,8 @@ import java.util.List;
  * @author Bocharnikov Alexandr
  */
 public abstract class AbstractDao<T extends AbstractEntity> {
+
+    private final static Logger logger = Logger.getLogger(AbstractDao.class);
 
     protected Connection connection;
 
@@ -33,15 +36,25 @@ public abstract class AbstractDao<T extends AbstractEntity> {
      *
      * @param t entity
      */
-    public void create(T t) throws DaoException {
+    public T create(T t) throws DaoException {
         try {
             preparedStatement = connection.prepareStatement(getCreateQuery());
             preparedStatement = setFieldsInCreateStatement(preparedStatement, t);
-            this.preparedStatement.execute();
+            preparedStatement.execute();
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            logger.debug("Start to parse generated keys");
+            int id = parseGeneratedKeys(generatedKeys);
+            logger.debug("Key is " + id);
+            if (id != 0) {
+                logger.debug("Set id to entity");
+                t.setId(id);
+            }
             preparedStatement.close();
         } catch (SQLException e) {
             throw new DaoException("Trouble by creating in DAO", e);
         }
+        logger.debug("Return entity");
+        return t;
     }
 
     public T read(int id) throws DaoException {
