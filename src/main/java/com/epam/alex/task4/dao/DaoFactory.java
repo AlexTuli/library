@@ -16,6 +16,7 @@ public class DaoFactory {
     private Connection connection;
     private Map<String, AbstractDao> daoMap;
 
+    // todo make DaoFactory singleton and delete Map
     public DaoFactory(Connection connection) {
         this.connection = connection;
         daoMap = new HashMap<>();

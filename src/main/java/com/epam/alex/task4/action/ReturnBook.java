@@ -3,7 +3,6 @@ package com.epam.alex.task4.action;
 import com.epam.alex.task4.dao.AbstractDao;
 import com.epam.alex.task4.dao.DaoException;
 import com.epam.alex.task4.dao.DaoFactory;
-import com.epam.alex.task4.entity.AbstractEntity;
 import com.epam.alex.task4.entity.Book;
 import com.epam.alex.task4.entity.Subscription;
 import com.epam.alex.task4.entity.User;
@@ -14,75 +13,71 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 
 /**
- * Created by AlexTuli on 12/13/15.
+ * Created by AlexTuli on 12/14/15.
  *
  * @author Bocharnikov Alexandr
  */
-public class RequestForBook extends AbstractAction {
+public class ReturnBook extends AbstractAction {
 
-    private static final Logger log = Logger.getLogger(RequestForBook.class);
+    private static final Logger log = Logger.getLogger(ReturnBook.class);
 
-    public RequestForBook(DaoFactory factory) {
+    public ReturnBook(DaoFactory factory) {
         super(factory);
     }
 
-    /**
-     * Request for a new book and add it to subscription
-     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
-        // TODO: 12/14/15 Don't allow to add book twice
-        log.info("Start to adding book to subscription...");
+        log.info("Starting to delete book from subscription");
         String sId = request.getParameter("id");
         int id;
-        // Check to sId is a number, not a char or something
         try {
             id = Integer.parseInt(sId);
         } catch (NumberFormatException e) {
-            log.error("Incorrect number format", e);
+            log.error("Incorrect book ID", e);
             return "redirect:user-cabinet&notification=Incorrect book ID";
         }
         Book book = new Book();
         book.setId(id);
         Subscription subscription = new Subscription();
         subscription.addBook(book);
-
-        log.debug("Get subscriptionDao");
         AbstractDao subscriptionDao = factory.getDao("subscription");
+
         log.debug("Get user from session");
         User user = (User) request.getSession(false).getAttribute("user");
+        log.debug("Get subscription by user");
         int idSubscription = subscriptionDao.read(user.getId()).getId();
         subscription.setId(idSubscription);
 
-        log.debug("Updating subscription");
+        log.debug("Start to delete book");
         try {
             factory.startTransaction();
-            subscriptionDao.update(subscription);
+            subscriptionDao.delete(subscription);
         } catch (DaoException e) {
-            log.error("Update failed", e);
+            log.warn("Can't remove book, check ID", e);
             try {
+                log.debug("Rollback");
                 factory.rollback();
                 factory.stopTransaction();
             } catch (SQLException e1) {
-                log.error("Failed to rollback", e1);
-                throw new ActionException(e1);
+                log.error("Can't rollback", e1);
+                throw new ActionException("Can't rollback", e1);
             }
-            return "redirect:user-cabinet&notification=Incorrect book ID";
+            return "redirect:user-cabinet&notification=Can't remove book, check ID";
         } catch (SQLException e) {
-            log.error("Failed to start transaction", e);
-            throw new ActionException(e);
+            log.error("Can't start transaction", e);
+            throw new ActionException("Can't start transaction", e);
         }
-        //Commit and stop transaction
+
         try {
             factory.commit();
             factory.stopTransaction();
         } catch (SQLException e) {
-            log.error("Failed to commit and stop transaction", e);
-            throw new ActionException(e);
+            log.error("Can't commit", e);
+            throw new ActionException("Can't commit", e);
         }
 
-        log.info("Book added successfuly!");
-        return "redirect:user-cabinet&notification=Book added";
+        log.info("Book deleted from subscription successfully!");
+        return "redirect:user-cabinet&notification=Book returned!";
     }
 }

@@ -17,6 +17,7 @@ import java.util.Map;
  */
 public class ActionFactory {
 
+    //todo singleton
     private DaoFactory factory;
     private static Map<String, Action> actionMap;
 
@@ -34,6 +35,8 @@ public class ActionFactory {
         actionMap.put("create-subscription", new CreateSubscription(factory));
         actionMap.put("request-for-book", new RequestForBook(factory));
         actionMap.put("redirect-to-request-for-book", new RedirectToRequestForBook(factory));
+        actionMap.put("redirect-to-return-book", new RedirectToReturnBook(factory));
+        actionMap.put("return-book", new ReturnBook (factory));
     }
 
     public Action getAction(String action) {

@@ -156,11 +156,7 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
     }
 
     /**
-     * Set to statement first book to delete     *
-     *
-     * @param statement
-     * @param subscription
-     * @return
+     * Set to statement first book to delete
      */
     @Override
     protected PreparedStatement setFieldsInDeleteStatement(PreparedStatement statement, Subscription subscription) {

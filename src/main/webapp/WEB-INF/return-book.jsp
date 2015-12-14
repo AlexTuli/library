@@ -6,7 +6,7 @@
 <body>
 <div align="center"><h1>RETURN BOOK</h1></div>
 <form action="${pageContext.request.contextPath}/controller" method="post">
-    <input type="hidden" name="action" value="delete-book"/>
+    <input type="hidden" name="action" value="return-book"/>
     <input type="text" name="id" id="id" placeholder="Enter book ID"/>
     <input type="submit" value="Return book"/>
 </form>

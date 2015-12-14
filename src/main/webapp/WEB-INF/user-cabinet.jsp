@@ -15,7 +15,7 @@
 
 <div><a href="${pageContext.request.contextPath}/controller?action=redirect-to-request-for-book">Request for a new book</a>
 </div>
-<div><a href="${pageContext.request.contextPath}/WEB-INF/return-book.jsp">Return old book</a></div>
+<div><a href="${pageContext.request.contextPath}/controller?action=redirect-to-return-book">Return old book</a></div>
 
 <div align="center">
     <a href="${pageContext.request.contextPath}/controller?action=check-books">Get list books in library</a>
@@ -23,7 +23,7 @@
 
 <div>Your notification:</div>
 <%--TODO Implement notification--%>
-<div align="center"> ${param.notification}</div>
+<h1><div align="center"> ${param.notification}</div></h1>
 
 
 </body>

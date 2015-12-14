@@ -55,6 +55,7 @@ public class RegisteredUser extends AbstractAction {
             try {
                 logger.debug("Rollback after create user");
                 factory.rollback();
+                factory.stopTransaction();
             } catch (SQLException e1) {
                 throw new ActionException("Can't rollback", e);
             }
@@ -68,6 +69,7 @@ public class RegisteredUser extends AbstractAction {
             try {
                 logger.debug("Rollback after created subscription");
                 factory.rollback();
+                factory.stopTransaction();
             } catch (SQLException e1) {
                 throw new ActionException("Can't rollback", e);
             }
