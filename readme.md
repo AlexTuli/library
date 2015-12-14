@@ -30,7 +30,7 @@ Block users
 
 ### To-Do
 ------------------
-1) Session and listener, auto-return connection after user log-out(or session die)
+1) listener, auto-return connection after user log-out(or session die)
 
 2) Add filter
 
