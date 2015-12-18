@@ -15,10 +15,10 @@ import java.sql.SQLException;
 public abstract class AbstractAction implements Action {
 
     private static final Logger log = Logger.getLogger(AbstractAction.class);
-    protected DaoFactory factory;
+    protected DaoFactory daoFactory;
 
     public AbstractAction(DaoFactory factory) {
-        this.factory = factory;
+        this.daoFactory = factory;
     }
 
     public abstract String execute(HttpServletRequest request, HttpServletResponse response);
@@ -26,9 +26,9 @@ public abstract class AbstractAction implements Action {
     protected void commit() {
         try {
             log.debug("Start to commit");
-            factory.commit();
+            daoFactory.commit();
             log.debug("Stop transaction");
-            factory.stopTransaction();
+            daoFactory.stopTransaction();
         } catch (SQLException e) {
             log.error("Can't commit", e);
             throw new ActionException("Can't commit", e);
@@ -38,7 +38,7 @@ public abstract class AbstractAction implements Action {
     protected void startTransaction() {
         try {
             log.debug("Start transaction");
-            factory.startTransaction();
+            daoFactory.startTransaction();
         } catch (SQLException e) {
             log.error("Failed to start transaction", e);
             throw new ActionException("Can't start transaction", e);
@@ -48,8 +48,8 @@ public abstract class AbstractAction implements Action {
     protected void rollback() {
         try {
             log.debug("Rollback");
-            factory.rollback();
-            factory.stopTransaction();
+            daoFactory.rollback();
+            daoFactory.stopTransaction();
         } catch (SQLException e1) {
             log.error("Can't rollback", e1);
             throw new ActionException("Can't rollback", e1);

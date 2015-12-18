@@ -14,30 +14,35 @@ import java.util.Map;
  */
 public class ActionFactory {
 
-    //todo singleton
-    private DaoFactory factory;
+    private static final ActionFactory INSTANCE = new ActionFactory();
+    private DaoFactory daoFactory;
     private static Map<String, Action> actionMap;
 
-    public ActionFactory() {
-        factory = new DaoFactory(ConnectionPool.getInstance().getConnection());
+    private ActionFactory() {
+        daoFactory = new DaoFactory(ConnectionPool.getInstance().getConnection());
         actionMap = new HashMap<>();
-        actionMap.put("check-books", new CheckBooks(factory));
-        actionMap.put("index", new ToIndex(factory));
-        actionMap.put("authorize", new Authorize(factory));
-        actionMap.put("user-cabinet", new UserCabinet(factory));
-        actionMap.put("admin-cabinet", new AdminCabinet(factory));
-        actionMap.put("registration", new RedirectToRegisterUser(factory));
-        actionMap.put("registration-user", new RegisteredUser(factory));
-        actionMap.put("create-subscription", new CreateSubscription(factory));
-        actionMap.put("create-subscription", new CreateSubscription(factory));
-        actionMap.put("request-for-book", new RequestForBook(factory));
-        actionMap.put("redirect-to-request-for-book", new RedirectToRequestForBook(factory));
-        actionMap.put("redirect-to-return-book", new RedirectToReturnBook(factory));
-        actionMap.put("return-book", new ReturnBook (factory));
-        actionMap.put("add-book", new AddBook (factory));
-        actionMap.put("redirect-add-book", new RedirectAddBook(factory));
-        actionMap.put("get-users-list", new GetUsersList(factory));
-        actionMap.put("redirect-notify", new RedirectToNotify(factory));
+        actionMap.put("check-books", new CheckBooks(daoFactory));
+        actionMap.put("index", new ToIndex(daoFactory));
+        actionMap.put("authorize", new Authorize(daoFactory));
+        actionMap.put("user-cabinet", new UserCabinet(daoFactory));
+        actionMap.put("admin-cabinet", new AdminCabinet(daoFactory));
+        actionMap.put("registration", new RedirectToRegisterUser(daoFactory));
+        actionMap.put("registration-user", new RegisteredUser(daoFactory));
+        actionMap.put("create-subscription", new CreateSubscription(daoFactory));
+        actionMap.put("create-subscription", new CreateSubscription(daoFactory));
+        actionMap.put("request-for-book", new RequestForBook(daoFactory));
+        actionMap.put("redirect-to-request-for-book", new RedirectToRequestForBook(daoFactory));
+        actionMap.put("redirect-to-return-book", new RedirectToReturnBook(daoFactory));
+        actionMap.put("return-book", new ReturnBook (daoFactory));
+        actionMap.put("add-book", new AddBook (daoFactory));
+        actionMap.put("redirect-add-book", new RedirectAddBook(daoFactory));
+        actionMap.put("get-users-list", new GetUsersList(daoFactory));
+        actionMap.put("redirect-notify", new RedirectToNotify(daoFactory));
+        actionMap.put("create-notification", new CreateNotification(daoFactory));
+    }
+
+    public static ActionFactory getInstance() {
+        return INSTANCE;
     }
 
     public Action getAction(String action) {

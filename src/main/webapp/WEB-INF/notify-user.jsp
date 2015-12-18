@@ -4,6 +4,7 @@
     <title>Notify</title>
 </head>
 <body>
+<div align="center">${param.info}</div>
 <div>
     <form action="${pageContext.request.contextPath}/controller" method="post">
         <input type="hidden" name="action" value="create-notification"/>

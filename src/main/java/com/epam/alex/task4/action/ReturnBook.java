@@ -10,7 +10,6 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.SQLException;
 
 /**
  * Created by AlexTuli on 12/14/15.
@@ -41,7 +40,7 @@ public class ReturnBook extends AbstractAction {
         book.setId(id);
         Subscription subscription = new Subscription();
         subscription.addBook(book);
-        AbstractDao subscriptionDao = factory.getDao("subscription");
+        AbstractDao subscriptionDao = daoFactory.getDao("subscription");
 
         log.debug("Get user from session");
         User user = (User) request.getSession(false).getAttribute("user");

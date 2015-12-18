@@ -29,7 +29,7 @@ public class UserCabinet extends AbstractAction {
      */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        AbstractDao subscriptionDao = factory.getDao("subscription");
+        AbstractDao subscriptionDao = daoFactory.getDao("subscription");
         User user = null;
         log.debug("Starting to read subscription");
         HttpSession session = request.getSession(false);
@@ -54,7 +54,7 @@ public class UserCabinet extends AbstractAction {
             log.error("LOG00010: user is null, can't read subscription");
         }
 //        // TODO: 12/13/15 Implement notification
-//        AbstractDao notificationDao = factory.getDao("notification");
+//        AbstractDao notificationDao = daoFactory.getDao("notification");
 //        AbstractEntity read = notificationDao.read(user.getId());
         log.info("Authorize complete!");
         return request.getContextPath() + "/WEB-INF/user-cabinet.jsp";

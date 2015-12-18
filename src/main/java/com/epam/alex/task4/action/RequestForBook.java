@@ -3,7 +3,6 @@ package com.epam.alex.task4.action;
 import com.epam.alex.task4.dao.AbstractDao;
 import com.epam.alex.task4.dao.DaoException;
 import com.epam.alex.task4.dao.DaoFactory;
-import com.epam.alex.task4.entity.AbstractEntity;
 import com.epam.alex.task4.entity.Book;
 import com.epam.alex.task4.entity.Subscription;
 import com.epam.alex.task4.entity.User;
@@ -49,7 +48,7 @@ public class RequestForBook extends AbstractAction {
         subscription.addBook(book);
 
         log.debug("Get subscriptionDao");
-        AbstractDao subscriptionDao = factory.getDao("subscription");
+        AbstractDao subscriptionDao = daoFactory.getDao("subscription");
         log.debug("Get user from session");
         User user = (User) request.getSession(false).getAttribute("user");
         int idSubscription = subscriptionDao.read(user.getId()).getId();
@@ -57,13 +56,13 @@ public class RequestForBook extends AbstractAction {
 
         log.debug("Updating subscription");
         try {
-            factory.startTransaction();
+            daoFactory.startTransaction();
             subscriptionDao.update(subscription);
         } catch (DaoException e) {
             log.error("Update failed", e);
             try {
-                factory.rollback();
-                factory.stopTransaction();
+                daoFactory.rollback();
+                daoFactory.stopTransaction();
             } catch (SQLException e1) {
                 log.error("Failed to rollback", e1);
                 throw new ActionException(e1);
@@ -75,8 +74,8 @@ public class RequestForBook extends AbstractAction {
         }
         //Commit and stop transaction
         try {
-            factory.commit();
-            factory.stopTransaction();
+            daoFactory.commit();
+            daoFactory.stopTransaction();
         } catch (SQLException e) {
             log.error("Failed to commit and stop transaction", e);
             throw new ActionException(e);

@@ -3,7 +3,6 @@ package com.epam.alex.task4.action;
 import com.epam.alex.task4.dao.AbstractDao;
 import com.epam.alex.task4.dao.DaoException;
 import com.epam.alex.task4.dao.DaoFactory;
-import com.epam.alex.task4.entity.AbstractEntity;
 import com.epam.alex.task4.entity.Role;
 import com.epam.alex.task4.entity.Subscription;
 import com.epam.alex.task4.entity.User;
@@ -44,18 +43,18 @@ public class RegisteredUser extends AbstractAction {
         user.setRole(role);
         Subscription subscription = new Subscription();
         user.setSubscription(subscription);
-        AbstractDao subscriptionDao = factory.getDao("subscription");
-        AbstractDao userDao = factory.getDao("user");
+        AbstractDao subscriptionDao = daoFactory.getDao("subscription");
+        AbstractDao userDao = daoFactory.getDao("user");
         try {
             logger.debug("Start transaction in RegistrationUser");
-            factory.startTransaction();
+            daoFactory.startTransaction();
             logger.debug("Start creating row in table User");
             user = (User) userDao.create(user);
         } catch (SQLException | DaoException e) {
             try {
                 logger.debug("Rollback after create user");
-                factory.rollback();
-                factory.stopTransaction();
+                daoFactory.rollback();
+                daoFactory.stopTransaction();
             } catch (SQLException e1) {
                 throw new ActionException("Can't rollback", e);
             }
@@ -68,8 +67,8 @@ public class RegisteredUser extends AbstractAction {
         } catch (DaoException e) {
             try {
                 logger.debug("Rollback after created subscription");
-                factory.rollback();
-                factory.stopTransaction();
+                daoFactory.rollback();
+                daoFactory.stopTransaction();
             } catch (SQLException e1) {
                 throw new ActionException("Can't rollback", e);
             }
@@ -77,9 +76,9 @@ public class RegisteredUser extends AbstractAction {
         }
         try {
             logger.debug("Starting to commit");
-            factory.commit();
+            daoFactory.commit();
             logger.debug("Stop transaction");
-            factory.stopTransaction();
+            daoFactory.stopTransaction();
         } catch (SQLException e) {
             throw new ActionException("Can't commit", e);
         }

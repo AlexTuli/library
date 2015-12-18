@@ -43,7 +43,18 @@ public class UserDao extends AbstractDao<User> {
 
     @Override
     protected String getReadQuery() {
-        return null;
+        return "SELECT * FROM USER INNER JOIN ROLE ON USER.ROLE_ID = ROLE.ID WHERE USER.ID LIKE ?";
+    }
+
+    @Override
+    protected PreparedStatement setFieldsInReadStatement(PreparedStatement statement, int id) {
+        try {
+            statement.setInt(1, id);
+        } catch (SQLException e) {
+            log.error("Trouble by set fields in read by id statement");
+            throw new DaoException(e);
+        }
+        return statement;
     }
 
     @Override
@@ -72,11 +83,6 @@ public class UserDao extends AbstractDao<User> {
     }
 
     @Override
-    protected PreparedStatement setFieldsInReadStatement(PreparedStatement statement, int id) {
-        return null;
-    }
-
-    @Override
     protected String getUpdateQuery() {
         return null;
     }
@@ -101,17 +107,24 @@ public class UserDao extends AbstractDao<User> {
         List<User> users = new ArrayList<>();
         try {
             while (resultSet.next()) {
+                log.debug("Create new user");
                 User user = new User();
+                log.debug("Set id to user");
                 user.setId(resultSet.getInt("ID"));
+                log.debug("Set login to user");
                 user.setLogin(resultSet.getString("NAME"));
-//                user.setPassword(resultSet.getString("PASSWORD"));
+                log.debug("Create new role");
                 Role role = new Role();
+                log.debug("Set role to Role");
                 role.setRole(resultSet.getString("ROLE"));
+                log.debug("Set role to User");
                 user.setRole(role);
+                log.debug("Add user to collection");
                 users.add(user);
             }
         } catch (SQLException e) {
-            throw new DaoException("Trouble by parsing resultSet in UserDao");
+            log.error("Trouble by parsing resultSet in UserDao");
+            throw new DaoException(e);
         }
         return users;
     }

@@ -27,7 +27,8 @@ public class MainServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        factory = new ActionFactory();
+        factory = ActionFactory.getInstance();
+        logger.info("Servlet started");
     }
 
     @Override
@@ -55,6 +56,11 @@ public class MainServlet extends HttpServlet {
         }
         logger.debug("forwarding");
         request.getRequestDispatcher(view).forward(request, response);
+    }
+
+    @Override
+    public void destroy() {
+        logger.info("Servlet destroyed");
     }
 
     private String getRedirectLocation(String view) {

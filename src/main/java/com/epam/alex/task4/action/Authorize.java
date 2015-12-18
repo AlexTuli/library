@@ -41,7 +41,7 @@ public class Authorize extends AbstractAction {
         user.setPassword(password);
 
         log.debug("User login: " + user.getLogin() + "User password: " + user.getPassword() + "\nGet userDao");
-        AbstractDao Dao = factory.getDao("user");
+        AbstractDao Dao = daoFactory.getDao("user");
 
         try {
             log.debug("Try to read User in DB");

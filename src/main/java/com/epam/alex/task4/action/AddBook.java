@@ -8,7 +8,6 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.SQLException;
 
 /**
  * Created by AlexTuli on 12/14/15.
@@ -37,7 +36,7 @@ public class AddBook extends AbstractAction {
         book.setAuthor(author);
         log.debug("Set field in book complete");
 
-        AbstractDao bookDao = factory.getDao("book");
+        AbstractDao bookDao = daoFactory.getDao("book");
 
         startTransaction();
 
@@ -51,6 +50,7 @@ public class AddBook extends AbstractAction {
         }
 
         commit();
+
         log.info("Book added successfully");
         return "redirect:admin-cabinet&info=Book added";
     }

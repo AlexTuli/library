@@ -60,21 +60,29 @@ public abstract class AbstractDao<T extends AbstractEntity> {
     public T read(int id) throws DaoException {
         List<T> result;
         try {
+            logger.debug("Create prepare statement to read by id");
             preparedStatement = connection.prepareStatement(getReadQuery());
+            logger.debug("Set fields to prepared statement");
             preparedStatement = setFieldsInReadStatement(preparedStatement, id);
+            logger.debug("Executing query");
             ResultSet resultSet = preparedStatement.executeQuery();
+            logger.debug("Parsing result set");
             result = parseResultSet(resultSet);
+            logger.debug("Close result set");
             preparedStatement.close();
         } catch (SQLException e) {
-            throw new DaoException("Trouble by reading in DAO", e);
+            logger.error("Trouble by reading in DAO");
+            throw new DaoException(e);
         }
         if (result == null || result.size() == 0) {
-            throw new DaoException("Record not found");
+            logger.error("Record not found");
+            throw new DaoException();
         }
         if (result.size() > 1) {
-            throw new DaoException("Received more than one record.");
+            logger.error("Received more than one record.");
+            throw new DaoException();
         }
-
+        logger.info("Return result");
         return result.iterator().next();
     }
 
