@@ -23,7 +23,8 @@ See notification-
 
 2) ADMINISTRATION:
 
-Get list of users
+Add new book to library+
+Get list of users+
 Notify users about debts
 Block users
 
@@ -31,6 +32,10 @@ Block users
 ### To-Do
 ------------------
 1) listener, auto-return connection after user log-out(or session die)
+
+Encoding
+
+Do not allow to enter without seddion on admin/user pages (filter)
 
 2) Add filter
 

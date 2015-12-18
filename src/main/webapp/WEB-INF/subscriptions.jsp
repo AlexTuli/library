@@ -6,7 +6,6 @@
 </head>
 <body>
 <%--TODO THIS IS NOT WORK IF SUBSCRIPTION IS HAVE NO BOOK FIX IT--%>
-<c:if test="${subscription.bookList.size() > 0}">
 
 <div align="center">
     <h2>Your books:</h2>
@@ -14,13 +13,13 @@
 
     <div align="left">
         -------------------------------------------------------------------------------------------<br/>
-        <c:forEach items="${subscription.bookList}" var="book">
-            <b>Book tittle: </b><c:out value="${book.title}"/>
-            <b>Book author: </b><c:out value="${book.author}"/>
-            <b>Book ID: </b><c:out value="${book.id}"/><br/>
+        <c:forEach items="${subscription.bookList}" var="user">
+            <b>Book tittle: </b><c:out value="${user.title}"/>
+            <b>Book author: </b><c:out value="${user.author}"/>
+            <b>Book ID: </b><c:out value="${user.id}"/><br/>
             -------------------------------------------------------------------------------------------<br/>
         </c:forEach>
     </div>
-</c:if>
+
 </body>
 </html>

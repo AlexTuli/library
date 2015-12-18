@@ -19,7 +19,6 @@ import java.util.List;
 public class CheckBooks extends AbstractAction {
 
     private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(CheckBooks.class);
-    private static final Logger logger = Logger.getLogger(CheckBooks.class);
 
     public CheckBooks(DaoFactory factory) {
         super(factory);

@@ -50,34 +50,22 @@ public class ReturnBook extends AbstractAction {
         subscription.setId(idSubscription);
 
         log.debug("Start to delete book");
+
+        startTransaction();
+
         try {
-            factory.startTransaction();
             subscriptionDao.delete(subscription);
         } catch (DaoException e) {
             log.warn("Can't remove book, check ID", e);
-            try {
-                log.debug("Rollback");
-                factory.rollback();
-                factory.stopTransaction();
-            } catch (SQLException e1) {
-                log.error("Can't rollback", e1);
-                throw new ActionException("Can't rollback", e1);
-            }
+            rollback();
             return "redirect:user-cabinet&notification=Can't remove book, check ID";
-        } catch (SQLException e) {
-            log.error("Can't start transaction", e);
-            throw new ActionException("Can't start transaction", e);
         }
 
-        try {
-            factory.commit();
-            factory.stopTransaction();
-        } catch (SQLException e) {
-            log.error("Can't commit", e);
-            throw new ActionException("Can't commit", e);
-        }
+        commit();
 
         log.info("Book deleted from subscription successfully!");
         return "redirect:user-cabinet&notification=Book returned!";
     }
+
+
 }

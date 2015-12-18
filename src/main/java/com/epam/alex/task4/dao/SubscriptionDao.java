@@ -108,7 +108,6 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
                 }
             }
             result.add(subscription);
-
         } catch (SQLException e) {
             throw new DaoException("Trouble in SubscriptionDao by parseResultSet()", e);
         }

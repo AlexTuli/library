@@ -43,15 +43,20 @@ public class UserCabinet extends AbstractAction {
             log.debug("Starting to read subscription");
             Subscription subscription;
             subscription = (Subscription) subscriptionDao.read(user.getId());
-            log.debug("Subscription read successful! Set to attribute");
-            log.info("LOG00020: Subscription books " + subscription.getBookList());
-            request.setAttribute("subscription", subscription);
+            if (subscription != null) {
+                log.debug("Subscription read successful! Set to attribute");
+                log.info("LOG00020: Subscription books " + subscription.getBookList());
+                request.setAttribute("subscription", subscription);
+            } else {
+                log.debug("Subscription is empty");
+            }
         } else {
             log.error("LOG00010: user is null, can't read subscription");
         }
 //        // TODO: 12/13/15 Implement notification
 //        AbstractDao notificationDao = factory.getDao("notification");
 //        AbstractEntity read = notificationDao.read(user.getId());
+        log.info("Authorize complete!");
         return request.getContextPath() + "/WEB-INF/user-cabinet.jsp";
     }
 }

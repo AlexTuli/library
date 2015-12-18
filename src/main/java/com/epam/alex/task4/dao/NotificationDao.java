@@ -48,7 +48,7 @@ public class NotificationDao extends AbstractDao<Notification> {
 
     /**
      * @param statement
-     * @param id        USER_ID NOT NOTIFICATION ID
+     * @param id USER_ID NOT NOTIFICATION ID
      * @return
      */
     @Override

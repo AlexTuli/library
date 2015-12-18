@@ -48,12 +48,15 @@ public class UserDao extends AbstractDao<User> {
 
     @Override
     protected String getReadByEntityQuery() {
-        return "SELECT * FROM USER WHERE NAME LIKE ? AND PASSWORD LIKE ?";
+        return "SELECT * FROM USER INNER JOIN ROLE ON USER.ROLE_ID = ROLE.ID\n" +
+                "WHERE NAME LIKE ? AND PASSWORD LIKE ?\n";
+//                "SELECT * FROM USER WHERE NAME LIKE ? AND PASSWORD LIKE ?";
     }
 
     @Override
     protected String getReadAllQuery() {
-        return null;
+        return "SELECT PASSWORD, NAME, USER.ID, ROLE FROM USER\n" +
+                "INNER JOIN ROLE ON USER.ROLE_ID = ROLE.ID;";
     }
 
     @Override
@@ -101,10 +104,9 @@ public class UserDao extends AbstractDao<User> {
                 User user = new User();
                 user.setId(resultSet.getInt("ID"));
                 user.setLogin(resultSet.getString("NAME"));
-                user.setPassword(resultSet.getString("PASSWORD"));
-                int roleId = resultSet.getInt("ROLE_ID");
-                AbstractDao roleDao = getFactory().getDao("role");
-                Role role = (Role) roleDao.read(roleId);
+//                user.setPassword(resultSet.getString("PASSWORD"));
+                Role role = new Role();
+                role.setRole(resultSet.getString("ROLE"));
                 user.setRole(role);
                 users.add(user);
             }

@@ -1,6 +1,6 @@
-package com.epam.alex.task4.action;
+package com.epam.alex.task4.action.redirect;
 
-import com.epam.alex.task4.dao.AbstractDao;
+import com.epam.alex.task4.action.AbstractAction;
 import com.epam.alex.task4.dao.DaoFactory;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,14 +11,14 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Bocharnikov Alexandr
  */
-public class RedirectToReturnBook extends AbstractAction {
+public class RedirectAddBook extends AbstractAction {
 
-    public RedirectToReturnBook(DaoFactory factory) {
+    public RedirectAddBook(DaoFactory factory) {
         super(factory);
     }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        return request.getContextPath() + "/WEB-INF/return-book.jsp";
+        return request.getContextPath() + "/WEB-INF/add-book.jsp";
     }
 }
