@@ -94,12 +94,19 @@ public class UserDao extends AbstractDao<User> {
 
     @Override
     protected String getDeleteQuery() {
-        return null;
+        return "DELETE FROM USER WHERE ID LIKE ?";
     }
 
     @Override
-    protected PreparedStatement setFieldsInDeleteStatement(PreparedStatement statement, User entity) {
-        return null;
+    protected PreparedStatement setFieldsInDeleteStatement(PreparedStatement statement, User user) {
+        try {
+            log.debug("Setting fields in delete statement");
+            statement.setInt(1, user.getId());
+        } catch (SQLException e) {
+            log.error("Trouble with setting fields in delete statement", e);
+            throw new DaoException(e);
+        }
+        return statement;
     }
 
     @Override

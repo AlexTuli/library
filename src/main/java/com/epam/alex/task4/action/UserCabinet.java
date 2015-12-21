@@ -41,13 +41,15 @@ public class UserCabinet extends AbstractAction {
         }
         if (user != null) {
             log.debug("Starting to read subscription");
-            Subscription subscription;
-            subscription = (Subscription) subscriptionDao.read(user.getId());
-            if (subscription != null) {
-                log.debug("Subscription read successful! Set to attribute");
-                log.info("LOG00020: Subscription books " + subscription.getBookList());
-                request.setAttribute("subscription", subscription);
-            } else {
+            Subscription subscription = null;
+            try {
+                subscription = (Subscription) subscriptionDao.read(user.getId());
+                if (subscription != null) {
+                    log.debug("Subscription read successful! Set to attribute");
+                    log.info("Subscription books " + subscription.getBookList());
+                    request.setAttribute("subscription", subscription);
+                }
+            } catch (DaoException e) {
                 log.debug("Subscription is empty");
             }
         } else {

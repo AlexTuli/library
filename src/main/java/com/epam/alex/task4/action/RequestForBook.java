@@ -3,6 +3,7 @@ package com.epam.alex.task4.action;
 import com.epam.alex.task4.dao.AbstractDao;
 import com.epam.alex.task4.dao.DaoException;
 import com.epam.alex.task4.dao.DaoFactory;
+import com.epam.alex.task4.entity.AbstractEntity;
 import com.epam.alex.task4.entity.Book;
 import com.epam.alex.task4.entity.Subscription;
 import com.epam.alex.task4.entity.User;
@@ -40,48 +41,49 @@ public class RequestForBook extends AbstractAction {
             id = Integer.parseInt(sId);
         } catch (NumberFormatException e) {
             log.error("Incorrect number format", e);
-            return "redirect:user-cabinet&notification=Incorrect book ID";
+            return "redirect:redirect-to-request-for-book&info=Incorrect book ID";
         }
         Book book = new Book();
         book.setId(id);
         Subscription subscription = new Subscription();
         subscription.addBook(book);
 
+        // Here we read subscription ID of current user to set for update query
         log.debug("Get subscriptionDao");
         AbstractDao subscriptionDao = daoFactory.getDao("subscription");
         log.debug("Get user from session");
         User user = (User) request.getSession(false).getAttribute("user");
-        int idSubscription = subscriptionDao.read(user.getId()).getId();
+        log.debug("Read subscription from DB");
+        Subscription readSubscription = null;
+        subscription.setUser(user);
+        try {
+            readSubscription = (Subscription) subscriptionDao.read(subscription); //Should read only ID of subscription, without books in them
+        } catch (DaoException e) {
+            log.debug("Subscription doesn't exist, create new");
+
+        }
+        int idSubscription;
+        if (readSubscription != null) {
+            idSubscription = readSubscription.getId();
+        } else {
+            log.error("Subscription is null");
+            return "redirect:redirect-to-request-for-book&info=Can't read subscription"; // TODO: 12/20/15 Redirect to request page
+        }
+        log.debug("Set User ID to subscription");
         subscription.setId(idSubscription);
 
         log.debug("Updating subscription");
         try {
-            daoFactory.startTransaction();
+            startTransaction();
             subscriptionDao.update(subscription);
         } catch (DaoException e) {
             log.error("Update failed", e);
-            try {
-                daoFactory.rollback();
-                daoFactory.stopTransaction();
-            } catch (SQLException e1) {
-                log.error("Failed to rollback", e1);
-                throw new ActionException(e1);
-            }
-            return "redirect:user-cabinet&notification=Incorrect book ID";
-        } catch (SQLException e) {
-            log.error("Failed to start transaction", e);
-            throw new ActionException(e);
-        }
-        //Commit and stop transaction
-        try {
-            daoFactory.commit();
-            daoFactory.stopTransaction();
-        } catch (SQLException e) {
-            log.error("Failed to commit and stop transaction", e);
-            throw new ActionException(e);
+            rollback();
+            return "redirect:redirect-to-request-for-book&info=Incorrect book ID";
         }
 
-        log.info("Book added successfuly!");
+        commit();
+        log.info("Book added successful!");
         return "redirect:user-cabinet&notification=Book added";
     }
 }

@@ -1,16 +1,10 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: alexandr
-  Date: 11/26/15
-  Time: 2:41 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Book insertion</title>
 </head>
 <body>
+<div align="center">${param.info}</div>
 <div>Add book to you're subscription:</div>
 <form action="${pageContext.request.contextPath}/controller" method="post">
     <input type="hidden" name="action" value="request-for-book"/>

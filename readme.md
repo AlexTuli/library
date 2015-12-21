@@ -23,10 +23,11 @@ See notification-
 
 2) ADMINISTRATION:
 
-Add new book to library+
-Get list of users+
-Notify users about debts
-Block users
+Add new book to library++
+Get list of users ++
+Notify users +
+Delete users +
+Make somebody administrator
 
 
 ### To-Do
@@ -35,9 +36,7 @@ Block users
 
 Encoding
 
-Do not allow to enter without seddion on admin/user pages (filter)
-
-2) Add filter
+Do not allow to enter without session on admin/user pages (filter)
 
 5) Release USE CASES
 

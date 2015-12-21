@@ -43,7 +43,7 @@ public class MainServlet extends HttpServlet {
         String actionName = getActionName(request);
         logger.debug("Get Action " + actionName);
         Action action = factory.getAction(actionName);
-        logger.debug("Action" + action + "start");
+        logger.debug("Action" + action + " start");
         String view = action.execute(request, response);
         if (view == null) {
             request.getRequestDispatcher(getServletContext().getContextPath() + "/index.jsp").forward(request, response);

@@ -42,19 +42,10 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
 
     @Override
     protected String getReadQuery() {
-        return "SELECT BOOK.TITLE, BOOK.AUTHOR, BOOK_ID, SUBSCRIPTION_ID FROM\n" +
-                "(SELECT * FROM\n" +
-                "(SELECT SUBSCRIPTION.ID\n" +
-                "FROM USER\n" +
-                "INNER JOIN SUBSCRIPTION ON USER_ID = USER.ID\n" +
-                "WHERE USER_ID LIKE ?)\n" +
-                "INNER JOIN SUBSCRIPTION_BOOK WHERE ID LIKE SUBSCRIPTION_BOOK.SUBSCRIPTION_ID)\n" +
-                "INNER JOIN BOOK ON BOOK_ID = BOOK.ID";
-    }
-
-    @Override
-    protected String getReadByEntityQuery() {
-        return null;
+        return "SELECT SUBSCRIPTION.ID, BOOK.TITLE, BOOK.AUTHOR, BOOK_ID FROM SUBSCRIPTION\n" +
+                "INNER JOIN SUBSCRIPTION_BOOK ON SUBSCRIPTION.ID = SUBSCRIPTION_BOOK.SUBSCRIPTION_ID\n" +
+                "INNER JOIN BOOK ON SUBSCRIPTION_BOOK.BOOK_ID = BOOK.ID\n" +
+                "WHERE SUBSCRIPTION.USER_ID = ?";
     }
 
     @Override
@@ -68,6 +59,22 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
     }
 
     @Override
+    protected String getReadByEntityQuery() {
+        return "SELECT SUBSCRIPTION.ID FROM SUBSCRIPTION WHERE USER_ID = ?";
+    }
+
+    @Override
+    protected PreparedStatement setFieldsInReadByEntityStatement(PreparedStatement statement, Subscription subscription) {
+        try {
+            statement.setInt(1, subscription.getUser().getId());
+        } catch (SQLException e) {
+            log.error("Trouble in creating Read by entity statement, SubscriptionDAO");
+            throw new DaoException(e);
+        }
+        return statement;
+    }
+
+    @Override
     protected String getReadAllQuery() {
         return "SELECT BOOK.ID, USER_ID, SUBSCRIPTION_ID FROM SUBSCRIPTION\n" +
                 "INNER JOIN SUBSCRIPTION_BOOK ON SUBSCRIPTION.ID = SUBSCRIPTION_BOOK.SUBSCRIPTION_ID\n" +
@@ -75,26 +82,24 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
                 "ORDER BY SUBSCRIPTION_ID";
     }
 
-    @Override
-    protected PreparedStatement setFieldsInReadByEntityStatement(PreparedStatement preparedStatement, Subscription subscription) {
-        return null;
-    }
-
+    // TODO: 12/19/15 IF HAVE NO BOOKS, THIS RETURN null, but have to return ID
     @Override
     protected List<Subscription> parseResultSet(ResultSet resultSet) {
         List<Subscription> result = new ArrayList<>();
         try {
-            int temp = -1;
+            int temp = -1; // Negative ID doesn't used in DB
             Subscription subscription = null;
             while (resultSet.next()) {
-//              SUBSCRIPTION_ID BOOK.TITLE, BOOK.AUTHOR, BOOK_ID
                 int id = resultSet.getInt(4);
+                log.debug("ID of current subscription is " + id);
+                // If id of new subscription != id previous subscription, create new subscription, need to readAll()
                 if (temp != id){
                     temp = id;
                     if (subscription != null) {
                         result.add(subscription);
                     }
                     subscription = new Subscription();
+                    log.debug("Set ID to subscription");
                     subscription.setId(id);
                 }
                 log.debug("Creating new book");
@@ -107,9 +112,11 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
                     subscription.addBook(book);
                 }
             }
+            log.debug("Add subscription to result");
             result.add(subscription);
         } catch (SQLException e) {
-            throw new DaoException("Trouble in SubscriptionDao by parseResultSet()", e);
+            log.error("Trouble in SubscriptionDao by parseResultSet()");
+            throw new DaoException(e);
         }
         return result;
     }

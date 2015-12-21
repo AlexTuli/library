@@ -74,12 +74,13 @@ public abstract class AbstractDao<T extends AbstractEntity> {
             logger.error("Trouble by reading in DAO");
             throw new DaoException(e);
         }
-        if (result == null || result.size() == 0) {
-            logger.error("Record not found");
-            throw new DaoException();
-        }
+        logger.debug("Result is " + result);
         if (result.size() > 1) {
             logger.error("Received more than one record.");
+            throw new DaoException();
+        }
+        if (result.iterator().next() == null || result.size() == 0) {
+            logger.error("Record not found");
             throw new DaoException();
         }
         logger.info("Return result");
@@ -132,15 +133,18 @@ public abstract class AbstractDao<T extends AbstractEntity> {
         }
     }
 
-    public void delete(T t) throws DaoException {
+    public int delete(T t) throws DaoException {
+        int updateCount;
         try {
             preparedStatement = connection.prepareStatement(getDeleteQuery());
             preparedStatement = setFieldsInDeleteStatement(preparedStatement, t);
             preparedStatement.execute();
+            updateCount = preparedStatement.getUpdateCount();
             preparedStatement.close();
         } catch (SQLException e) {
             throw new DaoException("Trouble by deleting in DAO", e);
         }
+        return updateCount;
     }
 
     protected abstract String getCreateQuery();

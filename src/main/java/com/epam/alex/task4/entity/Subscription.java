@@ -25,8 +25,7 @@ public class Subscription extends AbstractEntity {
     }
 
     public boolean isEmpty() {
-        if (bookList.size()>0) return false;
-        return true;
+        return bookList.size() == 0;
     }
 
     public Book getBook(int index) {
