@@ -7,6 +7,9 @@
     <jsp:attribute name="infoblock">
         ${param.info}
     </jsp:attribute>
+    <jsp:attribute name="header">
+        Registration
+    </jsp:attribute>
     <jsp:attribute name="footer">
         <div align="center">
         <a href="<c:url value="/controller?action=index"/>">Back</a>
