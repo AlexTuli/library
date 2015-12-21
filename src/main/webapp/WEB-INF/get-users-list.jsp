@@ -8,10 +8,12 @@
     <jsp:attribute name="infoblock">
         ${param.info}
     </jsp:attribute>
+    <jsp:attribute name="header">
+        Users in library
+    </jsp:attribute>
 
     <jsp:body>
-        <div align="center"><p class="blue">Users in library:</p>
-
+        <div align="center">
             <c:forEach items="${users}" var="user">
             <p class="green">
                 <b>User login: </b><c:out value="${user.login}"/>

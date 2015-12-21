@@ -6,10 +6,13 @@
     <jsp:attribute name="infoblock">
         ${param.info}
     </jsp:attribute>
+    <jsp:attribute name="header">
+        Delete user from library
+    </jsp:attribute>
 
     <jsp:body>
         <div align="center">
-            <p class="blue">Delete user from library DB<br/> Enter user ID</p>
+            <p class="blue">Enter user ID</p>
             <form action="${pageContext.request.contextPath}/controller" method="post">
                 <input type="hidden" name="action" value="delete-user"/>
                 <p><input type="number" name="id" id="id" placeholder="Enter user ID"/></p>

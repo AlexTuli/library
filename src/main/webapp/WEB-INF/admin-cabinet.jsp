@@ -3,7 +3,6 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <t:centered title="Admin cabinet">
-
     <jsp:attribute name="infoblock">
             <b>${param.info}</b>
     </jsp:attribute>
@@ -11,18 +10,13 @@
         Welcome back, ${sessionScope.user.login}
     </jsp:attribute>
 
-
-
     <jsp:body>
         <div align="center">
-        <a class="aligned" href="${pageContext.request.contextPath}/controller?action=redirect-add-book">Add new book to library</a><br/>
-        <a class="aligned" href="${pageContext.request.contextPath}/controller?action=get-users-list">Get list of users</a><br/>
-        <a class="aligned" href="${pageContext.request.contextPath}/controller?action=redirect-notify">Notify user</a><br/>
-        <a class="aligned" href="${pageContext.request.contextPath}/controller?action=redirect-delete-user">Delete user</a><br/>
-        <a class="aligned" href="${pageContext.request.contextPath}/controller?action=redirect-promote-user">Promote user</a><br/>
+        <a class="aligned" href="${pageContext.request.contextPath}/controller?action=redirect-add-book">Add new book to library</a>
+        <a class="aligned" href="${pageContext.request.contextPath}/controller?action=get-users-list">Get list of users</a>
+        <a class="aligned" href="${pageContext.request.contextPath}/controller?action=redirect-notify">Notify user</a>
+        <a class="aligned" href="${pageContext.request.contextPath}/controller?action=redirect-delete-user">Delete user</a>
+        <a class="aligned" href="${pageContext.request.contextPath}/controller?action=redirect-promote-user">Promote user</a>
         </div>
     </jsp:body>
-
-
-
 </t:centered>

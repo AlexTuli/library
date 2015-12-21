@@ -1,25 +1,29 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--@elvariable id="subscription" type="com.epam.alex.task4.entity.Subscription"--%>
-<html>
-<head>
-    <title>Subscriptions</title>
-</head>
-<body>
-<%--TODO THIS IS NOT WORK IF SUBSCRIPTION IS HAVE NO BOOK FIX IT--%>
+<t:centered title="Subscription">
 
-<div align="center">
-    <h2>Your books:</h2>
-</div>
+    <jsp:attribute name="infoblock">
+        ${param.info}
+    </jsp:attribute>
+    <jsp:attribute name="header">
+        Your books
+    </jsp:attribute>
 
-    <div align="left">
-        -------------------------------------------------------------------------------------------<br/>
-        <c:forEach items="${subscription.bookList}" var="user">
-            <b>Book tittle: </b><c:out value="${user.title}"/>
-            <b>Book author: </b><c:out value="${user.author}"/>
-            <b>Book ID: </b><c:out value="${user.id}"/><br/>
-            -------------------------------------------------------------------------------------------<br/>
-        </c:forEach>
-    </div>
+    <jsp:body>
+        <div align="center">
+            <c:forEach items="${subscription.bookList}" var="book">
+                <p class="green"><b>Book tittle: </b><c:out value="${book.title}"/>
+                    <b>Book author: </b><c:out value="${book.author}"/>
+                    <b>Book ID: </b><c:out value="${book.id}"/></p>
+            </c:forEach>
+        </div>
+    </jsp:body>
 
-</body>
-</html>
+
+</t:centered>
+
+
+
+

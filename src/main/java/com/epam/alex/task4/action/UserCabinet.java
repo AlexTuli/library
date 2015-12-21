@@ -29,35 +29,7 @@ public class UserCabinet extends AbstractAction {
      */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        AbstractDao subscriptionDao = daoFactory.getDao("subscription");
-        User user = null;
-        log.debug("Starting to read subscription");
-        HttpSession session = request.getSession(false);
-        try {
-            user = (User) session.getAttribute("user");
-            log.debug("User get from session " + user.getLogin());
-        } catch (DaoException e) {
-            log.error("Can't read user from session :(", e);
-        }
-        if (user != null) {
-            log.debug("Starting to read subscription");
-            Subscription subscription = null;
-            try {
-                subscription = (Subscription) subscriptionDao.read(user.getId());
-                if (subscription != null) {
-                    log.debug("Subscription read successful! Set to attribute");
-                    log.info("Subscription books " + subscription.getBookList());
-                    request.setAttribute("subscription", subscription);
-                }
-            } catch (DaoException e) {
-                log.debug("Subscription is empty");
-            }
-        } else {
-            log.error("LOG00010: user is null, can't read subscription");
-        }
-//        // TODO: 12/13/15 Implement notification
-//        AbstractDao notificationDao = daoFactory.getDao("notification");
-//        AbstractEntity read = notificationDao.read(user.getId());
+
         log.info("Authorize complete!");
         return request.getContextPath() + "/WEB-INF/user-cabinet.jsp";
     }

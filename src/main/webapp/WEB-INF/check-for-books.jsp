@@ -5,14 +5,17 @@
 
 <t:centered title="Book in library">
 
+    <jsp:attribute name="header">
+        Books in library
+    </jsp:attribute>
+
     <jsp:body>
-        <div align="center"><p class="blue">Books in library:</p></div>
         <div class="center">
             <c:forEach items="${books}" var="book">
                 <p class="green">
-                <b>Book tittle: </b><c:out value="${book.title}"/>
-                <b>Book author: </b><c:out value="${book.author}"/>
-                <b>Book ID: </b><c:out value="${book.id}"/>
+                    <b>Book tittle: </b><c:out value="${book.title}"/>
+                    <b>Book author: </b><c:out value="${book.author}"/>
+                    <b>Book ID: </b><c:out value="${book.id}"/>
                 </p>
             </c:forEach>
         </div>

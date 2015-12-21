@@ -43,6 +43,7 @@ public class ActionFactory {
         actionMap.put("delete-user", new DeleteUser(daoFactory));
         actionMap.put("redirect-promote-user", new RedirectToPromoteUser(daoFactory));
         actionMap.put("promote-user", new PromoteUser(daoFactory));
+        actionMap.put("redirect-subscriptions", new RedirectToSubcription(daoFactory));
     }
 
     public static ActionFactory getInstance() {

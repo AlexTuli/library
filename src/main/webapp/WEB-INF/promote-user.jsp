@@ -6,6 +6,9 @@
        <jsp:attribute name="infoblock">
            ${param.info}
        </jsp:attribute>
+    <jsp:attribute name="header">
+        Promote user
+    </jsp:attribute>
 
     <jsp:body>
         <div align="center">

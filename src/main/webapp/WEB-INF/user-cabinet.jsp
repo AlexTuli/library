@@ -1,30 +1,32 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html>
-<head>
-    <title>Main page</title>
-</head>
-<body>
-
-<div align="center">Hello, ${sessionScope.user.login}</div>
-<!--<div align="center">Your messages:</div>-->
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 
-<%@ include file="/WEB-INF/subscriptions.jsp" %>
+<t:centered title="User cabinet">
+    <jsp:attribute name="infoblock">
+        ${param.notification}
+    </jsp:attribute>
+    <jsp:attribute name="header">
+        Hello, ${sessionScope.user.login}
+    </jsp:attribute>
+    <jsp:body>
+        <div align="center">
+            <a class="aligned" href="${pageContext.request.contextPath}/controller?action=redirect-subscriptions">Look at my books</a>
+            <a class="aligned" href="${pageContext.request.contextPath}/controller?action=redirect-to-request-for-book">Request for a new book</a>
+            <a class="aligned" href="${pageContext.request.contextPath}/controller?action=redirect-to-return-book">Return old book</a>
+            <a class="aligned" href="${pageContext.request.contextPath}/controller?action=check-books">Get list books in library</a>
+
+        </div>
+    </jsp:body>
 
 
-<div><a href="${pageContext.request.contextPath}/controller?action=redirect-to-request-for-book">Request for a new book</a>
-</div>
-<div><a href="${pageContext.request.contextPath}/controller?action=redirect-to-return-book">Return old book</a></div>
 
-<div align="center">
-    <a href="${pageContext.request.contextPath}/controller?action=check-books">Get list books in library</a>
-</div>
-
-<div>Your notification:</div>
-<%--TODO Implement notification--%>
-<h1><div align="center"> ${param.notification}</div></h1>
+</t:centered>
 
 
-</body>
-</html>
+
+
+
+
+

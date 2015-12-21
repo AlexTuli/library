@@ -25,7 +25,7 @@
             <p> <input type="text" name="login" id="login" placeholder="Enter login"/></p>
             <p class="blue">Enter password </p>
             <p><input type="password" name="password" id="password" placeholder="Enter password"/></p>
-            <input type="submit" value="Login" size="100"/>
+            <input type="submit" value="Login"/>
         </form>
         </div>
     </jsp:body>
