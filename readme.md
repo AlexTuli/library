@@ -11,15 +11,8 @@ Show list of books in subscription. +
 Login +
 Registration. +
 Request for new book.+
-
 Return old book++.
-
 See notification-
-
-
-
-
-
 
 2) ADMINISTRATION:
 
@@ -27,18 +20,16 @@ Add new book to library++
 Get list of users ++
 Notify users +
 Delete users +
-Make somebody administrator
-
+Make somebody administrator +
 
 ### To-Do
 ------------------
-1) listener, auto-return connection after user log-out(or session die)
+listener, auto-return connection after user log-out(or session die)
 
 Encoding
 
 Do not allow to enter without session on admin/user pages (filter)
 
-5) Release USE CASES
-
-7) ADD COMMENTS!
+ADD COMMENTS!
+Refactor code
 

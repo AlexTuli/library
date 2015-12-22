@@ -79,12 +79,16 @@ public abstract class AbstractDao<T extends AbstractEntity> {
             logger.error("Received more than one record.");
             throw new DaoException();
         }
-        if (result.iterator().next() == null || result.size() == 0) {
+        if (result.isEmpty()){
+            logger.error("Record not found");
+            throw new DaoException();
+        }
+        if (result.get(0)== null) {
             logger.error("Record not found");
             throw new DaoException();
         }
         logger.info("Return result");
-        return result.iterator().next();
+        return result.get(0);
     }
 
     public T read(T t) throws DaoException {

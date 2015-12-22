@@ -28,7 +28,7 @@ public class SessionListener implements HttpSessionListener {
 
     public void sessionDestroyed(HttpSessionEvent se) {
       /* Session is destroyed. */
-        //todo Return connection to CP
+        //todo Return connection to connection pool
     }
 
 }

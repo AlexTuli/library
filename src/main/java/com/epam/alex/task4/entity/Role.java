@@ -7,7 +7,8 @@ package com.epam.alex.task4.entity;
  */
 public class Role extends AbstractEntity {
 
-    int id;
+    public static final String ADMIN = "ADMINISTRATOR";
+    public static final String USER = "USER";
 
     String role;
 
@@ -19,22 +20,17 @@ public class Role extends AbstractEntity {
         this.role = role;
     }
 
+    public Role(String role, int id) {
+        super(id);
+        this.role = role;
+    }
+
     public String getRole() {
         return role;
     }
 
     public void setRole(String role) {
         this.role = role;
-    }
-
-    @Override
-    public int getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(int id) {
-        this.id = id;
     }
 
     @Override

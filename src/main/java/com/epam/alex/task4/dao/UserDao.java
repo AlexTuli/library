@@ -84,12 +84,23 @@ public class UserDao extends AbstractDao<User> {
 
     @Override
     protected String getUpdateQuery() {
-        return null;
+        return "UPDATE USER SET NAME = ?, ROLE_ID = ? WHERE ID LIKE ?;";
     }
 
     @Override
-    protected PreparedStatement setFieldsInUpdateStatement(PreparedStatement statement, User entity) {
-        return null;
+    protected PreparedStatement setFieldsInUpdateStatement(PreparedStatement statement, User user) {
+        try {
+            log.debug("Set name " + user.getLogin());
+            statement.setString(1, user.getLogin());
+            log.debug("Set role" + user.getRole().getRole());
+            statement.setInt(2, user.getRole().getId());
+            log.debug("In user with ID " + user.getId());
+            statement.setInt(3, user.getId());
+        } catch (SQLException e) {
+            log.error("Can't set fields in update statement UserDAO");
+            throw new DaoException(e);
+        }
+        return statement;
     }
 
     @Override
