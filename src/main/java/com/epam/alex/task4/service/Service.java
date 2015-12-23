@@ -1,5 +1,6 @@
-package com.epam.alex.task4.servicer;
+package com.epam.alex.task4.service;
 
+import com.epam.alex.task4.entity.User;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +33,16 @@ public final class Service {
         }
         return id;
     }
+
+    /**
+     * Get attribute user from session
+     * @return
+     */
+    public static User getUserFromSession(HttpServletRequest request) {
+        User user;
+        return user = (User) request.getSession(false).getAttribute("user");
+    }
+
 
 
 }

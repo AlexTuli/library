@@ -14,7 +14,15 @@ import java.util.Map;
 public class RoleFactory {
 
     private static final RoleFactory INSTANCE = new RoleFactory();
-    private Map<String, Role> roleMap;    
+
+    /**
+     * Contains cached Roles
+     */
+    private Map<String, Role> roleMap;
+
+    /**
+     * Read ID of role from property
+     */
     PropertyReader propertyReader;
 
 
@@ -33,10 +41,18 @@ public class RoleFactory {
         return INSTANCE;
     }
 
+    /**
+     * Return Admin role
+     * @return Admin role
+     */
     public Role getAdminRole() {
         return roleMap.get("admin");
     }
 
+    /**
+     * Return role of User
+     * @return User role
+     */
     public Role getUserRole() {
         return roleMap.get("user");
     }

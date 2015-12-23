@@ -1,6 +1,7 @@
 package com.epam.alex.task4.dao;
 
 import com.epam.alex.task4.entity.Role;
+import com.epam.alex.task4.entity.RoleFactory;
 import com.epam.alex.task4.entity.User;
 import org.apache.log4j.Logger;
 
@@ -123,6 +124,7 @@ public class UserDao extends AbstractDao<User> {
     @Override
     protected List<User> parseResultSet(ResultSet resultSet) {
         List<User> users = new ArrayList<>();
+        RoleFactory roleFactory = RoleFactory.getInstance();
         try {
             while (resultSet.next()) {
                 log.debug("Create new user");
@@ -131,12 +133,14 @@ public class UserDao extends AbstractDao<User> {
                 user.setId(resultSet.getInt("ID"));
                 log.debug("Set login to user");
                 user.setLogin(resultSet.getString("NAME"));
-                log.debug("Create new role");
-                Role role = new Role();
                 log.debug("Set role to Role");
-                role.setRole(resultSet.getString("ROLE"));
-                log.debug("Set role to User");
-                user.setRole(role);
+                String roleString = resultSet.getString("ROLE");
+
+
+                log.debug("Set role to user");
+                if (roleString.equalsIgnoreCase("ADMINISTRATOR")) user.setRole(roleFactory.getAdminRole());
+                else if (roleString.equalsIgnoreCase("USER")) user.setRole(roleFactory.getUserRole());
+                else throw new DaoException("User have no role");
                 log.debug("Add user to collection");
                 users.add(user);
             }

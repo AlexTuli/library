@@ -1,5 +1,7 @@
 package com.epam.alex.task4.dao;
 
+import com.epam.alex.task4.entity.Subscription;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -12,7 +14,7 @@ import java.util.Map;
  */
 public class DaoFactory {
 
-
+//    private static final String SUBSCRIPTION_CLASS_NAME = Subscription.class.getName();
     private Connection connection;
     private Map<String, AbstractDao> daoMap;
 
@@ -31,6 +33,8 @@ public class DaoFactory {
         return daoMap.get(name);
     }
 
+    //// TODO: 12/23/15 Get dao by dao.class, not by string
+
     public void startTransaction() throws SQLException {
         connection.setAutoCommit(false);
     }
@@ -47,5 +51,8 @@ public class DaoFactory {
         connection.setAutoCommit(true);
     }
 
+    /* getDao(Class clazz)
+      * clazz.getName();
+       * return */
 
 }

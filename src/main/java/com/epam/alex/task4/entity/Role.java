@@ -37,16 +37,18 @@ public class Role extends AbstractEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
         Role role1 = (Role) o;
 
         return role.equals(role1.role);
-
     }
 
     @Override
     public int hashCode() {
-        return role.hashCode();
+        int result = super.hashCode();
+        result = 31 * result + role.hashCode();
+        return result;
     }
 
     @Override

@@ -104,9 +104,17 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
                 }
                 log.debug("Creating new book");
                 Book book = new Book();
-                book.setTitle(resultSet.getString(1));
-                book.setAuthor(resultSet.getString(2));
-                book.setId(resultSet.getInt(3));
+                try {
+                    book.setTitle(resultSet.getString("AUTHOR"));
+                } catch (SQLException e) {
+                    book.setTitle(null);
+                }
+                try {
+                    book.setAuthor(resultSet.getString("TITLE"));
+                } catch (SQLException e) {
+                    book.setAuthor(null);
+                }
+                book.setId(resultSet.getInt("ID"));
                 log.debug("Book: " + book.getId() + " adding to subscription");
                 if (subscription != null) {
                     subscription.addBook(book);

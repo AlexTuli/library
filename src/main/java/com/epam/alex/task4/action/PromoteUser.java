@@ -6,10 +6,9 @@ import com.epam.alex.task4.dao.DaoFactory;
 import com.epam.alex.task4.entity.Role;
 import com.epam.alex.task4.entity.RoleFactory;
 import com.epam.alex.task4.entity.User;
-import com.epam.alex.task4.servicer.Service;
+import com.epam.alex.task4.service.Service;
 import org.apache.log4j.Logger;
 
-import javax.management.RuntimeErrorException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 

@@ -40,6 +40,13 @@ public class Subscription extends AbstractEntity {
         bookList.add(book);
     }
 
+    public boolean contains(Book book){
+        for (Book bookInList : bookList) {
+            if (book.getId() == bookInList.getId()) return true;
+        }
+        return  false;
+    }
+
     public User getUser() {
         return user;
     }
