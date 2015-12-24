@@ -28,8 +28,7 @@ public class ActionFactory {
         actionMap.put("admin-cabinet", new AdminCabinet(daoFactory));
         actionMap.put("registration", new RedirectToRegisterUser(daoFactory));
         actionMap.put("registration-user", new RegisteredUser(daoFactory));
-        actionMap.put("create-subscription", new CreateSubscription(daoFactory));
-        actionMap.put("create-subscription", new CreateSubscription(daoFactory));
+        actionMap.put("create-subscription", new CreateSubscription(daoFactory)); //WTF
         actionMap.put("request-for-book", new RequestForBook(daoFactory));
         actionMap.put("redirect-to-request-for-book", new RedirectToRequestForBook(daoFactory));
         actionMap.put("redirect-to-return-book", new RedirectToReturnBook(daoFactory));
