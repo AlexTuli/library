@@ -48,39 +48,49 @@ public class SecurityFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
         User userFromSession = Service.getUserFromSession(request);
+        String actionName = getActionName(request);
+        Role role;
+
         if (userFromSession == null){
             log.debug("User is not in session yet");
-            chain.doFilter(req, resp);
+            role = new Role("Anonymous");
+        } else {
+            role = userFromSession.getRole();
+            log.info("User is " + userFromSession);
+        }
+        if (accessor.isAllowed(actionName, role)) {
+            log.debug("Access to " + actionName + " to " + role + " granted");
+        } else {
+            log.debug("Access denied to " + role + " for action " + actionName);
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            chain.doFilter(req, response);
             return;
         }
-        Role role = userFromSession.getRole();
-        log.info("User is " + userFromSession);
-        RoleFactory roleFactory = RoleFactory.getInstance();
-        String servletPath = request.getRequestURI();
-        log.info("Servlet path is " + servletPath);
-        String actionName = getActionName(request);
-        if (role.equals(roleFactory.getAdminRole())) {
-            if (allowedActionsAdmin.contains(actionName)) {
-                log.info("Access granted to " + actionName);
-                //Do nothing just let enter
-            } else {
-                log.info("Access denied to " + actionName);
-                response.sendError(HttpServletResponse.SC_FORBIDDEN);
-                return;
-            }
-            log.debug("It's admin here!");
-        } else if (role.equals(roleFactory.getUserRole())) {
-            if (accessor.isAllowed(actionName, role)) {
-                log.info("Access granted to " + actionName);
-            } else {
-                log.info("Access denied to " + actionName);
-                response.sendError(HttpServletResponse.SC_FORBIDDEN);
-                return;
-            }
-            log.debug("It's user here!");
-        } else {
-            log.debug("It's anonymous");
-        }
+
+//        if (role.equals(roleFactory.getAdminRole())) {
+//            if (accessor.isAllowed(actionName, role)) {
+//                log.info("Access granted to " + actionName);
+//                //Do nothing just let enter
+//            } else {
+//                log.info("Access denied to " + actionName);
+//                response.sendError(HttpServletResponse.SC_FORBIDDEN);
+//                chain.doFilter(req, resp);
+//                return;
+//            }
+//            log.debug("It's admin here!");
+//        } else if (role.equals(roleFactory.getUserRole())) {
+//            if (accessor.isAllowed(actionName, role)) {
+//                log.info("Access granted to " + actionName);
+//            } else {
+//                log.info("Access denied to " + actionName);
+//                response.sendError(HttpServletResponse.SC_FORBIDDEN);
+//                chain.doFilter(req, resp);
+//                return;
+//            }
+//            log.debug("It's user here!");
+//        } else {
+//            log.debug("It's anonymous");
+//        }
 
         chain.doFilter(req, resp);
     }

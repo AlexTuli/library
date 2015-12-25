@@ -3,8 +3,8 @@ package com.epam.alex.task4.servlet;
 import com.epam.alex.task4.entity.Role;
 
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by AlexTuli on 12/24/15.
@@ -21,16 +21,16 @@ public final class Accessor {
 
     private List<String> allowedActionsAnonymous;
 
-    Map<String, String> aMap;
-
-
-
     private Accessor() {
+        allowedActionsAdmin = new ArrayList<>();
+        allowedActionsUser = new ArrayList<>();
+        allowedActionsAnonymous = new ArrayList<>();
         allowedActionsAnonymous.add("index");
         allowedActionsAnonymous.add("authorize");
         allowedActionsAnonymous.add("check-books");
         allowedActionsAnonymous.add("registration");
         allowedActionsAnonymous.add("registration-user");
+        allowedActionsUser.addAll(allowedActionsAnonymous);
         allowedActionsUser.add("user-cabinet");
         allowedActionsUser.add("request-for-book");
         allowedActionsUser.add("redirect-to-request-for-book");
@@ -38,8 +38,17 @@ public final class Accessor {
         allowedActionsUser.add("return-book");
         allowedActionsUser.add("return-book");
         allowedActionsUser.add("redirect-subscriptions");
+        allowedActionsAdmin.addAll(allowedActionsAnonymous);
         allowedActionsAdmin.add("redirect-delete-user");
+        allowedActionsAdmin.add("get-users-list");
+        allowedActionsAdmin.add("redirect-promote-user");
         allowedActionsAdmin.add("admin-cabinet");
+        allowedActionsAdmin.add("delete-user");
+        allowedActionsAdmin.add("redirect-notify");
+        allowedActionsAdmin.add("create-notification");
+        allowedActionsAdmin.add("promote-user");
+        allowedActionsAdmin.add("add-book");
+        allowedActionsAdmin.add("redirect-add-book");
     }
 
     public static Accessor getInstance() {

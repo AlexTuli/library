@@ -19,7 +19,6 @@ import javax.servlet.http.HttpSession;
 public class Authorize extends AbstractAction {
 
     private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(Authorize.class);
-    private static final Logger logger = Logger.getLogger(Authorize.class);
 
     public Authorize(DaoFactory factory) {
         super(factory);

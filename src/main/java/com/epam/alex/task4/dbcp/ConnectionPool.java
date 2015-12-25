@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 public class ConnectionPool {
 
     private static final ConnectionPool INSTANCE = new ConnectionPool();
-    public static final String MY_LIBRARY_URL = "jdbc:h2:tcp://127.0.0.1/~/temp/library/myLibrary";
+    public static final String MY_LIBRARY_URL = "jdbc:h2:tcp://127.0.0.1/~/H2-db/myLibrary";
     public static final String USER_NAME = "sa";
     public static final String PASSWORD = "sa";
     private BlockingQueue<Connection> connections;
