@@ -95,16 +95,16 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
                     subscription = new Subscription();
                     subscription.setId(id);
                 } else  {
-                    int id = resultSet.getInt(4);
-                    log.debug("ID of current subscription is " + id);
-                    if (temp != id) { // If id of new subscription != id previous subscription, create new subscription, need to readAll()
-                        temp = id;
+                    int subscriptionId = resultSet.getInt(1);
+                    log.debug("ID of current subscription is " + subscriptionId);
+                    if (temp != subscriptionId) { // If id of new subscription != id previous subscription, create new subscription, need to readAll()
+                        temp = subscriptionId;
                         if (subscription != null) {
                             result.add(subscription);
                         }
                         subscription = new Subscription();
                         log.debug("Set ID to subscription");
-                        subscription.setId(id);
+                        subscription.setId(subscriptionId);
                     }
                     log.debug("Creating new book");
                     Book book = new Book();
@@ -120,7 +120,7 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
                         log.warn("Title is null");
                         book.setAuthor(null);
                     }
-                    book.setId(resultSet.getInt("ID"));
+                    book.setId(resultSet.getInt(4));
                     log.debug("Book: " + book.getId() + " adding to subscription");
                     if (subscription != null) {
                         subscription.addBook(book);
@@ -169,8 +169,6 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
 
     /**
      * SQL query to delete one book from subscription
-     *
-     * @return
      */
     @Override
     protected String getDeleteQuery() {

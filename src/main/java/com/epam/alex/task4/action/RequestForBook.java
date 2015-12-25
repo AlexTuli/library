@@ -3,6 +3,7 @@ package com.epam.alex.task4.action;
 import com.epam.alex.task4.dao.AbstractDao;
 import com.epam.alex.task4.dao.DaoException;
 import com.epam.alex.task4.dao.DaoFactory;
+import com.epam.alex.task4.dao.SubscriptionDao;
 import com.epam.alex.task4.entity.Book;
 import com.epam.alex.task4.entity.Subscription;
 import com.epam.alex.task4.entity.User;
@@ -32,7 +33,6 @@ public class RequestForBook extends AbstractAction {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
-        // TODO: 12/14/15 Don't allow to add book twice
         log.info("Start to adding book to subscription...");
         int id = Service.getId(request);
         if (id <= 0) {
@@ -46,35 +46,37 @@ public class RequestForBook extends AbstractAction {
 
         // Here we read subscription ID of current user to set for update query
         log.debug("Get subscriptionDao");
-        AbstractDao subscriptionDao = daoFactory.getDao("subscription");
+        SubscriptionDao subscriptionDao = (SubscriptionDao) daoFactory.getDao("subscription");
         log.debug("Get user from session");
         User user = Service.getUserFromSession(request);
         log.debug("Read subscription from DB");
-        Subscription readSubscription = null;
+        Subscription readSubscription;
         subscription.setUser(user);
+
+        //Check that user have no book already
         try {
-            readSubscription = (Subscription) subscriptionDao.read(subscription); //Should read only ID of subscription, without books in them
+            readSubscription = subscriptionDao.read(user.getId());
+            if (readSubscription.contains(book)) {
+                log.warn("User already have this book");
+                return "redirect:redirect-to-request-for-book&info=You already have this book";
+            }
         } catch (DaoException e) {
-            log.debug("Subscription doesn't exist, create new");
+            log.debug("Subscription have no books");
         }
-        int idSubscription;
-        if (readSubscription != null) {
-            idSubscription = readSubscription.getId();
-        } else {
-            log.error("Subscription is null");
-            return "redirect:redirect-to-request-for-book&info=Can't read subscription";
-        }
-        log.debug("Set User ID to subscription");
+
+        int idSubscription = user.getSubscription().getId();
+        log.debug("Set subscription ID to subscription");
         subscription.setId(idSubscription);
 
         log.debug("Updating subscription");
+
         try {
             startTransaction();
             subscriptionDao.update(subscription);
         } catch (DaoException e) {
             log.error("Update failed", e);
             rollback();
-            return "redirect:redirect-to-request-for-book&info=Incorrect book ID";
+            return "redirect:redirect-to-request-for-book&info=Can't update subscription";
         }
 
         commit();

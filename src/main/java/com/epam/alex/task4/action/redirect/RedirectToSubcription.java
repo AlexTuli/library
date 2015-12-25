@@ -25,7 +25,6 @@ public class RedirectToSubcription extends AbstractAction {
         super(factory);
     }
 
-    // TODO: 12/21/15 FIX IT
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         AbstractDao subscriptionDao = daoFactory.getDao("subscription");

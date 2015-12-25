@@ -1,13 +1,11 @@
 package com.epam.alex.task4.dao;
 
 import com.epam.alex.task4.entity.RoleFactory;
+import com.epam.alex.task4.entity.Subscription;
 import com.epam.alex.task4.entity.User;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +41,7 @@ public class UserDao extends AbstractDao<User> {
 
     @Override
     protected String getReadQuery() {
-        return "SELECT * FROM USER INNER JOIN ROLE ON USER.ROLE_ID = ROLE.ID WHERE USER.ID LIKE ?";
+        return "SELECT * FROM USER INNER JOIN ROLE ON USER.ROLE_ID = ROLE.ID INNER JOIN SUBSCRIPTION ON USER.ID = SUBSCRIPTION.USER_ID WHERE USER.ID LIKE ?";
     }
 
     @Override
@@ -59,9 +57,10 @@ public class UserDao extends AbstractDao<User> {
 
     @Override
     protected String getReadByEntityQuery() {
-        return "SELECT * FROM USER INNER JOIN ROLE ON USER.ROLE_ID = ROLE.ID\n" +
+        return "SELECT * FROM USER " +
+                "INNER JOIN ROLE ON USER.ROLE_ID = ROLE.ID\n" +
+                "INNER JOIN SUBSCRIPTION ON USER.ID = SUBSCRIPTION.USER_ID\n" +
                 "WHERE NAME LIKE ? AND PASSWORD LIKE ?\n";
-//                "SELECT * FROM USER WHERE NAME LIKE ? AND PASSWORD LIKE ?";
     }
 
     @Override
@@ -125,6 +124,11 @@ public class UserDao extends AbstractDao<User> {
         List<User> users = new ArrayList<>();
         RoleFactory roleFactory = RoleFactory.getInstance();
         try {
+            ResultSetMetaData metaData = resultSet.getMetaData();
+            log.debug(metaData.getColumnCount());
+        } catch (SQLException ignored) {
+        }
+        try {
             while (resultSet.next()) {
                 log.debug("Create new user");
                 User user = new User();
@@ -134,12 +138,16 @@ public class UserDao extends AbstractDao<User> {
                 user.setLogin(resultSet.getString("NAME"));
                 log.debug("Set role to Role");
                 String roleString = resultSet.getString("ROLE");
-
-
                 log.debug("Set role to user");
+                Subscription subscription = new Subscription();
+                log.debug("Set ID to subscription");
+                subscription.setId(resultSet.getInt(7));
+                log.debug("Set subscription to user");
+                user.setSubscription(subscription);
                 if (roleString.equalsIgnoreCase("ADMINISTRATOR")) user.setRole(roleFactory.getAdminRole());
                 else if (roleString.equalsIgnoreCase("USER")) user.setRole(roleFactory.getUserRole());
                 else throw new DaoException("User have no role");
+
                 log.debug("Add user to collection");
                 users.add(user);
             }
