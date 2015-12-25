@@ -4,10 +4,7 @@ import com.epam.alex.task4.entity.Book;
 import com.epam.alex.task4.entity.Subscription;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,42 +79,52 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
                 "ORDER BY SUBSCRIPTION_ID";
     }
 
-    // TODO: 12/19/15 IF HAVE NO BOOKS, THIS RETURN null, but have to return ID
     @Override
     protected List<Subscription> parseResultSet(ResultSet resultSet) {
         List<Subscription> result = new ArrayList<>();
         try {
             int temp = -1; // Negative ID doesn't used in DB
             Subscription subscription = null;
+            ResultSetMetaData metaData = resultSet.getMetaData();
+            int columnCount = metaData.getColumnCount();
+            log.debug("Column count is " + columnCount);
             while (resultSet.next()) {
-                int id = resultSet.getInt(4);
-                log.debug("ID of current subscription is " + id);
-                // If id of new subscription != id previous subscription, create new subscription, need to readAll()
-                if (temp != id) {
-                    temp = id;
-                    if (subscription != null) {
-                        result.add(subscription);
-                    }
+                if (columnCount == 1) {
+                    log.debug("Get ID from rs");
+                    int id = resultSet.getInt(1);
                     subscription = new Subscription();
-                    log.debug("Set ID to subscription");
                     subscription.setId(id);
-                }
-                log.debug("Creating new book");
-                Book book = new Book();
-                try {
-                    book.setTitle(resultSet.getString("AUTHOR"));
-                } catch (SQLException e) {
-                    book.setTitle(null);
-                }
-                try {
-                    book.setAuthor(resultSet.getString("TITLE"));
-                } catch (SQLException e) {
-                    book.setAuthor(null);
-                }
-                book.setId(resultSet.getInt("ID"));
-                log.debug("Book: " + book.getId() + " adding to subscription");
-                if (subscription != null) {
-                    subscription.addBook(book);
+                } else  {
+                    int id = resultSet.getInt(4);
+                    log.debug("ID of current subscription is " + id);
+                    if (temp != id) { // If id of new subscription != id previous subscription, create new subscription, need to readAll()
+                        temp = id;
+                        if (subscription != null) {
+                            result.add(subscription);
+                        }
+                        subscription = new Subscription();
+                        log.debug("Set ID to subscription");
+                        subscription.setId(id);
+                    }
+                    log.debug("Creating new book");
+                    Book book = new Book();
+                    try {
+                        book.setTitle(resultSet.getString("AUTHOR"));
+                    } catch (SQLException e) {
+                        log.warn("Author is null");
+                        book.setTitle(null);
+                    }
+                    try {
+                        book.setAuthor(resultSet.getString("TITLE"));
+                    } catch (SQLException e) {
+                        log.warn("Title is null");
+                        book.setAuthor(null);
+                    }
+                    book.setId(resultSet.getInt("ID"));
+                    log.debug("Book: " + book.getId() + " adding to subscription");
+                    if (subscription != null) {
+                        subscription.addBook(book);
+                    }
                 }
             }
             log.debug("Add subscription to result");
@@ -129,9 +136,11 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
         return result;
     }
 
+    /**
+     * Does not required yet
+     */
     @Override
     protected int parseGeneratedKeys(ResultSet generatedKeys) {
-
         return 0;
     }
 
@@ -182,107 +191,4 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
         }
         return statement;
     }
-
 }
-
-//    public static final String MY_LIBRARY_URL = "jdbc:h2:~/temp/library/myLibrary";
-//
-//    public static final String READ_SUBSCRIPTION = "SELECT BOOK.TITLE, BOOK.AUTHOR, BOOK_ID FROM\n" +
-//            "(SELECT * FROM\n" +
-//            "(SELECT SUBSCRIPTION.ID\n" +
-//            "FROM USER\n" +
-//            "INNER JOIN SUBSCRIPTION ON USER_ID = USER.ID\n" +
-//            "WHERE USER_ID LIKE ?)\n" +
-//            "INNER JOIN SUBSCRIPTION_BOOK WHERE ID LIKE SUBSCRIPTION_BOOK.SUBSCRIPTION_ID)\n" +
-//            "INNER JOIN BOOK ON BOOK_ID = BOOK.ID;";
-//
-//    public static final String CREATE_SUBSCRIPTION = "INSERT INTO SUBSCRIPTION (ID, USER_ID) " +
-//            "VALUES (DEFAULT , ?)";
-//
-//    public static final String DELETE_BOOK = "DELETE FROM SUBSCRIPTION_BOOK " +
-//            "WHERE SUBSCRIPTION_ID LIKE ? AND BOOK_ID LIKE ?";
-//
-//
-//    static {
-//        try {
-//            Class.forName("org.h2.Driver");
-//        } catch (ClassNotFoundException e) {
-//            throw new DaoException("Trouble in SubscriptionDAO", e);
-//        }
-//    }
-//
-//    public Subscription read(User user) {
-//
-//        Subscription result = new Subscription();
-//
-//        try (Connection connection = DriverManager.getConnection(MY_LIBRARY_URL, "sa", "sa")) {
-//
-//            PreparedStatement preparedStatement = connection.prepareStatement(READ_SUBSCRIPTION);
-//            preparedStatement.setInt(1, user.getId());
-//
-//            preparedStatement.execute();
-//
-//            ResultSet resultSet = preparedStatement.getResultSet();
-//
-//            while (resultSet.next()) {
-//                BookDao bookDao = new BookDao();
-//                result.addBook(bookDao.read(resultSet.getInt("BOOK_ID")));
-//            }
-//
-//        } catch (SQLException e) {
-//            throw new DaoException("Trouble in SubscriptionDAO", e);
-//        }
-//        return result;
-//    }
-//
-//    public void insert(Subscription subscription) {
-//
-//
-//    }
-//
-//    *
-//     * Update subscription in DB
-//     *
-//     * @param subscription - subscribe of User
-//     * @return - subscribe of User
-//
-//    public Subscription update(Subscription subscription) {
-//
-//
-//        // TODO FINISH THAT
-//        try (Connection connection = DriverManager.getConnection(MY_LIBRARY_URL, "sa", "sa")) {
-//            Subscription current = read(subscription.getUser());
-//            if (!current.equals(subscription)) {
-//                PreparedStatement updateSubscription = connection.prepareStatement("");
-//
-//                BOOK_ID
-//                IF (!contains) add to subsc
-//
-//
-//            }
-//        } catch (SQLException e) {
-//            throw new DaoException("Trouble in SubscriptionDAO", e);
-//        }
-//
-//        return subscription;
-//
-//    }
-//
-//    *
-//     * Create empty subscription
-//     *
-//     * @param subscription - subscription of User
-//
-//    public void create(Subscription subscription) {
-//
-//        try (Connection connection = DriverManager.getConnection(MY_LIBRARY_URL, "sa", "sa")) {
-//
-//            PreparedStatement createSubscription = connection.prepareStatement(CREATE_SUBSCRIPTION);
-//            createSubscription.setInt(1, subscription.getUser().getId());
-//            createSubscription.execute();
-//
-//        } catch (SQLException e) {
-//            throw new DaoException("Error in create SubscriptionDAO", e);
-//        }
-//    }
-

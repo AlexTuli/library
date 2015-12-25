@@ -10,7 +10,7 @@
     </jsp:attribute>
 
     <jsp:body>
-        <div align="center">${param.info}
+        <div align="center">
             <form action="${pageContext.request.contextPath}/controller" method="post">
                 <input type="hidden" name="action" value="request-for-book"/>
                 <p class="blue">Enter book ID</p>

@@ -56,7 +56,6 @@ public class SecurityFilter implements Filter {
         } else {
             log.debug("Access denied to " + role + " for action " + actionName);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-            chain.doFilter(req, response);
             return;
         }
         chain.doFilter(req, resp);

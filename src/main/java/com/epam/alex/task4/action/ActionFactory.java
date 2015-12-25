@@ -2,7 +2,6 @@ package com.epam.alex.task4.action;
 
 import com.epam.alex.task4.action.redirect.*;
 import com.epam.alex.task4.dao.DaoFactory;
-import com.epam.alex.task4.dbcp.ConnectionPool;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +18,7 @@ public class ActionFactory {
     private static Map<String, Action> actionMap;
 
     private ActionFactory() {
-        daoFactory = new DaoFactory(ConnectionPool.getInstance().getConnection());
+        daoFactory = DaoFactory.getInstance();
         actionMap = new HashMap<>();
         actionMap.put("check-books", new CheckBooks(daoFactory));
         actionMap.put("index", new ToIndex(daoFactory));

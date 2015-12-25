@@ -24,8 +24,6 @@ Make somebody administrator +
 
 ### To-Do
 ------------------
-listener, auto-return connection after user log-out(or session die)
-
 ADD COMMENTS!
 Refactor code
 

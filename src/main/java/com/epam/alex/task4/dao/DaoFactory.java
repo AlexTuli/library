@@ -1,5 +1,7 @@
 package com.epam.alex.task4.dao;
 
+import com.epam.alex.task4.dbcp.ConnectionPool;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -12,13 +14,14 @@ import java.util.Map;
  */
 public class DaoFactory {
 
-    //    private static final String SUBSCRIPTION_CLASS_NAME = Subscription.class.getName();
+    private static final DaoFactory INSTANCE = new DaoFactory();
     private Connection connection;
     private Map<String, AbstractDao> daoMap;
 
-    // todo make DaoFactory singleton and delete Map
-    public DaoFactory(Connection connection) {
-        this.connection = connection;
+
+    private DaoFactory() {
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        connection = connectionPool.getConnection();
         daoMap = new HashMap<>();
         daoMap.put("book", new BookDao(connection, this));
         daoMap.put("notification", new NotificationDao(connection, this));
@@ -30,8 +33,6 @@ public class DaoFactory {
     public AbstractDao getDao(String name) {
         return daoMap.get(name);
     }
-
-    //// TODO: 12/23/15 Get dao by dao.class, not by string
 
     public void startTransaction() throws SQLException {
         connection.setAutoCommit(false);
@@ -49,8 +50,7 @@ public class DaoFactory {
         connection.setAutoCommit(true);
     }
 
-    /* getDao(Class clazz)
-      * clazz.getName();
-       * return */
-
+    public static DaoFactory getInstance() {
+        return INSTANCE;
+    }
 }
