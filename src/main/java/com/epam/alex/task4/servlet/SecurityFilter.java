@@ -23,12 +23,11 @@ import java.util.List;
 @WebFilter(filterName = "SecurityFilter", urlPatterns = "/controller")
 public class SecurityFilter implements Filter {
 
-    private static final String PARAMETER_ACTION = "action";
 
     private static final Logger log = Logger.getLogger(SecurityFilter.class);
 
     public void destroy() {
-        log.info("Filter destroyed");
+        log.info("Security filter destroyed");
     }
 
     /**
@@ -36,19 +35,17 @@ public class SecurityFilter implements Filter {
      */
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
 
-        List<String> allowedActionsAdmin = new ArrayList<>();
-        allowedActionsAdmin.add("redirect-delete-user");
-        allowedActionsAdmin.add("admin-cabinet");
-        allowedActionsAdmin.add("redirect-delete-user");
+        log.info("doFilter()");
+        HttpServletRequest request = (HttpServletRequest) req;
+        HttpServletResponse response = (HttpServletResponse) resp;
 
         log.debug("Get accessor");
         Accessor accessor = Accessor.getInstance();
 
-        log.info("doFilter()");
-        HttpServletRequest request = (HttpServletRequest) req;
-        HttpServletResponse response = (HttpServletResponse) resp;
+        log.debug("Get user from session");
         User userFromSession = Service.getUserFromSession(request);
-        String actionName = getActionName(request);
+        String actionName = Service.getActionName(request);
+
         Role role;
 
         if (userFromSession == null){
@@ -66,41 +63,10 @@ public class SecurityFilter implements Filter {
             chain.doFilter(req, response);
             return;
         }
-
-//        if (role.equals(roleFactory.getAdminRole())) {
-//            if (accessor.isAllowed(actionName, role)) {
-//                log.info("Access granted to " + actionName);
-//                //Do nothing just let enter
-//            } else {
-//                log.info("Access denied to " + actionName);
-//                response.sendError(HttpServletResponse.SC_FORBIDDEN);
-//                chain.doFilter(req, resp);
-//                return;
-//            }
-//            log.debug("It's admin here!");
-//        } else if (role.equals(roleFactory.getUserRole())) {
-//            if (accessor.isAllowed(actionName, role)) {
-//                log.info("Access granted to " + actionName);
-//            } else {
-//                log.info("Access denied to " + actionName);
-//                response.sendError(HttpServletResponse.SC_FORBIDDEN);
-//                chain.doFilter(req, resp);
-//                return;
-//            }
-//            log.debug("It's user here!");
-//        } else {
-//            log.debug("It's anonymous");
-//        }
-
         chain.doFilter(req, resp);
     }
 
     public void init(FilterConfig config) throws ServletException {
-        log.info("Filter started");
+        log.info("Security filter started");
     }
-
-    private String getActionName(HttpServletRequest request) {
-        return request.getParameter(PARAMETER_ACTION);
-    }
-
 }

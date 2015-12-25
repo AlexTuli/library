@@ -26,8 +26,6 @@ Make somebody administrator +
 ------------------
 listener, auto-return connection after user log-out(or session die)
 
-Do not allow to enter without session on admin/user pages (filter)
-
 ADD COMMENTS!
 Refactor code
 

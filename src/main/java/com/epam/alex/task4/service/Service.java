@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
  */
 public final class Service {
 
+    private static final String PARAMETER_ACTION = "action";
+
     private static final Logger log = Logger.getLogger(Service.class);
 
     /**
@@ -36,12 +38,20 @@ public final class Service {
 
     /**
      * Get attribute user from session
-     * @return
+     * @return User from session
      */
     public static User getUserFromSession(HttpServletRequest request) {
-        User user;
-        return user = (User) request.getSession(false).getAttribute("user");
+        return (User) request.getSession(false).getAttribute("user");
     }
+
+    /**
+     * Get parameter action from request
+     * @return String action parameter
+     */
+    public static String getActionName(HttpServletRequest request) {
+        return request.getParameter(PARAMETER_ACTION);
+    }
+
 
 
 
