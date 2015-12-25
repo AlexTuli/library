@@ -5,7 +5,6 @@ import com.epam.alex.task4.dao.DaoException;
 import com.epam.alex.task4.dao.DaoFactory;
 import com.epam.alex.task4.entity.Role;
 import com.epam.alex.task4.entity.User;
-import com.sun.istack.internal.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

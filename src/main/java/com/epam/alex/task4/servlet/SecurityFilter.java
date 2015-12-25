@@ -1,19 +1,15 @@
 package com.epam.alex.task4.servlet;
 
 import com.epam.alex.task4.entity.Role;
-import com.epam.alex.task4.entity.RoleFactory;
 import com.epam.alex.task4.entity.User;
 import com.epam.alex.task4.service.Service;
 import org.apache.log4j.Logger;
-import org.apache.taglibs.standard.lang.jstl.test.PageContextImpl;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by AlexTuli on 12/23/15.
@@ -48,7 +44,7 @@ public class SecurityFilter implements Filter {
 
         Role role;
 
-        if (userFromSession == null){
+        if (userFromSession == null) {
             log.debug("User is not in session yet");
             role = new Role("Anonymous");
         } else {

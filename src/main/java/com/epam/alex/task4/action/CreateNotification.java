@@ -3,7 +3,6 @@ package com.epam.alex.task4.action;
 import com.epam.alex.task4.dao.AbstractDao;
 import com.epam.alex.task4.dao.DaoException;
 import com.epam.alex.task4.dao.DaoFactory;
-import com.epam.alex.task4.entity.AbstractEntity;
 import com.epam.alex.task4.entity.Notification;
 import com.epam.alex.task4.entity.User;
 import org.apache.log4j.Logger;
@@ -32,7 +31,7 @@ public class CreateNotification extends AbstractAction {
         String notificationText = request.getParameter("notification");
 
         int id;
-        try{
+        try {
             id = Integer.parseInt(stringUserID);
         } catch (NumberFormatException e) {
             log.error("Wrong number format");

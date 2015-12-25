@@ -12,11 +12,16 @@
 
     <jsp:body>
         <div align="center">
-        <a class="aligned" href="${pageContext.request.contextPath}/controller?action=redirect-add-book">Add new book to library</a>
-        <a class="aligned" href="${pageContext.request.contextPath}/controller?action=get-users-list">Get list of users</a>
-        <a class="aligned" href="${pageContext.request.contextPath}/controller?action=redirect-notify">Notify user</a>
-        <a class="aligned" href="${pageContext.request.contextPath}/controller?action=redirect-delete-user">Delete user</a>
-        <a class="aligned" href="${pageContext.request.contextPath}/controller?action=redirect-promote-user">Promote user</a>
+            <a class="aligned" href="${pageContext.request.contextPath}/controller?action=redirect-add-book">Add new
+                book to library</a>
+            <a class="aligned" href="${pageContext.request.contextPath}/controller?action=get-users-list">Get list of
+                users</a>
+            <a class="aligned" href="${pageContext.request.contextPath}/controller?action=redirect-notify">Notify
+                user</a>
+            <a class="aligned" href="${pageContext.request.contextPath}/controller?action=redirect-delete-user">Delete
+                user</a>
+            <a class="aligned" href="${pageContext.request.contextPath}/controller?action=redirect-promote-user">Promote
+                user</a>
         </div>
     </jsp:body>
 </t:centered>

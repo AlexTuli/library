@@ -15,11 +15,11 @@
     <jsp:body>
         <div align="center">
             <c:forEach items="${users}" var="user">
-            <p class="green">
-                <b>User login: </b><c:out value="${user.login}"/>
-                <b>User ID: </b><c:out value="${user.id}"/>
-                <b>User Role: </b><c:out value="${user.role}"/>
-            </p>
+                <p class="green">
+                    <b>User login: </b><c:out value="${user.login}"/>
+                    <b>User ID: </b><c:out value="${user.id}"/>
+                    <b>User Role: </b><c:out value="${user.role}"/>
+                </p>
             </c:forEach>
         </div>
 

@@ -32,8 +32,8 @@ public class ActionFactory {
         actionMap.put("request-for-book", new RequestForBook(daoFactory));
         actionMap.put("redirect-to-request-for-book", new RedirectToRequestForBook(daoFactory));
         actionMap.put("redirect-to-return-book", new RedirectToReturnBook(daoFactory));
-        actionMap.put("return-book", new ReturnBook (daoFactory));
-        actionMap.put("add-book", new AddBook (daoFactory));
+        actionMap.put("return-book", new ReturnBook(daoFactory));
+        actionMap.put("add-book", new AddBook(daoFactory));
         actionMap.put("redirect-add-book", new RedirectAddBook(daoFactory));
         actionMap.put("get-users-list", new GetUsersList(daoFactory));
         actionMap.put("redirect-notify", new RedirectToNotify(daoFactory));

@@ -11,12 +11,12 @@
 
     <jsp:body>
         <div align="center">${param.info}
-        <form action="${pageContext.request.contextPath}/controller" method="post">
-            <input type="hidden" name="action" value="request-for-book"/>
-            <p class="blue">Enter book ID</p>
-            <p><input type="text" name="id" id="id" placeholder="Enter book ID"/></p>
-            <p><input type="submit" value="Add book"/></p>
-        </form>
+            <form action="${pageContext.request.contextPath}/controller" method="post">
+                <input type="hidden" name="action" value="request-for-book"/>
+                <p class="blue">Enter book ID</p>
+                <p><input type="text" name="id" id="id" placeholder="Enter book ID"/></p>
+                <p><input type="submit" value="Add book"/></p>
+            </form>
         </div>
     </jsp:body>
 

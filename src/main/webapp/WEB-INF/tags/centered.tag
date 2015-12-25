@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@tag description="Tag used to pages with centered, ex: auth, reg." pageEncoding="UTF-8"%>
+<%@tag description="Tag used to pages with centered, ex: auth, reg." pageEncoding="UTF-8" %>
 <%@attribute name="infoblock" fragment="true" %>
 <%@attribute name="footer" fragment="true" %>
 <%@attribute name="title" required="true" %>

@@ -37,7 +37,7 @@ public class DeleteUser extends AbstractAction {
         int userId;
         try {
             userId = Integer.parseInt(stringUserId);
-        } catch (NumberFormatException  e) {
+        } catch (NumberFormatException e) {
             log.error("Wrong ID format", e);
             return "redirect:redirect-delete-user&info=Wrong number format";
         }

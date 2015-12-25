@@ -1,6 +1,5 @@
 package com.epam.alex.task4;
 
-import com.epam.alex.task4.servlet.Accessor;
 import org.apache.log4j.Logger;
 
 /**

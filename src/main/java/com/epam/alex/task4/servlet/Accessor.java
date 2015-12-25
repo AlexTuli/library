@@ -2,7 +2,6 @@ package com.epam.alex.task4.servlet;
 
 import com.epam.alex.task4.entity.Role;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +54,7 @@ public final class Accessor {
         return INSTANCE;
     }
 
-    public boolean isAllowed (String actionName, Role role) {
+    public boolean isAllowed(String actionName, Role role) {
         switch (role.getRole()) {
             case "ADMINISTRATOR":
                 return allowedActionsAdmin.contains(actionName);

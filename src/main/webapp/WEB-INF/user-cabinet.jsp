@@ -12,14 +12,17 @@
     </jsp:attribute>
     <jsp:body>
         <div align="center">
-            <a class="aligned" href="${pageContext.request.contextPath}/controller?action=redirect-subscriptions">Look at my books</a>
-            <a class="aligned" href="${pageContext.request.contextPath}/controller?action=redirect-to-request-for-book">Request for a new book</a>
-            <a class="aligned" href="${pageContext.request.contextPath}/controller?action=redirect-to-return-book">Return old book</a>
-            <a class="aligned" href="${pageContext.request.contextPath}/controller?action=check-books">Get list books in library</a>
+            <a class="aligned" href="${pageContext.request.contextPath}/controller?action=redirect-subscriptions">Look
+                at my books</a>
+            <a class="aligned" href="${pageContext.request.contextPath}/controller?action=redirect-to-request-for-book">Request
+                for a new book</a>
+            <a class="aligned" href="${pageContext.request.contextPath}/controller?action=redirect-to-return-book">Return
+                old book</a>
+            <a class="aligned" href="${pageContext.request.contextPath}/controller?action=check-books">Get list books in
+                library</a>
 
         </div>
     </jsp:body>
-
 
 
 </t:centered>

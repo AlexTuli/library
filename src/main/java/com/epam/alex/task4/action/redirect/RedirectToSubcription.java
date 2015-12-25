@@ -1,7 +1,6 @@
 package com.epam.alex.task4.action.redirect;
 
 import com.epam.alex.task4.action.AbstractAction;
-import com.epam.alex.task4.action.Action;
 import com.epam.alex.task4.dao.AbstractDao;
 import com.epam.alex.task4.dao.DaoException;
 import com.epam.alex.task4.dao.DaoFactory;

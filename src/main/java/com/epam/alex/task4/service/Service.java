@@ -19,6 +19,7 @@ public final class Service {
 
     /**
      * Get "id" param from request
+     *
      * @return id, or -1 if it's not a number
      */
     public static int getId(HttpServletRequest request) {
@@ -38,6 +39,7 @@ public final class Service {
 
     /**
      * Get attribute user from session
+     *
      * @return User from session
      */
     public static User getUserFromSession(HttpServletRequest request) {
@@ -46,13 +48,12 @@ public final class Service {
 
     /**
      * Get parameter action from request
+     *
      * @return String action parameter
      */
     public static String getActionName(HttpServletRequest request) {
         return request.getParameter(PARAMETER_ACTION);
     }
-
-
 
 
 }

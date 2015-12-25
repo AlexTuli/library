@@ -1,6 +1,5 @@
 package com.epam.alex.task4.dao;
 
-import com.epam.alex.task4.entity.Role;
 import com.epam.alex.task4.entity.RoleFactory;
 import com.epam.alex.task4.entity.User;
 import org.apache.log4j.Logger;

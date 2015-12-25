@@ -93,7 +93,7 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
                 int id = resultSet.getInt(4);
                 log.debug("ID of current subscription is " + id);
                 // If id of new subscription != id previous subscription, create new subscription, need to readAll()
-                if (temp != id){
+                if (temp != id) {
                     temp = id;
                     if (subscription != null) {
                         result.add(subscription);

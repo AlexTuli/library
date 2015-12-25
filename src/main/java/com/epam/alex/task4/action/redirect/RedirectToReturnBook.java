@@ -1,7 +1,6 @@
 package com.epam.alex.task4.action.redirect;
 
 import com.epam.alex.task4.action.AbstractAction;
-import com.epam.alex.task4.dao.AbstractDao;
 import com.epam.alex.task4.dao.DaoFactory;
 
 import javax.servlet.http.HttpServletRequest;

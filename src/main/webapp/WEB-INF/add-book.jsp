@@ -20,7 +20,7 @@
                 <p class="blue">Title of Book:</p>
                 <p><input type="text" name="title" id="title" placeholder="Enter book Title"/></p>
                 <input type="submit" value="Add book"/>
-        </form>
+            </form>
         </div>
     </jsp:body>
 

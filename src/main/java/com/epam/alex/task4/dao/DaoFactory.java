@@ -1,7 +1,5 @@
 package com.epam.alex.task4.dao;
 
-import com.epam.alex.task4.entity.Subscription;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -14,7 +12,7 @@ import java.util.Map;
  */
 public class DaoFactory {
 
-//    private static final String SUBSCRIPTION_CLASS_NAME = Subscription.class.getName();
+    //    private static final String SUBSCRIPTION_CLASS_NAME = Subscription.class.getName();
     private Connection connection;
     private Map<String, AbstractDao> daoMap;
 

@@ -6,7 +6,6 @@ import com.epam.alex.task4.dao.DaoFactory;
 import com.epam.alex.task4.entity.User;
 import org.apache.log4j.Logger;
 
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.List;
  *
  * @author Bocharnikov Alexandr
  */
-public class GetUsersList extends AbstractAction{
+public class GetUsersList extends AbstractAction {
 
     private static final Logger log = Logger.getLogger(GetUsersList.class);
 

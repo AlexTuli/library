@@ -26,13 +26,12 @@ public class RoleFactory {
     PropertyReader propertyReader;
 
 
-
     private RoleFactory() {
         roleMap = new HashMap<>();
         propertyReader = new FullPropertyReader();
         Map<String, String> stringStringMap = propertyReader.readProperty("library.properties");
         int idAdmin = Integer.parseInt(stringStringMap.get("role.admin.id"));
-        int idUser  = Integer.parseInt(stringStringMap.get("role.user.id"));
+        int idUser = Integer.parseInt(stringStringMap.get("role.user.id"));
         roleMap.put("admin", new Role(Role.ADMIN, idAdmin));
         roleMap.put("user", new Role(Role.USER, idUser));
     }
@@ -43,6 +42,7 @@ public class RoleFactory {
 
     /**
      * Return Admin role
+     *
      * @return Admin role
      */
     public Role getAdminRole() {
@@ -51,6 +51,7 @@ public class RoleFactory {
 
     /**
      * Return role of User
+     *
      * @return User role
      */
     public Role getUserRole() {

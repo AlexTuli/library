@@ -4,13 +4,9 @@ package com.epam.alex.task4.servlet; /**
  * @author Bocharnikov Alexandr
  */
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import javax.servlet.http.HttpSessionAttributeListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
-import javax.servlet.http.HttpSessionBindingEvent;
 
 @WebListener()
 public class SessionListener implements HttpSessionListener {
