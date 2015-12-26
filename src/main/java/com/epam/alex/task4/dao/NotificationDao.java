@@ -16,8 +16,8 @@ import java.util.List;
  */
 public class NotificationDao extends AbstractDao<Notification> {
 
-    public NotificationDao(Connection connection, DaoFactory factory) {
-        super(connection, factory);
+    public NotificationDao(Connection connection) {
+        super(connection);
     }
 
     @Override
@@ -33,6 +33,7 @@ public class NotificationDao extends AbstractDao<Notification> {
         } catch (SQLException e) {
             throw new DaoException("Trouble in NotificationDAO by setFieldsInCreateStatement", e);
         }
+
         return statement;
     }
 
@@ -47,9 +48,7 @@ public class NotificationDao extends AbstractDao<Notification> {
     }
 
     /**
-     * @param statement
-     * @param id        USER_ID NOT NOTIFICATION ID
-     * @return
+     * @param id USER_ID NOT NOTIFICATION ID
      */
     @Override
     protected PreparedStatement setFieldsInReadStatement(PreparedStatement statement, int id) {

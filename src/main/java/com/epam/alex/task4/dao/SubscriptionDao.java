@@ -17,12 +17,13 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
 
     private static final Logger log = Logger.getLogger(SubscriptionDao.class);
 
-    public SubscriptionDao(Connection connection, DaoFactory factory) {
-        super(connection, factory);
+    public SubscriptionDao(Connection connection) {
+        super(connection);
     }
 
     @Override
     protected String getCreateQuery() {
+
         return "INSERT INTO SUBSCRIPTION (ID, USER_ID) " +
                 "VALUES (DEFAULT , ?)";
     }

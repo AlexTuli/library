@@ -16,8 +16,8 @@ import java.util.List;
  */
 public class BookDao extends AbstractDao<Book> {
 
-    public BookDao(Connection connection, DaoFactory factory) {
-        super(connection, factory);
+    public BookDao(Connection connection) {
+        super(connection);
     }
 
     @Override

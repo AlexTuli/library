@@ -22,13 +22,10 @@ public abstract class AbstractDao<T extends AbstractEntity> {
 
     protected Connection connection;
 
-    private DaoFactory factory;
-
     private PreparedStatement preparedStatement;
 
-    public AbstractDao(Connection connection, DaoFactory factory) {
+    public AbstractDao(Connection connection) {
         this.connection = connection;
-        this.factory = factory;
     }
 
     /**
@@ -92,7 +89,7 @@ public abstract class AbstractDao<T extends AbstractEntity> {
     }
 
     public T read(T t) throws DaoException {
-        List<T> result = null;
+        List<T> result;
         try {
             preparedStatement = connection.prepareStatement(getReadByEntityQuery());
             preparedStatement = setFieldsInReadByEntityStatement(preparedStatement, t);
@@ -177,7 +174,4 @@ public abstract class AbstractDao<T extends AbstractEntity> {
 
     protected abstract int parseGeneratedKeys(ResultSet generatedKeys);
 
-    protected final DaoFactory getFactory() {
-        return this.factory;
-    }
 }

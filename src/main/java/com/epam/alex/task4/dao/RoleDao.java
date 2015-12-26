@@ -16,8 +16,8 @@ import java.util.List;
  */
 public class RoleDao extends AbstractDao<Role> {
 
-    public RoleDao(Connection connection, DaoFactory factory) {
-        super(connection, factory);
+    public RoleDao(Connection connection) {
+        super(connection);
     }
 
     @Override
@@ -32,7 +32,9 @@ public class RoleDao extends AbstractDao<Role> {
 
     @Override
     protected String getReadQuery() {
+
         return "SELECT * FROM ROLE WHERE ID LIKE ?";
+
     }
 
     @Override
@@ -42,6 +44,7 @@ public class RoleDao extends AbstractDao<Role> {
 
     @Override
     protected String getReadAllQuery() {
+
         return "SELECT * FROM ROLE";
     }
 

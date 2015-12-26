@@ -3,6 +3,7 @@ package com.epam.alex.task4.action;
 import com.epam.alex.task4.dao.AbstractDao;
 import com.epam.alex.task4.dao.DaoException;
 import com.epam.alex.task4.dao.DaoFactory;
+import com.epam.alex.task4.dao.UserDao;
 import com.epam.alex.task4.entity.Role;
 import com.epam.alex.task4.entity.User;
 
@@ -39,11 +40,11 @@ public class Authorize extends AbstractAction {
         user.setPassword(password);
 
         log.debug("User login: " + user.getLogin() + "User password: " + user.getPassword() + ". Get userDao");
-        AbstractDao Dao = daoFactory.getDao("user");
+        UserDao userDao = daoFactory.getDаo(UserDao.class);
 
         try {
             log.debug("Try to read User in DB");
-            user = (User) Dao.read(user);
+            user = userDao.read(user);
         } catch (DaoException e) {
             log.debug("Failed to read user");
             return "redirect:index&info=User not found";

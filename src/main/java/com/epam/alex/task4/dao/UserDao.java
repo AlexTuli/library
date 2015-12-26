@@ -18,8 +18,8 @@ public class UserDao extends AbstractDao<User> {
 
     private static final Logger log = Logger.getLogger(UserDao.class);
 
-    public UserDao(Connection connection, DaoFactory factory) {
-        super(connection, factory);
+    public UserDao(Connection connection) {
+        super(connection);
     }
 
     @Override
@@ -36,6 +36,7 @@ public class UserDao extends AbstractDao<User> {
         } catch (SQLException e) {
             throw new DaoException("Can not set fields in create statement", e);
         }
+
         return statement;
     }
 

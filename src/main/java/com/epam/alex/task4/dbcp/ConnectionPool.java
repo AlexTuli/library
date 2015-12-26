@@ -17,6 +17,7 @@ public class ConnectionPool {
     // TODO Figure out how this work (if it's work :D)
 
     private static final ConnectionPool INSTANCE = new ConnectionPool();
+    //TODO get it from property
     public static final String MY_LIBRARY_URL = "jdbc:h2:tcp://127.0.0.1/~/H2-db/myLibrary";
     public static final String USER_NAME = "sa";
     public static final String PASSWORD = "sa";
@@ -31,9 +32,9 @@ public class ConnectionPool {
                 connections.add(connection);
             }
         } catch (ClassNotFoundException e) {
-            throw new ConnectionException("Trouble in Connection by getting driver", e);
+            throw new PoolException("Trouble in Connection by getting driver", e);
         } catch (SQLException e) {
-            throw new ConnectionException("Trouble in Connection by getting connection to DB", e);
+            throw new PoolException("Trouble in Connection by getting connection to DB", e);
         }
     }
 
@@ -45,7 +46,7 @@ public class ConnectionPool {
         try {
             return connections.poll(5, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
-            throw new ConnectionException("Trouble to getConnection()", e);
+            throw new PoolException("Trouble to getConnection()", e);
         }
     }
 
