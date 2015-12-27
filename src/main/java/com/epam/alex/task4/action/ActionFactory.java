@@ -14,34 +14,31 @@ import java.util.Map;
 public class ActionFactory {
 
     private static final ActionFactory INSTANCE = new ActionFactory();
-    private DaoFactory daoFactory;
     private static Map<String, Action> actionMap;
 
     private ActionFactory() {
-        daoFactory = DaoFactory.getInstance();
         actionMap = new HashMap<>();
-        actionMap.put("check-books", new CheckBooks(daoFactory));
-        actionMap.put("index", new ToIndex(daoFactory));
-        actionMap.put("authorize", new Authorize(daoFactory));
-        actionMap.put("user-cabinet", new UserCabinet(daoFactory));
-        actionMap.put("admin-cabinet", new AdminCabinet(daoFactory));
-        actionMap.put("registration", new RedirectToRegisterUser(daoFactory));
-        actionMap.put("registration-user", new RegisteredUser(daoFactory));
-        actionMap.put("create-subscription", new CreateSubscription(daoFactory)); //WTF
-        actionMap.put("request-for-book", new RequestForBook(daoFactory));
-        actionMap.put("redirect-to-request-for-book", new RedirectToRequestForBook(daoFactory));
-        actionMap.put("redirect-to-return-book", new RedirectToReturnBook(daoFactory));
-        actionMap.put("return-book", new ReturnBook(daoFactory));
-        actionMap.put("add-book", new AddBook(daoFactory));
-        actionMap.put("redirect-add-book", new RedirectAddBook(daoFactory));
-        actionMap.put("get-users-list", new GetUsersList(daoFactory));
-        actionMap.put("redirect-notify", new RedirectToNotify(daoFactory));
-        actionMap.put("create-notification", new CreateNotification(daoFactory));
-        actionMap.put("redirect-delete-user", new RedirectToDeleteUser(daoFactory));
-        actionMap.put("delete-user", new DeleteUser(daoFactory));
-        actionMap.put("redirect-promote-user", new RedirectToPromoteUser(daoFactory));
-        actionMap.put("promote-user", new PromoteUser(daoFactory));
-        actionMap.put("redirect-subscriptions", new RedirectToSubcription(daoFactory));
+        actionMap.put("check-books", new CheckBooks());
+        actionMap.put("index", new ToIndex());
+        actionMap.put("authorize", new Authorize());
+        actionMap.put("user-cabinet", new UserCabinet());
+        actionMap.put("admin-cabinet", new AdminCabinet());
+        actionMap.put("registration", new RedirectToRegisterUser());
+        actionMap.put("registration-user", new RegisteredUser());
+        actionMap.put("request-for-book", new RequestForBook());
+        actionMap.put("redirect-to-request-for-book", new RedirectToRequestForBook());
+        actionMap.put("redirect-to-return-book", new RedirectToReturnBook());
+        actionMap.put("return-book", new ReturnBook());
+        actionMap.put("add-book", new AddBook());
+        actionMap.put("redirect-add-book", new RedirectAddBook());
+        actionMap.put("get-users-list", new GetUsersList());
+        actionMap.put("redirect-notify", new RedirectToNotify());
+        actionMap.put("create-notification", new CreateNotification());
+        actionMap.put("redirect-delete-user", new RedirectToDeleteUser());
+        actionMap.put("delete-user", new DeleteUser());
+        actionMap.put("redirect-promote-user", new RedirectToPromoteUser());
+        actionMap.put("promote-user", new PromoteUser());
+        actionMap.put("redirect-subscriptions", new RedirectToSubcription());
     }
 
     public static ActionFactory getInstance() {

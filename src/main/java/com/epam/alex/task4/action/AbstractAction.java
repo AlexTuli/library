@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
@@ -17,8 +18,8 @@ public abstract class AbstractAction implements Action {
     private static final Logger log = Logger.getLogger(AbstractAction.class);
     protected DaoFactory daoFactory;
 
-    public AbstractAction(DaoFactory factory) {
-        this.daoFactory = factory;
+    public AbstractAction() {
+        daoFactory = new DaoFactory();
     }
 
     public abstract String execute(HttpServletRequest request, HttpServletResponse response);

@@ -14,9 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 public class RedirectToPromoteUser extends AbstractAction {
 
 
-    public RedirectToPromoteUser(DaoFactory factory) {
-        super(factory);
-    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {

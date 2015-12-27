@@ -13,9 +13,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class RedirectAddBook extends AbstractAction {
 
-    public RedirectAddBook(DaoFactory factory) {
-        super(factory);
-    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {

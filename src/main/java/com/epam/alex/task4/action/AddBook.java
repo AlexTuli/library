@@ -1,6 +1,6 @@
 package com.epam.alex.task4.action;
 
-import com.epam.alex.task4.dao.AbstractDao;
+import com.epam.alex.task4.dao.BookDao;
 import com.epam.alex.task4.dao.DaoException;
 import com.epam.alex.task4.dao.DaoFactory;
 import com.epam.alex.task4.entity.Book;
@@ -18,16 +18,13 @@ public class AddBook extends AbstractAction {
 
     private static final Logger log = Logger.getLogger(AddBook.class);
 
-    public AddBook(DaoFactory factory) {
-        super(factory);
-    }
-
     /**
      * Add book to library
      */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
+        //todo check it
         log.info("Starting to add book in library");
         String author = request.getParameter("author");
         String title = request.getParameter("title");
@@ -36,7 +33,7 @@ public class AddBook extends AbstractAction {
         book.setAuthor(author);
         log.debug("Set field in book complete");
 
-        AbstractDao bookDao = daoFactory.getDao("book");
+        BookDao bookDao = daoFactory.getDao(BookDao.class);
 
         startTransaction();
 
@@ -50,7 +47,7 @@ public class AddBook extends AbstractAction {
         }
 
         commit();
-
+        daoFactory.close();
         log.info("Book added successfully");
         return "redirect:admin-cabinet&info=Book added";
     }

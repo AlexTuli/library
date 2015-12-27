@@ -13,9 +13,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class RedirectToRequestForBook extends AbstractAction {
 
-    public RedirectToRequestForBook(DaoFactory factory) {
-        super(factory);
-    }
 
     /**
      * Redirect to requesting for a book

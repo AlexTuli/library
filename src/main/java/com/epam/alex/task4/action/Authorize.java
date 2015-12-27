@@ -1,6 +1,5 @@
 package com.epam.alex.task4.action;
 
-import com.epam.alex.task4.dao.AbstractDao;
 import com.epam.alex.task4.dao.DaoException;
 import com.epam.alex.task4.dao.DaoFactory;
 import com.epam.alex.task4.dao.UserDao;
@@ -20,9 +19,6 @@ public class Authorize extends AbstractAction {
 
     private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(Authorize.class);
 
-    public Authorize(DaoFactory factory) {
-        super(factory);
-    }
 
     /**
      * Authorize users to server
@@ -36,17 +32,18 @@ public class Authorize extends AbstractAction {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
 
-        user.setLogin(login.toLowerCase());
+        user.setLogin(login.toLowerCase());log.debug("Failed to read user");
         user.setPassword(password);
 
-        log.debug("User login: " + user.getLogin() + "User password: " + user.getPassword() + ". Get userDao");
-        UserDao userDao = daoFactory.getDаo(UserDao.class);
+        log.debug("User login: " + user.getLogin() + ". User password: " + user.getPassword() + ". Get userDao");
+        UserDao userDao = daoFactory.getDao(UserDao.class);
 
         try {
             log.debug("Try to read User in DB");
             user = userDao.read(user);
         } catch (DaoException e) {
             log.debug("Failed to read user");
+            daoFactory.close();
             return "redirect:index&info=User not found";
         }
 
@@ -59,12 +56,15 @@ public class Authorize extends AbstractAction {
         log.debug("Redirecting by role");
         if (role.getRole().equalsIgnoreCase("USER")) {
             log.debug("Authorize successfully");
+            daoFactory.close();
             return "redirect:user-cabinet";
         } else if (role.getRole().equalsIgnoreCase("ADMINISTRATOR")) {
             log.debug("Authorize successfully");
+            daoFactory.close();
             return "redirect:admin-cabinet";
         }
         log.debug("Incorrect role");
+        daoFactory.close();
         return "redirect:index&info=Something gonna wrong...";
 
     }

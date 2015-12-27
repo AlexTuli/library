@@ -13,10 +13,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ToIndex extends AbstractAction {
 
-    public ToIndex(DaoFactory factory) {
-        super(factory);
-    }
-
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         return request.getContextPath() + "index.jsp";

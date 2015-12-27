@@ -13,9 +13,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class RedirectToReturnBook extends AbstractAction {
 
-    public RedirectToReturnBook(DaoFactory factory) {
-        super(factory);
-    }
+
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {

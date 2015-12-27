@@ -3,6 +3,7 @@ package com.epam.alex.task4.action;
 import com.epam.alex.task4.dao.AbstractDao;
 import com.epam.alex.task4.dao.DaoException;
 import com.epam.alex.task4.dao.DaoFactory;
+import com.epam.alex.task4.dao.UserDao;
 import com.epam.alex.task4.entity.Role;
 import com.epam.alex.task4.entity.RoleFactory;
 import com.epam.alex.task4.entity.User;
@@ -21,9 +22,6 @@ public class PromoteUser extends AbstractAction {
 
     private static final Logger log = Logger.getLogger(PromoteUser.class);
 
-    public PromoteUser(DaoFactory factory) {
-        super(factory);
-    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -35,12 +33,12 @@ public class PromoteUser extends AbstractAction {
             return "redirect:redirect-promote-user&info=Wrong id";
         }
 
-        AbstractDao userDao = daoFactory.getDao("user");
+        UserDao userDao = daoFactory.getDao(UserDao.class);
 
         startTransaction();
         User user;
         try {
-            user = (User) userDao.read(id);
+            user = userDao.read(id);
         } catch (DaoException e) {
             log.error("Can't find user");
             rollback();

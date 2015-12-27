@@ -3,7 +3,9 @@ package com.epam.alex.task4.action;
 import com.epam.alex.task4.dao.AbstractDao;
 import com.epam.alex.task4.dao.DaoException;
 import com.epam.alex.task4.dao.DaoFactory;
+import com.epam.alex.task4.dao.UserDao;
 import com.epam.alex.task4.entity.User;
+import com.epam.alex.task4.service.Service;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,9 +21,6 @@ public class DeleteUser extends AbstractAction {
 
     private static final Logger log = Logger.getLogger(DeleteUser.class);
 
-    public DeleteUser(DaoFactory factory) {
-        super(factory);
-    }
 
     /**
      * Delete user from DB
@@ -33,20 +32,15 @@ public class DeleteUser extends AbstractAction {
         User sessionUser = (User) session.getAttribute("user");
 
         log.info("Start to delete user");
-        String stringUserId = request.getParameter("id");
-        int userId;
-        try {
-            userId = Integer.parseInt(stringUserId);
-        } catch (NumberFormatException e) {
-            log.error("Wrong ID format", e);
-            return "redirect:redirect-delete-user&info=Wrong number format";
-        }
+
+        int userId = Service.getId(request);
 
         if (sessionUser.getId() == userId) {
+            daoFactory.close();
             return "redirect:redirect-delete-user&info=Can't delete yourself";
         }
 
-        AbstractDao userDao = daoFactory.getDao("user");
+        UserDao userDao = daoFactory.getDao(UserDao.class);
 
         User user = new User();
         user.setId(userId);
@@ -57,20 +51,24 @@ public class DeleteUser extends AbstractAction {
             int delete = userDao.delete(user);
             if (delete == 0) {
                 log.error("User not found, can't delete");
+                daoFactory.close();
                 return "redirect:redirect-delete-user&info=User not found";
             } else if (delete > 1) {
                 log.error("More than one user, something gonna wrong");
                 rollback();
+                daoFactory.close();
                 return "redirect:redirect-delete-user&info=Something gonna wrong, try again";
             }
         } catch (DaoException e) {
             log.error("Can't delete user");
             rollback();
+            daoFactory.close();
             return "redirect:redirect-delete-user&info=Can't delete user";
         }
 
         commit();
 
+        daoFactory.close();
         log.info("User delete successfully!");
         return "redirect:admin-cabinet&info=User deleted!";
     }

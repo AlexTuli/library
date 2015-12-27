@@ -1,8 +1,6 @@
 package com.epam.alex.task4.action;
 
-import com.epam.alex.task4.dao.AbstractDao;
-import com.epam.alex.task4.dao.DaoException;
-import com.epam.alex.task4.dao.DaoFactory;
+import com.epam.alex.task4.dao.*;
 import com.epam.alex.task4.entity.Notification;
 import com.epam.alex.task4.entity.User;
 import org.apache.log4j.Logger;
@@ -19,9 +17,6 @@ public class CreateNotification extends AbstractAction {
 
     private static final Logger log = Logger.getLogger(CreateNotification.class);
 
-    public CreateNotification(DaoFactory factory) {
-        super(factory);
-    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -38,18 +33,18 @@ public class CreateNotification extends AbstractAction {
             return "redirect:redirect-notify&info=Wrong number format";
         }
 
-        AbstractDao notificationDao = daoFactory.getDao("notification");
+        NotificationDao notificationDao = daoFactory.getDao(NotificationDao.class);
 
 
         Notification notification = new Notification();
         notification.setText(notificationText);
 
-        AbstractDao userDao = daoFactory.getDao("user");
+        UserDao userDao = daoFactory.getDao(UserDao.class);
 
         User user;
         try {
             log.debug("Read user in db with ID " + id);
-            user = (User) userDao.read(id);
+            user = userDao.read(id);
         } catch (DaoException e) {
             log.error("Can't read user, wrong ID", e);
             return "redirect:redirect-notify&info=Wrong ID";

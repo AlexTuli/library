@@ -23,9 +23,6 @@ public class RequestForBook extends AbstractAction {
 
     private static final Logger log = Logger.getLogger(RequestForBook.class);
 
-    public RequestForBook(DaoFactory factory) {
-        super(factory);
-    }
 
     /**
      * Request for a new book and add it to subscription
@@ -46,7 +43,7 @@ public class RequestForBook extends AbstractAction {
 
         // Here we read subscription ID of current user to set for update query
         log.debug("Get subscriptionDao");
-        SubscriptionDao subscriptionDao = (SubscriptionDao) daoFactory.getDao("subscription");
+        SubscriptionDao subscriptionDao = daoFactory.getDao(SubscriptionDao.class);
         log.debug("Get user from session");
         User user = Service.getUserFromSession(request);
         log.debug("Read subscription from DB");

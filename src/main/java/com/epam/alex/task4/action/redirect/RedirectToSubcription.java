@@ -4,6 +4,7 @@ import com.epam.alex.task4.action.AbstractAction;
 import com.epam.alex.task4.dao.AbstractDao;
 import com.epam.alex.task4.dao.DaoException;
 import com.epam.alex.task4.dao.DaoFactory;
+import com.epam.alex.task4.dao.SubscriptionDao;
 import com.epam.alex.task4.entity.Subscription;
 import com.epam.alex.task4.entity.User;
 import org.apache.log4j.Logger;
@@ -21,13 +22,10 @@ public class RedirectToSubcription extends AbstractAction {
 
     private static final Logger log = Logger.getLogger(RedirectToSubcription.class);
 
-    public RedirectToSubcription(DaoFactory factory) {
-        super(factory);
-    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        AbstractDao subscriptionDao = daoFactory.getDao("subscription");
+        SubscriptionDao subscriptionDao = daoFactory.getDao(SubscriptionDao.class);
         User user = null;
 
         log.debug("Starting to read subscription");
@@ -42,7 +40,7 @@ public class RedirectToSubcription extends AbstractAction {
             log.debug("Starting to read subscription");
             Subscription subscription;
             try {
-                subscription = (Subscription) subscriptionDao.read(user.getId());
+                subscription = subscriptionDao.read(user.getId());
                 if (subscription != null) {
                     log.debug("Subscription read successful! Set to attribute");
                     log.info("Subscription books " + subscription.getBookList());

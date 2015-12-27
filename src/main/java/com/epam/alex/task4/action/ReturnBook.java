@@ -3,6 +3,7 @@ package com.epam.alex.task4.action;
 import com.epam.alex.task4.dao.AbstractDao;
 import com.epam.alex.task4.dao.DaoException;
 import com.epam.alex.task4.dao.DaoFactory;
+import com.epam.alex.task4.dao.SubscriptionDao;
 import com.epam.alex.task4.entity.Book;
 import com.epam.alex.task4.entity.Subscription;
 import com.epam.alex.task4.entity.User;
@@ -20,9 +21,6 @@ public class ReturnBook extends AbstractAction {
 
     private static final Logger log = Logger.getLogger(ReturnBook.class);
 
-    public ReturnBook(DaoFactory factory) {
-        super(factory);
-    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -40,7 +38,7 @@ public class ReturnBook extends AbstractAction {
         book.setId(id);
         Subscription subscription = new Subscription();
         subscription.addBook(book);
-        AbstractDao subscriptionDao = daoFactory.getDao("subscription");
+        SubscriptionDao subscriptionDao = daoFactory.getDao(SubscriptionDao.class);
 
         log.debug("Get user from session");
         User user = (User) request.getSession(false).getAttribute("user");

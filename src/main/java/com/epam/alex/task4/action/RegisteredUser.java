@@ -1,8 +1,6 @@
 package com.epam.alex.task4.action;
 
-import com.epam.alex.task4.dao.AbstractDao;
-import com.epam.alex.task4.dao.DaoException;
-import com.epam.alex.task4.dao.DaoFactory;
+import com.epam.alex.task4.dao.*;
 import com.epam.alex.task4.entity.Role;
 import com.epam.alex.task4.entity.Subscription;
 import com.epam.alex.task4.entity.User;
@@ -21,9 +19,6 @@ public class RegisteredUser extends AbstractAction {
 
     private final static Logger logger = Logger.getLogger(RegisteredUser.class);
 
-    public RegisteredUser(DaoFactory factory) {
-        super(factory);
-    }
 
     /**
      * Create new row with new User in DB
@@ -43,13 +38,13 @@ public class RegisteredUser extends AbstractAction {
         user.setRole(role);
         Subscription subscription = new Subscription();
         user.setSubscription(subscription);
-        AbstractDao subscriptionDao = daoFactory.getDao("subscription");
-        AbstractDao userDao = daoFactory.getDao("user");
+        SubscriptionDao subscriptionDao = daoFactory.getDao(SubscriptionDao.class);
+        UserDao userDao = daoFactory.getDao(UserDao.class);
         try {
             logger.debug("Start transaction in RegistrationUser");
             daoFactory.startTransaction();
             logger.debug("Start creating row in table User");
-            user = (User) userDao.create(user);
+            user = userDao.create(user);
         } catch (SQLException | DaoException e) {
             try {
                 logger.debug("Rollback after create user");

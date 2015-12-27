@@ -13,9 +13,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class RedirectToDeleteUser extends AbstractAction {
 
-    public RedirectToDeleteUser(DaoFactory factory) {
-        super(factory);
-    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {

@@ -15,9 +15,6 @@ public class UserCabinet extends AbstractAction {
 
     private static final Logger log = Logger.getLogger(UserCabinet.class);
 
-    public UserCabinet(DaoFactory factory) {
-        super(factory);
-    }
 
     /**
      * Redirect to user cabinet and request for notification

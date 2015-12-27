@@ -7,8 +7,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
+
 
 /**
  * Created by AlexTuli on 12/6/15.
@@ -17,42 +16,24 @@ import java.util.Map;
  */
 public class DaoFactory {
 
-    // TODO Delete Map
 
     private static final Logger log = Logger.getLogger(DaoFactory.class);
-    private static final DaoFactory INSTANCE = new DaoFactory();
     private Connection connection;
-    private Map<String, AbstractDao> daoMap;
     private ConnectionPool connectionPool;
 
-    private DaoFactory() {
-
+    public DaoFactory() {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
-        daoMap = new HashMap<>();
-        daoMap.put("book", new BookDao(connection));
-        daoMap.put("notification", new NotificationDao(connection));
-        daoMap.put("subscription", new SubscriptionDao(connection));
-        daoMap.put("user", new UserDao(connection));
-        daoMap.put("role", new RoleDao(connection));
     }
 
-    public AbstractDao getDao(String name) {
-        return daoMap.get(name);
-    }
-
-    public <T extends AbstractDao> T getDаo(Class<T> clazz)  {
+    public <T extends AbstractDao> T getDao(Class<T> clazz)  {
         try {
             Constructor<T> constructor = clazz.getConstructor(Connection.class);
-            return constructor.newInstance(connectionPool.getConnection());
+            return constructor.newInstance(connection);
         } catch (NoSuchMethodException e) {
-            log.debug("No such method");
-        } catch (IllegalAccessException e) {
-            log.debug("IllegalAccessException");
-        } catch (InstantiationException e) {
-            log.debug("InstantiationException");
-        } catch (InvocationTargetException e) {
-            log.debug("InvocationTargetException");
+            log.debug("No such method exception");
+            throw new DaoException("No such method exception");
+        } catch (IllegalAccessException | InvocationTargetException | InstantiationException ignored) {
         }
         throw new DaoException();
     }
@@ -73,9 +54,8 @@ public class DaoFactory {
         connection.setAutoCommit(true);
     }
 
-    public static DaoFactory getInstance() {
-        return INSTANCE;
+    public void close() {
+        log.debug("Connection " + connection + " returned to CP");
+        connectionPool.returnConnection(connection);
     }
-
-
 }
