@@ -1,8 +1,6 @@
 package com.epam.alex.task4.action;
 
-import com.epam.alex.task4.dao.AbstractDao;
 import com.epam.alex.task4.dao.DaoException;
-import com.epam.alex.task4.dao.DaoFactory;
 import com.epam.alex.task4.dao.SubscriptionDao;
 import com.epam.alex.task4.entity.Book;
 import com.epam.alex.task4.entity.Subscription;
@@ -33,7 +31,8 @@ public class RequestForBook extends AbstractAction {
         log.info("Start to adding book to subscription...");
         int id = Service.getId(request);
         if (id <= 0) {
-            return "redirect:redirect-to-request-for-book&info=Incorrect book ID";
+            daoFactory.close();
+            return "redirect:get-new-book&info=Incorrect_book_ID";
         }
 
         Book book = new Book();
@@ -50,18 +49,26 @@ public class RequestForBook extends AbstractAction {
         Subscription readSubscription;
         subscription.setUser(user);
 
-        //Check that user have no book already
+        //Check that user have no this book already
         try {
-            readSubscription = subscriptionDao.read(user.getId());
+            readSubscription = subscriptionDao.read(user != null ? user.getId() : 0);
             if (readSubscription.contains(book)) {
                 log.warn("User already have this book");
-                return "redirect:redirect-to-request-for-book&info=You already have this book";
+                return "redirect:get-new-book&info=You_already_have_this_book";
             }
         } catch (DaoException e) {
             log.debug("Subscription have no books");
+        } finally {
+            daoFactory.close();
         }
 
-        int idSubscription = user.getSubscription().getId();
+        int idSubscription = 0;
+        if (user != null) {
+            idSubscription = user.getSubscription().getId();
+            log.debug("ID of subscription " + idSubscription);
+        } else {
+            log.error("user is null");
+        }
         log.debug("Set subscription ID to subscription");
         subscription.setId(idSubscription);
 
@@ -73,11 +80,13 @@ public class RequestForBook extends AbstractAction {
         } catch (DaoException e) {
             log.error("Update failed", e);
             rollback();
-            return "redirect:redirect-to-request-for-book&info=Can't update subscription";
+            daoFactory.close();
+            return "redirect:get-new-book&info=Can't_update_subscription";
         }
 
         commit();
+        daoFactory.close();
         log.info("Book added successful!");
-        return "redirect:user-cabinet&notification=Book added";
+        return "redirect:user-cabinet&notification=Book_added";
     }
 }

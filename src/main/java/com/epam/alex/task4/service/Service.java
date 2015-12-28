@@ -4,6 +4,7 @@ import com.epam.alex.task4.entity.User;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * Utilites class for clear-up code from same blocks of code
@@ -43,7 +44,12 @@ public final class Service {
      * @return User from session
      */
     public static User getUserFromSession(HttpServletRequest request) {
-        return (User) request.getSession(false).getAttribute("user");
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            return (User) session.getAttribute("user");
+        }
+        return null;
+//        return (User) request.getSession(false).getAttribute("user");
     }
 
     /**

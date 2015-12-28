@@ -5,7 +5,6 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
@@ -22,8 +21,16 @@ public abstract class AbstractAction implements Action {
         daoFactory = new DaoFactory();
     }
 
+    /**
+     * Implements a different ways to do something
+     *
+     * @return View - address to redirect or forward
+     */
     public abstract String execute(HttpServletRequest request, HttpServletResponse response);
 
+    /**
+     * Commit changes in DB and stop transaction. Also return connection to DB
+     */
     protected void commit() {
         try {
             log.debug("Start to commit");
@@ -33,9 +40,14 @@ public abstract class AbstractAction implements Action {
         } catch (SQLException e) {
             log.error("Can't commit", e);
             throw new ActionException("Can't commit", e);
+        } finally {
+            daoFactory.close();
         }
     }
 
+    /**
+     * Start transaction in DB
+     */
     protected void startTransaction() {
         try {
             log.debug("Start transaction");
@@ -46,6 +58,9 @@ public abstract class AbstractAction implements Action {
         }
     }
 
+    /**
+     * Rollback changes in DB and stop transaction. Also return connection to DB
+     */
     protected void rollback() {
         try {
             log.debug("Rollback");
@@ -54,6 +69,8 @@ public abstract class AbstractAction implements Action {
         } catch (SQLException e1) {
             log.error("Can't rollback", e1);
             throw new ActionException("Can't rollback", e1);
+        } finally {
+            daoFactory.close();
         }
     }
 

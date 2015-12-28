@@ -15,8 +15,7 @@ import java.io.IOException;
 public class EncodingFilter implements Filter {
 
     private static final Logger log = Logger.getLogger(EncodingFilter.class);
-    public static final String ENCODING = "UTF-8";
-//    ISO-8859-1
+    private static final String ENCODING = "UTF-8";
 
     public void destroy() {
         log.info("EncodingFilter destroyed");
@@ -25,6 +24,8 @@ public class EncodingFilter implements Filter {
     /**
      * Change encoding of request to UTF-8
      */
+
+    @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
         log.info("doFilter()");
         req.setCharacterEncoding(ENCODING);
@@ -32,6 +33,7 @@ public class EncodingFilter implements Filter {
         chain.doFilter(req, resp);
     }
 
+    @Override
     public void init(FilterConfig config) throws ServletException {
         log.info("EncodingFilter started");
     }

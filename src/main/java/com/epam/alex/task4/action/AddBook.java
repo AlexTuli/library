@@ -2,7 +2,6 @@ package com.epam.alex.task4.action;
 
 import com.epam.alex.task4.dao.BookDao;
 import com.epam.alex.task4.dao.DaoException;
-import com.epam.alex.task4.dao.DaoFactory;
 import com.epam.alex.task4.entity.Book;
 import org.apache.log4j.Logger;
 
@@ -24,7 +23,6 @@ public class AddBook extends AbstractAction {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
-        //todo check it
         log.info("Starting to add book in library");
         String author = request.getParameter("author");
         String title = request.getParameter("title");
@@ -43,13 +41,14 @@ public class AddBook extends AbstractAction {
         } catch (DaoException e) {
             log.error("Can't create new Book", e);
             rollback();
-            return "redirect:admin-cabinet&info=Failed to add book";
+            daoFactory.close();
+            return "redirect:add-book&info=Failed_to_add_book";
         }
 
         commit();
         daoFactory.close();
         log.info("Book added successfully");
-        return "redirect:admin-cabinet&info=Book added";
+        return "redirect:admin-cabinet&info=Book_added";
     }
 
 

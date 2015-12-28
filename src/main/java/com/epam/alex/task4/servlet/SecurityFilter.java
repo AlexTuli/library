@@ -46,7 +46,7 @@ public class SecurityFilter implements Filter {
 
         if (userFromSession == null) {
             log.debug("User is not in session yet");
-            role = new Role("Anonymous");
+            role = Role.getAnonymousRole();
         } else {
             role = userFromSession.getRole();
             log.info("User is " + userFromSession);

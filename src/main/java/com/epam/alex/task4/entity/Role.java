@@ -7,30 +7,41 @@ package com.epam.alex.task4.entity;
  */
 public class Role extends AbstractEntity {
 
-    public static final String ADMIN = "ADMINISTRATOR";
-    public static final String USER = "USER";
+    private static final int ID_ADMIN_ROLE = 3;
+    private static final int ID_USER_ROLE = 2;
+    private static final Role ADMIN_ROLE = new Role("ADMINISTRATOR", ID_ADMIN_ROLE);
+    private static final Role USER_ROLE = new Role("USER", ID_USER_ROLE);
+    private static final Role ANONYMOUS_ROLE = new Role("ANONYMOUS", 0);
 
-    String role;
+    private String name;
 
     public Role() {
 
     }
 
-    public Role(String role) {
-        this.role = role;
-    }
-
-    public Role(String role, int id) {
+    private Role(String role, int id) {
         super(id);
-        this.role = role;
+        this.name = role;
     }
 
-    public String getRole() {
-        return role;
+    public static Role getAnonymousRole() {
+        return ANONYMOUS_ROLE;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public static Role getAdminRole() {
+        return ADMIN_ROLE;
+    }
+
+    public static Role getUserRole() {
+        return USER_ROLE;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -41,18 +52,18 @@ public class Role extends AbstractEntity {
 
         Role role1 = (Role) o;
 
-        return role.equals(role1.role);
+        return name.equals(role1.name);
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + role.hashCode();
+        result = 31 * result + name.hashCode();
         return result;
     }
 
     @Override
     public String toString() {
-        return "Role - " + role;
+        return "Role - " + name;
     }
 }

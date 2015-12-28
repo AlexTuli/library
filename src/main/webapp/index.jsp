@@ -11,7 +11,7 @@
 
     <jsp:attribute name="footer">
         <div align="center">
-            <a href="${pageContext.request.contextPath}/controller?action=registration">Register</a>
+            <a href="${pageContext.request.contextPath}/controller?action=show-page&redirect=registration">Register</a>
             <a href="${pageContext.request.contextPath}/controller?action=check-books">Get list books in library</a>
         </div>
     </jsp:attribute>

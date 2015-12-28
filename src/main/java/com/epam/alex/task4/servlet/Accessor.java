@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by AlexTuli on 12/24/15.
  *
- * @author Bocharnikov Alexandr
+ * @author Bocharnikov Alexander
  */
 public final class Accessor {
 
@@ -25,6 +25,7 @@ public final class Accessor {
         allowedActionsUser = new ArrayList<>();
         allowedActionsAnonymous = new ArrayList<>();
         allowedActionsAnonymous.add("index");
+        allowedActionsAnonymous.add("show-page");
         allowedActionsAnonymous.add("authorize");
         allowedActionsAnonymous.add("check-books");
         allowedActionsAnonymous.add("registration");
@@ -55,7 +56,7 @@ public final class Accessor {
     }
 
     public boolean isAllowed(String actionName, Role role) {
-        switch (role.getRole()) {
+        switch (role.getName()) {
             case "ADMINISTRATOR":
                 return allowedActionsAdmin.contains(actionName);
             case "USER":

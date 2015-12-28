@@ -1,8 +1,6 @@
 package com.epam.alex.task4.action;
 
-import com.epam.alex.task4.dao.AbstractDao;
 import com.epam.alex.task4.dao.BookDao;
-import com.epam.alex.task4.dao.DaoFactory;
 import com.epam.alex.task4.entity.Book;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +30,6 @@ public class CheckBooks extends AbstractAction {
         request.setAttribute("books", books);
         log.debug("Return redirect");
         daoFactory.close();
-        return request.getContextPath() + "/WEB-INF/check-for-books.jsp";
+        return request.getContextPath() + "/WEB-INF/jsp/check-for-books.jsp";
     }
 }

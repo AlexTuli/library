@@ -35,7 +35,6 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         processRequest(req, resp);
-
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -65,6 +64,6 @@ public class MainServlet extends HttpServlet {
     }
 
     private String getRedirectLocation(String view) {
-        return getServletContext().getContextPath() + "/controller?action=" + view.substring(9);
+        return getServletContext().getContextPath() + "/controller?action=show-page&redirect=" + view.substring(9);
     }
 }

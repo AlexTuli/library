@@ -14,9 +14,12 @@
         <div align="center">
             <a class="aligned" href="${pageContext.request.contextPath}/controller?action=redirect-subscriptions">Look
                 at my books</a>
-            <a class="aligned" href="${pageContext.request.contextPath}/controller?action=redirect-to-request-for-book">Request
+            <a class="aligned"
+               href="${pageContext.request.contextPath}/controller?action=show-page&redirect=get-new-book">Request
                 for a new book</a>
-            <a class="aligned" href="${pageContext.request.contextPath}/controller?action=redirect-to-return-book">Return
+                <%--action=show-page&redirect=registration--%>
+            <a class="aligned"
+               href="${pageContext.request.contextPath}/controller?action=show-page&redirect=return-book">Return
                 old book</a>
             <a class="aligned" href="${pageContext.request.contextPath}/controller?action=check-books">Get list books in
                 library</a>

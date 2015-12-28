@@ -1,6 +1,6 @@
 package com.epam.alex.task4.dao;
 
-import com.epam.alex.task4.entity.RoleFactory;
+import com.epam.alex.task4.entity.Role;
 import com.epam.alex.task4.entity.Subscription;
 import com.epam.alex.task4.entity.User;
 import org.apache.log4j.Logger;
@@ -24,7 +24,8 @@ public class UserDao extends AbstractDao<User> {
 
     @Override
     protected String getCreateQuery() {
-        return "INSERT INTO USER (NAME, PASSWORD, ROLE_ID, ID) VALUES (?, ?, ?, DEFAULT)";
+        return "INSERT INTO USER (NAME, PASSWORD, ROLE_ID, ID, FIRST_NAME, LAST_NAME) " +
+                "VALUES (?, ?, ?, DEFAULT, ?, ?)";
     }
 
     @Override
@@ -33,16 +34,21 @@ public class UserDao extends AbstractDao<User> {
             statement.setString(1, user.getLogin());
             statement.setString(2, user.getPassword());
             statement.setInt(3, user.getRole().getId());
+            statement.setString(4, user.getFirstName());
+            statement.setString(5, user.getLastName());
         } catch (SQLException e) {
-            throw new DaoException("Can not set fields in create statement", e);
+            log.error("Can not set fields in create statement");
+            throw new DaoException(e);
         }
-
         return statement;
     }
 
     @Override
     protected String getReadQuery() {
-        return "SELECT * FROM USER INNER JOIN ROLE ON USER.ROLE_ID = ROLE.ID INNER JOIN SUBSCRIPTION ON USER.ID = SUBSCRIPTION.USER_ID WHERE USER.ID LIKE ?";
+        return "SELECT * FROM USER " +
+                "INNER JOIN ROLE ON USER.ROLE_ID = ROLE.ID " +
+                "INNER JOIN SUBSCRIPTION ON USER.ID = SUBSCRIPTION.USER_ID " +
+                "WHERE USER.ID LIKE ?";
     }
 
     @Override
@@ -66,13 +72,13 @@ public class UserDao extends AbstractDao<User> {
 
     @Override
     protected String getReadAllQuery() {
-        return "SELECT PASSWORD, NAME, USER.ID, ROLE FROM USER\n" +
-                "INNER JOIN ROLE ON USER.ROLE_ID = ROLE.ID;";
+        return "SELECT * FROM USER\n" +
+                "INNER JOIN ROLE ON USER.ROLE_ID = ROLE.ID\n" +
+                "INNER JOIN SUBSCRIPTION ON USER.ID = SUBSCRIPTION.USER_ID";
     }
 
     @Override
     protected PreparedStatement setFieldsInReadByEntityStatement(PreparedStatement statement, User user) {
-
         try {
             statement.setString(1, user.getLogin());
             statement.setString(2, user.getPassword());
@@ -92,7 +98,7 @@ public class UserDao extends AbstractDao<User> {
         try {
             log.debug("Set name " + user.getLogin());
             statement.setString(1, user.getLogin());
-            log.debug("Set role" + user.getRole().getRole());
+            log.debug("Set role" + user.getRole().getName());
             statement.setInt(2, user.getRole().getId());
             log.debug("In user with ID " + user.getId());
             statement.setInt(3, user.getId());
@@ -123,10 +129,9 @@ public class UserDao extends AbstractDao<User> {
     @Override
     protected List<User> parseResultSet(ResultSet resultSet) {
         List<User> users = new ArrayList<>();
-        RoleFactory roleFactory = RoleFactory.getInstance();
         try {
             ResultSetMetaData metaData = resultSet.getMetaData();
-            log.debug(metaData.getColumnCount());
+            log.debug("Result set have " + metaData.getColumnCount() + " columns");
         } catch (SQLException ignored) {
         }
         try {
@@ -142,11 +147,13 @@ public class UserDao extends AbstractDao<User> {
                 log.debug("Set role to user");
                 Subscription subscription = new Subscription();
                 log.debug("Set ID to subscription");
-                subscription.setId(resultSet.getInt(7));
+                subscription.setId(resultSet.getInt(9));
                 log.debug("Set subscription to user");
                 user.setSubscription(subscription);
-                if (roleString.equalsIgnoreCase("ADMINISTRATOR")) user.setRole(roleFactory.getAdminRole());
-                else if (roleString.equalsIgnoreCase("USER")) user.setRole(roleFactory.getUserRole());
+                user.setFirstName(resultSet.getString("FIRST_NAME"));
+                user.setLastName(resultSet.getString("LAST_NAME"));
+                if (roleString.equalsIgnoreCase("ADMINISTRATOR")) user.setRole(Role.getAdminRole());
+                else if (roleString.equalsIgnoreCase("USER")) user.setRole(Role.getUserRole());
                 else throw new DaoException("User have no role");
 
                 log.debug("Add user to collection");
@@ -170,7 +177,8 @@ public class UserDao extends AbstractDao<User> {
                 log.debug("ID is " + id);
             }
         } catch (SQLException e) {
-            throw new DaoException("Can't parse generated keys", e);
+            log.error("Can't parse generated keys");
+            throw new DaoException(e);
         }
         log.debug("Return ID");
         return id;

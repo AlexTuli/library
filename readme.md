@@ -25,15 +25,11 @@ Make somebody administrator +
 ### To-Do
 ------------------
 TODO Add Date when user get book
-Add some fields to User (First name, etc), also validation (not digits in name etc.)
-Refactor Actions (Change getDao method)
+pagination
 Error handler
-Check connection isAlive()
-cd .jsp to /jsp folder
+Add more languages.
 DAO read all query from property (or make it constant)
-Keep role in Role static field, delete RoleFactory
-Merge all redirect-to... actions in ShowPage action
-Return connections in Action
+
 
 ADD COMMENTS!
 Refactor code

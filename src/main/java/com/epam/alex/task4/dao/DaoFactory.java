@@ -24,38 +24,75 @@ public class DaoFactory {
     public DaoFactory() {
         connectionPool = ConnectionPool.getInstance();
         connection = connectionPool.getConnection();
+        log.debug("Get connection " + connection);
     }
 
-    public <T extends AbstractDao> T getDao(Class<T> clazz)  {
+    /**
+     * Return Dao
+     *
+     * @param <T> Dao.class (ex: UserDao.class)
+     * @return Dao
+     */
+    public <T extends AbstractDao> T getDao(Class<T> clazz) {
         try {
             Constructor<T> constructor = clazz.getConstructor(Connection.class);
             return constructor.newInstance(connection);
         } catch (NoSuchMethodException e) {
             log.debug("No such method exception");
             throw new DaoException("No such method exception");
-        } catch (IllegalAccessException | InvocationTargetException | InstantiationException ignored) {
+        } catch (InstantiationException e) {
+            log.debug("Instantiation Exception");
+            throw new DaoException(e);
+        } catch (IllegalAccessException | InvocationTargetException ignored) {
         }
         throw new DaoException();
     }
 
+    /**
+     * Start transaction in DB
+     *
+     * @throws SQLException
+     */
     public void startTransaction() throws SQLException {
         connection.setAutoCommit(false);
     }
 
+    /**
+     * Commit changes to DB
+     *
+     * @throws SQLException
+     */
     public void commit() throws SQLException {
         connection.commit();
     }
 
+    /**
+     * Rollback DB
+     *
+     * @throws SQLException
+     */
     public void rollback() throws SQLException {
         connection.rollback();
     }
 
+    /**
+     * Stop transaction
+     *
+     * @throws SQLException
+     */
     public void stopTransaction() throws SQLException {
         connection.setAutoCommit(true);
     }
 
+    /**
+     * Return connection to pool
+     */
     public void close() {
-        log.debug("Connection " + connection + " returned to CP");
-        connectionPool.returnConnection(connection);
+        if (connection != null) {
+            log.debug("Connection " + connection + " returned to CP");
+            connectionPool.returnConnection(connection);
+        } else {
+            log.debug("Connection is null");
+        }
     }
 }

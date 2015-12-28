@@ -1,8 +1,6 @@
 package com.epam.alex.task4.action;
 
-import com.epam.alex.task4.dao.AbstractDao;
 import com.epam.alex.task4.dao.DaoException;
-import com.epam.alex.task4.dao.DaoFactory;
 import com.epam.alex.task4.dao.SubscriptionDao;
 import com.epam.alex.task4.entity.Book;
 import com.epam.alex.task4.entity.Subscription;
@@ -31,8 +29,9 @@ public class ReturnBook extends AbstractAction {
         try {
             id = Integer.parseInt(sId);
         } catch (NumberFormatException e) {
-            log.error("Incorrect book ID", e);
-            return "redirect:user-cabinet&notification=Incorrect book ID";
+            log.error("Incorrect book ID");
+            daoFactory.close();
+            return "redirect:return-book&info=Incorrect_book_ID";
         }
         Book book = new Book();
         book.setId(id);
@@ -55,13 +54,15 @@ public class ReturnBook extends AbstractAction {
         } catch (DaoException e) {
             log.warn("Can't remove book, check ID", e);
             rollback();
-            return "redirect:user-cabinet&notification=Can't remove book, check ID";
+            daoFactory.close();
+            return "redirect:return-book&info=Can't_remove_book,_check_ID";
         }
 
         commit();
 
+        daoFactory.close();
         log.info("Book deleted from subscription successfully!");
-        return "redirect:user-cabinet&notification=Book returned!";
+        return "redirect:user-cabinet&notification=Book_returned!";
     }
 
 

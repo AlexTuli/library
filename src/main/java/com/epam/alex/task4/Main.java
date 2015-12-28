@@ -2,11 +2,6 @@ package com.epam.alex.task4;
 
 import org.apache.log4j.Logger;
 
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
-
 
 /**
  * Created by AlexTuli on 11/20/15.
@@ -22,5 +17,8 @@ public class Main {
         FOR TESTS
          */
 
+
     }
+
+
 }

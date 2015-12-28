@@ -1,8 +1,6 @@
 package com.epam.alex.task4.action;
 
-import com.epam.alex.task4.dao.AbstractDao;
 import com.epam.alex.task4.dao.DaoException;
-import com.epam.alex.task4.dao.DaoFactory;
 import com.epam.alex.task4.dao.UserDao;
 import com.epam.alex.task4.entity.User;
 import com.epam.alex.task4.service.Service;
@@ -37,7 +35,7 @@ public class DeleteUser extends AbstractAction {
 
         if (sessionUser.getId() == userId) {
             daoFactory.close();
-            return "redirect:redirect-delete-user&info=Can't delete yourself";
+            return "redirect:delete-user&info=Can't_delete_yourself";
         }
 
         UserDao userDao = daoFactory.getDao(UserDao.class);
@@ -52,24 +50,24 @@ public class DeleteUser extends AbstractAction {
             if (delete == 0) {
                 log.error("User not found, can't delete");
                 daoFactory.close();
-                return "redirect:redirect-delete-user&info=User not found";
+                return "redirect:delete-user&info=User_not_found";
             } else if (delete > 1) {
                 log.error("More than one user, something gonna wrong");
                 rollback();
                 daoFactory.close();
-                return "redirect:redirect-delete-user&info=Something gonna wrong, try again";
+                return "redirect:delete-user&info=Something_gonna_wrong,_try_again";
             }
         } catch (DaoException e) {
             log.error("Can't delete user");
             rollback();
             daoFactory.close();
-            return "redirect:redirect-delete-user&info=Can't delete user";
+            return "redirect:delete-user&info=Can't_delete_user";
         }
 
         commit();
 
         daoFactory.close();
         log.info("User delete successfully!");
-        return "redirect:admin-cabinet&info=User deleted!";
+        return "redirect:admin-cabinet&info=User_deleted!";
     }
 }

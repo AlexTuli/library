@@ -19,10 +19,14 @@
         <div align="center">
             <form action="${pageContext.request.contextPath}/controller" method="post">
                 <input type="hidden" name="action" value="registration-user"/>
-                <p class="blue">Enter you login</p>
+                <p class="blue">Enter your login</p>
                 <p><input type="text" name="login" id="login" placeholder="Enter login"/></p>
-                <p class="blue"> Enter you password</p>
+                <p class="blue"> Enter your password</p>
                 <p><input type="password" name="password" id="password" placeholder="Enter password"/></p>
+                <p class="blue">Enter your first name</p>
+                <p><input type="text" name="first-name" id="first-name" placeholder="First name"/></p>
+                <p class="blue">Enter your last name</p>
+                <p><input type="text" name="last-name" id="last-name" placeholder="Last name"/></p>
                 <input type="submit" value="Register"/>
             </form>
         </div>

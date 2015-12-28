@@ -37,6 +37,7 @@ public abstract class AbstractDao<T extends AbstractEntity> {
         try {
             preparedStatement = connection.prepareStatement(getCreateQuery());
             preparedStatement = setFieldsInCreateStatement(preparedStatement, t);
+            logger.debug("Execute query");
             preparedStatement.execute();
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
             logger.debug("Start to parse generated keys");
@@ -48,7 +49,8 @@ public abstract class AbstractDao<T extends AbstractEntity> {
             }
             preparedStatement.close();
         } catch (SQLException e) {
-            throw new DaoException("Trouble by creating in DAO", e);
+            logger.error("Trouble by creating in DAO");
+            throw new DaoException(e);
         }
         logger.debug("Return entity");
         return t;
@@ -130,7 +132,8 @@ public abstract class AbstractDao<T extends AbstractEntity> {
             preparedStatement.execute();
             preparedStatement.close();
         } catch (SQLException e) {
-            throw new DaoException("Trouble by updating in DAO", e);
+            logger.error("Trouble by updating in DAO");
+            throw new DaoException(e);
         }
     }
 
@@ -143,7 +146,8 @@ public abstract class AbstractDao<T extends AbstractEntity> {
             updateCount = preparedStatement.getUpdateCount();
             preparedStatement.close();
         } catch (SQLException e) {
-            throw new DaoException("Trouble by deleting in DAO", e);
+            logger.error("Trouble by deleting in DAO");
+            throw new DaoException(e);
         }
         return updateCount;
     }

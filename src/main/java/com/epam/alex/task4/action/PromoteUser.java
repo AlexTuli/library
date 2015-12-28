@@ -1,11 +1,8 @@
 package com.epam.alex.task4.action;
 
-import com.epam.alex.task4.dao.AbstractDao;
 import com.epam.alex.task4.dao.DaoException;
-import com.epam.alex.task4.dao.DaoFactory;
 import com.epam.alex.task4.dao.UserDao;
 import com.epam.alex.task4.entity.Role;
-import com.epam.alex.task4.entity.RoleFactory;
 import com.epam.alex.task4.entity.User;
 import com.epam.alex.task4.service.Service;
 import org.apache.log4j.Logger;
@@ -30,7 +27,7 @@ public class PromoteUser extends AbstractAction {
 
         int id = Service.getId(request);
         if (id <= 0) {
-            return "redirect:redirect-promote-user&info=Wrong id";
+            return "redirect:promote-user&info=Wrong_id";
         }
 
         UserDao userDao = daoFactory.getDao(UserDao.class);
@@ -42,10 +39,11 @@ public class PromoteUser extends AbstractAction {
         } catch (DaoException e) {
             log.error("Can't find user");
             rollback();
-            return "redirect:redirect-promote-user&info=Can't find user";
+            daoFactory.close();
+            return "redirect:promote-user&info=Can't_find_user";
         }
 
-        Role adminRole = RoleFactory.getInstance().getAdminRole();
+        Role adminRole = Role.getAdminRole();
         user.setRole(adminRole);
 
         try {
@@ -53,11 +51,13 @@ public class PromoteUser extends AbstractAction {
         } catch (DaoException e) {
             log.error("Can't update user");
             rollback();
-            return "redirect:redirect-promote-user&info=Can't update user";
+            daoFactory.close();
+            return "redirect:redirect-promote-user&info=Can't_update_user";
         }
 
         commit();
+        daoFactory.close();
         log.info("Promote successful!");
-        return "redirect:admin-cabinet&info=User promoted";
+        return "redirect:admin-cabinet&info=User_promoted";
     }
 }

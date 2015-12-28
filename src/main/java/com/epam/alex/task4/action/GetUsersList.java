@@ -1,8 +1,6 @@
 package com.epam.alex.task4.action;
 
-import com.epam.alex.task4.dao.AbstractDao;
 import com.epam.alex.task4.dao.DaoException;
-import com.epam.alex.task4.dao.DaoFactory;
 import com.epam.alex.task4.dao.UserDao;
 import com.epam.alex.task4.entity.User;
 import org.apache.log4j.Logger;
@@ -21,7 +19,6 @@ public class GetUsersList extends AbstractAction {
     private static final Logger log = Logger.getLogger(GetUsersList.class);
 
 
-
     /**
      * Read all users from DB
      */
@@ -35,13 +32,13 @@ public class GetUsersList extends AbstractAction {
             log.debug("userDao.readAll() in GetUserList");
             userList = userDao.readAll();
         } catch (DaoException e) {
-            log.debug("Can't read users", e);
+            log.debug("Can't read users");
             daoFactory.close();
             return "redirect:admin-cabinet&info=Failed to read users";
         }
         request.setAttribute("users", userList);
         daoFactory.close();
         log.info("Read successful");
-        return request.getContextPath() + "/WEB-INF/get-users-list.jsp";
+        return request.getContextPath() + "/WEB-INF/jsp/get-users-list.jsp";
     }
 }

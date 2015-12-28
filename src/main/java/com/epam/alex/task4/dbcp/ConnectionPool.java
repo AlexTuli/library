@@ -16,29 +16,32 @@ import java.util.concurrent.TimeUnit;
  */
 public class ConnectionPool {
 
-    // TODO Figure out how this work (if it's work :D)
-
     private static final Logger log = Logger.getLogger(ConnectionPool.class);
     private static final ConnectionPool INSTANCE = new ConnectionPool();
     //TODO get it from property
-    public static final String MY_LIBRARY_URL = "jdbc:h2:tcp://127.0.0.1/~/H2-db/myLibrary";
+    public static final String MY_LIBRARY_URL = "jdbc:h2:tcp://127.0.0.1/E:/Back-Up/H2-db/myLibrary";
     public static final String USER_NAME = "sa";
     public static final String PASSWORD = "sa";
     public static final String JDBC_H2_DRIVER = "org.h2.Driver";
     private BlockingQueue<Connection> connections;
 
     private ConnectionPool() {
+        log.debug("Create connection pool");
         try {
             Class.forName(JDBC_H2_DRIVER); //Driver loading
             connections = new LinkedBlockingQueue<>();
             for (int i = 0; i < 10; i++) {
-                Connection connection = DriverManager.getConnection(MY_LIBRARY_URL, USER_NAME, PASSWORD);;
+                log.debug("Create connection #" + i);
+                Connection connection = DriverManager.getConnection(MY_LIBRARY_URL, USER_NAME, PASSWORD);
+                log.debug("Connection is " + connection);
                 connections.add(connection);
             }
         } catch (ClassNotFoundException e) {
-            throw new PoolException("Trouble in Connection by getting driver", e);
+            log.error("Trouble in Connection by getting driver");
+            throw new PoolException(e);
         } catch (SQLException e) {
-            throw new PoolException("Trouble in Connection by getting connection to DB", e);
+            log.debug("Trouble in Connection by getting connection to DB");
+            throw new PoolException(e);
         }
     }
 
@@ -52,9 +55,11 @@ public class ConnectionPool {
 
     public Connection getConnection() {
         try {
+            log.debug("Try to get connection");
             return connections.poll(5, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
-            throw new PoolException("Trouble to getConnection()", e);
+            log.error("Trouble to getConnection()");
+            throw new PoolException(e);
         }
     }
 

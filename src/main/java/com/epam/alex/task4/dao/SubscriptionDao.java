@@ -95,7 +95,7 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
                     int id = resultSet.getInt(1);
                     subscription = new Subscription();
                     subscription.setId(id);
-                } else  {
+                } else {
                     int subscriptionId = resultSet.getInt(1);
                     log.debug("ID of current subscription is " + subscriptionId);
                     if (temp != subscriptionId) { // If id of new subscription != id previous subscription, create new subscription, need to readAll()
@@ -174,7 +174,7 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
     @Override
     protected String getDeleteQuery() {
         return "DELETE FROM SUBSCRIPTION_BOOK " +
-                "WHERE SUBSCRIPTION_ID LIKE ? AND BOOK_ID LIKE ?";
+                "WHERE SUBSCRIPTION_ID LIKE ? AND BOOK_ID = ?";
     }
 
     /**

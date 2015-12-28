@@ -1,6 +1,8 @@
 package com.epam.alex.task4.action;
 
-import com.epam.alex.task4.dao.*;
+import com.epam.alex.task4.dao.DaoException;
+import com.epam.alex.task4.dao.NotificationDao;
+import com.epam.alex.task4.dao.UserDao;
 import com.epam.alex.task4.entity.Notification;
 import com.epam.alex.task4.entity.User;
 import org.apache.log4j.Logger;
@@ -29,6 +31,7 @@ public class CreateNotification extends AbstractAction {
         try {
             id = Integer.parseInt(stringUserID);
         } catch (NumberFormatException e) {
+            daoFactory.close();
             log.error("Wrong number format");
             return "redirect:redirect-notify&info=Wrong number format";
         }
@@ -46,7 +49,8 @@ public class CreateNotification extends AbstractAction {
             log.debug("Read user in db with ID " + id);
             user = userDao.read(id);
         } catch (DaoException e) {
-            log.error("Can't read user, wrong ID", e);
+            daoFactory.close();
+            log.error("Can't read user, wrong ID");
             return "redirect:redirect-notify&info=Wrong ID";
         }
 
@@ -59,10 +63,12 @@ public class CreateNotification extends AbstractAction {
         } catch (DaoException e) {
             log.error("Can't create notification, rollback", e);
             rollback();
+            daoFactory.close();
             return "redirect:redirect-notify&info=Can't create notification";
         }
 
         commit();
+        daoFactory.close();
         log.info("Notification create successfully!");
         return "redirect:admin-cabinet&info=Notification create successfully!";
     }

@@ -89,7 +89,7 @@ public class RoleDao extends AbstractDao<Role> {
         try {
             while (resultSet.next()) {
                 Role role = new Role();
-                role.setRole(resultSet.getString("ROLE"));
+                role.setName(resultSet.getString("ROLE"));
                 role.setId(resultSet.getInt("ID"));
                 result.add(role);
             }
