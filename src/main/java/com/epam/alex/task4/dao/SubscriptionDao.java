@@ -16,6 +16,20 @@ import java.util.List;
 public class SubscriptionDao extends AbstractDao<Subscription> {
 
     private static final Logger log = Logger.getLogger(SubscriptionDao.class);
+    public static final String CREATE_QUERY = "INSERT INTO SUBSCRIPTION (ID, USER_ID) " +
+            "VALUES (DEFAULT , ?)";
+    public static final String READ_BY_ID_QUERY = "SELECT SUBSCRIPTION.ID, BOOK.TITLE, BOOK.AUTHOR, BOOK_ID FROM SUBSCRIPTION\n" +
+            "INNER JOIN SUBSCRIPTION_BOOK ON SUBSCRIPTION.ID = SUBSCRIPTION_BOOK.SUBSCRIPTION_ID\n" +
+            "INNER JOIN BOOK ON SUBSCRIPTION_BOOK.BOOK_ID = BOOK.ID\n" +
+            "WHERE SUBSCRIPTION.USER_ID = ?";
+    public static final String ID_READ_QUERY = "SELECT SUBSCRIPTION.ID FROM SUBSCRIPTION WHERE USER_ID = ?";
+    public static final String READ_ALL_QUERY = "SELECT BOOK.ID, USER_ID, SUBSCRIPTION_ID FROM SUBSCRIPTION\n" +
+            "INNER JOIN SUBSCRIPTION_BOOK ON SUBSCRIPTION.ID = SUBSCRIPTION_BOOK.SUBSCRIPTION_ID\n" +
+            "INNER JOIN BOOK ON SUBSCRIPTION_BOOK.BOOK_ID = BOOK.ID\n" +
+            "ORDER BY SUBSCRIPTION_ID";
+    public static final String UPDATE_QUERY = "INSERT INTO SUBSCRIPTION_BOOK (BOOK_ID, SUBSCRIPTION_ID) VALUES (?, ?)";
+    public static final String DELETE_QUERY = "DELETE FROM SUBSCRIPTION_BOOK " +
+            "WHERE SUBSCRIPTION_ID LIKE ? AND BOOK_ID = ?";
 
     public SubscriptionDao(Connection connection) {
         super(connection);
@@ -23,9 +37,7 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
 
     @Override
     protected String getCreateQuery() {
-
-        return "INSERT INTO SUBSCRIPTION (ID, USER_ID) " +
-                "VALUES (DEFAULT , ?)";
+        return CREATE_QUERY;
     }
 
     @Override
@@ -40,10 +52,7 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
 
     @Override
     protected String getReadQuery() {
-        return "SELECT SUBSCRIPTION.ID, BOOK.TITLE, BOOK.AUTHOR, BOOK_ID FROM SUBSCRIPTION\n" +
-                "INNER JOIN SUBSCRIPTION_BOOK ON SUBSCRIPTION.ID = SUBSCRIPTION_BOOK.SUBSCRIPTION_ID\n" +
-                "INNER JOIN BOOK ON SUBSCRIPTION_BOOK.BOOK_ID = BOOK.ID\n" +
-                "WHERE SUBSCRIPTION.USER_ID = ?";
+        return READ_BY_ID_QUERY;
     }
 
     @Override
@@ -58,7 +67,7 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
 
     @Override
     protected String getReadByEntityQuery() {
-        return "SELECT SUBSCRIPTION.ID FROM SUBSCRIPTION WHERE USER_ID = ?";
+        return ID_READ_QUERY;
     }
 
     @Override
@@ -74,10 +83,7 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
 
     @Override
     protected String getReadAllQuery() {
-        return "SELECT BOOK.ID, USER_ID, SUBSCRIPTION_ID FROM SUBSCRIPTION\n" +
-                "INNER JOIN SUBSCRIPTION_BOOK ON SUBSCRIPTION.ID = SUBSCRIPTION_BOOK.SUBSCRIPTION_ID\n" +
-                "INNER JOIN BOOK ON SUBSCRIPTION_BOOK.BOOK_ID = BOOK.ID\n" +
-                "ORDER BY SUBSCRIPTION_ID";
+        return READ_ALL_QUERY;
     }
 
     @Override
@@ -150,8 +156,7 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
      */
     @Override
     protected String getUpdateQuery() {
-//        UPDATE SUBSCRIPTION_BOOK SET BOOK_ID = ? WHERE SUBSCRIPTION_ID LIKE ? AND BOOK_ID LIKE ?
-        return "INSERT INTO SUBSCRIPTION_BOOK (BOOK_ID, SUBSCRIPTION_ID) VALUES (?, ?)";
+        return UPDATE_QUERY;
     }
 
     /**
@@ -173,8 +178,7 @@ public class SubscriptionDao extends AbstractDao<Subscription> {
      */
     @Override
     protected String getDeleteQuery() {
-        return "DELETE FROM SUBSCRIPTION_BOOK " +
-                "WHERE SUBSCRIPTION_ID LIKE ? AND BOOK_ID = ?";
+        return DELETE_QUERY;
     }
 
     /**

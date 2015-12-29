@@ -16,13 +16,19 @@ import java.util.List;
  */
 public class BookDao extends AbstractDao<Book> {
 
+    public static final String CREATE_QUERY = "INSERT INTO BOOK (ID, AUTHOR, TITLE) VALUES (DEFAULT, ?, ?)";
+    public static final String READ_BY_ID = "SELECT * FROM BOOK WHERE  ID LIKE ?";
+    public static final String READ_ALL = "SELECT * FROM BOOK";
+    public static final String UPDATE_QUERY = "UPDATE BOOK SET AUTHOR = ?, TITLE = ? WHERE ID LIKE ?";
+    public static final String DELETE_QUERY = "DELETE FROM BOOK WHERE ID LiKE ?";
+
     public BookDao(Connection connection) {
         super(connection);
     }
 
     @Override
     protected String getCreateQuery() {
-        return "INSERT INTO BOOK (ID, AUTHOR, TITLE) VALUES (DEFAULT, ?, ?)";
+        return CREATE_QUERY;
     }
 
     @Override
@@ -38,7 +44,7 @@ public class BookDao extends AbstractDao<Book> {
 
     @Override
     protected String getReadQuery() {
-        return "SELECT * FROM BOOK WHERE  ID LIKE ?";
+        return READ_BY_ID;
     }
 
     @Override
@@ -48,7 +54,7 @@ public class BookDao extends AbstractDao<Book> {
 
     @Override
     protected String getReadAllQuery() {
-        return "SELECT * FROM BOOK";
+        return READ_ALL;
     }
 
     @Override
@@ -68,7 +74,7 @@ public class BookDao extends AbstractDao<Book> {
 
     @Override
     protected String getUpdateQuery() {
-        return "UPDATE BOOK SET AUTHOR = ?, TITLE = ? WHERE ID LIKE ?";
+        return UPDATE_QUERY;
     }
 
     @Override
@@ -85,7 +91,7 @@ public class BookDao extends AbstractDao<Book> {
 
     @Override
     protected String getDeleteQuery() {
-        return "DELETE FROM BOOK WHERE ID LiKE ?";
+        return DELETE_QUERY;
     }
 
     @Override

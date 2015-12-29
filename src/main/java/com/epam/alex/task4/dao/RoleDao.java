@@ -16,6 +16,9 @@ import java.util.List;
  */
 public class RoleDao extends AbstractDao<Role> {
 
+    public static final String READ_BY_ID_QUERY = "SELECT * FROM ROLE WHERE ID LIKE ?";
+    public static final String READ_ALL_QUERY = "SELECT * FROM ROLE";
+
     public RoleDao(Connection connection) {
         super(connection);
     }
@@ -33,7 +36,7 @@ public class RoleDao extends AbstractDao<Role> {
     @Override
     protected String getReadQuery() {
 
-        return "SELECT * FROM ROLE WHERE ID LIKE ?";
+        return READ_BY_ID_QUERY;
 
     }
 
@@ -45,7 +48,7 @@ public class RoleDao extends AbstractDao<Role> {
     @Override
     protected String getReadAllQuery() {
 
-        return "SELECT * FROM ROLE";
+        return READ_ALL_QUERY;
     }
 
     @Override

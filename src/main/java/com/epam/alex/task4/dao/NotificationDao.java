@@ -10,11 +10,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Not implement yet
  * Created by AlexTuli on 11/26/15.
  *
  * @author Bocharnikov Alexandr
  */
 public class NotificationDao extends AbstractDao<Notification> {
+
+    public static final String CREATE_QUERY = "INSERT INTO NOTIFICATION (ID, USER_ID, TEXT) VALUES (DEFAULT, ?, ?)";
+    public static final String READ_QUERY = "SELECT TEXT FROM NOTIFICATION WHERE USER_ID LIKE ?";
+    public static final String READ_ALL_QUERY = "SELECT TEXT, USER_ID FROM NOTIFICATION";
+    public static final String UPDATE_QUERY = "UPDATE NOTIFICATION SET TEXT = ? WHERE ID = ?";
+    public static final String DELETE_QUERY = "DELETE FROM NOTIFICATION WHERE ID LIKE ?";
 
     public NotificationDao(Connection connection) {
         super(connection);
@@ -22,7 +29,7 @@ public class NotificationDao extends AbstractDao<Notification> {
 
     @Override
     protected String getCreateQuery() {
-        return "INSERT INTO NOTIFICATION (ID, USER_ID, TEXT) VALUES (DEFAULT, ?, ?)";
+        return CREATE_QUERY;
     }
 
     @Override
@@ -39,7 +46,7 @@ public class NotificationDao extends AbstractDao<Notification> {
 
     @Override
     protected String getReadQuery() {
-        return "SELECT TEXT FROM NOTIFICATION WHERE USER_ID LIKE ?";
+        return READ_QUERY;
     }
 
     @Override
@@ -62,7 +69,7 @@ public class NotificationDao extends AbstractDao<Notification> {
 
     @Override
     protected String getReadAllQuery() {
-        return "SELECT TEXT, USER_ID FROM NOTIFICATION";
+        return READ_ALL_QUERY;
     }
 
     @Override
@@ -93,7 +100,7 @@ public class NotificationDao extends AbstractDao<Notification> {
 
     @Override
     protected String getUpdateQuery() {
-        return "UPDATE NOTIFICATION SET TEXT = ? WHERE ID = ?";
+        return UPDATE_QUERY;
     }
 
     @Override
@@ -109,7 +116,7 @@ public class NotificationDao extends AbstractDao<Notification> {
 
     @Override
     protected String getDeleteQuery() {
-        return "DELETE FROM NOTIFICATION WHERE ID LIKE ?";
+        return DELETE_QUERY;
     }
 
     @Override

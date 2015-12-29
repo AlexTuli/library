@@ -12,23 +12,21 @@ Login +
 Registration. +
 Request for new book.+
 Return old book++.
-See notification-
+
 
 2) ADMINISTRATION:
 
 Add new book to library++
 Get list of users ++
-Notify users +
 Delete users +
 Make somebody administrator +
 
 ### To-Do
 ------------------
-TODO Add Date when user get book
+Add Date when user get book
 pagination
 Error handler
 Add more languages.
-DAO read all query from property (or make it constant)
 
 
 ADD COMMENTS!

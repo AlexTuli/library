@@ -17,6 +17,21 @@ import java.util.List;
 public class UserDao extends AbstractDao<User> {
 
     private static final Logger log = Logger.getLogger(UserDao.class);
+    public static final String CREATE_QUERY = "INSERT INTO USER (NAME, PASSWORD, ROLE_ID, ID, FIRST_NAME, LAST_NAME) " +
+            "VALUES (?, ?, ?, DEFAULT, ?, ?)";
+    public static final String READ_BY_ID_QUERY = "SELECT * FROM USER " +
+            "INNER JOIN ROLE ON USER.ROLE_ID = ROLE.ID " +
+            "INNER JOIN SUBSCRIPTION ON USER.ID = SUBSCRIPTION.USER_ID " +
+            "WHERE USER.ID LIKE ?";
+    public static final String READ_BY_LOGIN_PASSWORD = "SELECT * FROM USER " +
+            "INNER JOIN ROLE ON USER.ROLE_ID = ROLE.ID\n" +
+            "INNER JOIN SUBSCRIPTION ON USER.ID = SUBSCRIPTION.USER_ID\n" +
+            "WHERE NAME LIKE ? AND PASSWORD LIKE ?";
+    public static final String READ_ALL_USERS_QUERY = "SELECT * FROM USER\n" +
+            "INNER JOIN ROLE ON USER.ROLE_ID = ROLE.ID\n" +
+            "INNER JOIN SUBSCRIPTION ON USER.ID = SUBSCRIPTION.USER_ID";
+    public static final String UPDATE_QUERY = "UPDATE USER SET NAME = ?, ROLE_ID = ? WHERE ID LIKE ?";
+    public static final String DELETE_QUERY = "DELETE FROM USER WHERE ID LIKE ?";
 
     public UserDao(Connection connection) {
         super(connection);
@@ -24,8 +39,7 @@ public class UserDao extends AbstractDao<User> {
 
     @Override
     protected String getCreateQuery() {
-        return "INSERT INTO USER (NAME, PASSWORD, ROLE_ID, ID, FIRST_NAME, LAST_NAME) " +
-                "VALUES (?, ?, ?, DEFAULT, ?, ?)";
+        return CREATE_QUERY;
     }
 
     @Override
@@ -45,10 +59,7 @@ public class UserDao extends AbstractDao<User> {
 
     @Override
     protected String getReadQuery() {
-        return "SELECT * FROM USER " +
-                "INNER JOIN ROLE ON USER.ROLE_ID = ROLE.ID " +
-                "INNER JOIN SUBSCRIPTION ON USER.ID = SUBSCRIPTION.USER_ID " +
-                "WHERE USER.ID LIKE ?";
+        return READ_BY_ID_QUERY;
     }
 
     @Override
@@ -64,17 +75,12 @@ public class UserDao extends AbstractDao<User> {
 
     @Override
     protected String getReadByEntityQuery() {
-        return "SELECT * FROM USER " +
-                "INNER JOIN ROLE ON USER.ROLE_ID = ROLE.ID\n" +
-                "INNER JOIN SUBSCRIPTION ON USER.ID = SUBSCRIPTION.USER_ID\n" +
-                "WHERE NAME LIKE ? AND PASSWORD LIKE ?\n";
+        return READ_BY_LOGIN_PASSWORD;
     }
 
     @Override
     protected String getReadAllQuery() {
-        return "SELECT * FROM USER\n" +
-                "INNER JOIN ROLE ON USER.ROLE_ID = ROLE.ID\n" +
-                "INNER JOIN SUBSCRIPTION ON USER.ID = SUBSCRIPTION.USER_ID";
+        return READ_ALL_USERS_QUERY;
     }
 
     @Override
@@ -90,7 +96,7 @@ public class UserDao extends AbstractDao<User> {
 
     @Override
     protected String getUpdateQuery() {
-        return "UPDATE USER SET NAME = ?, ROLE_ID = ? WHERE ID LIKE ?;";
+        return UPDATE_QUERY;
     }
 
     @Override
@@ -111,7 +117,7 @@ public class UserDao extends AbstractDao<User> {
 
     @Override
     protected String getDeleteQuery() {
-        return "DELETE FROM USER WHERE ID LIKE ?";
+        return DELETE_QUERY;
     }
 
     @Override
