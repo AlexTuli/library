@@ -18,9 +18,6 @@ public class ShowPage extends AbstractAction {
 
     /**
      * Forward to page that content in parameter "redirect"
-     * @param request
-     * @param response
-     * @return
      */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
