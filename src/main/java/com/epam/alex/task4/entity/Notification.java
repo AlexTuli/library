@@ -1,6 +1,7 @@
 package com.epam.alex.task4.entity;
 
 /**
+ * Describes notification entity
  * Created by AlexTuli on 11/26/15.
  *
  * @author Bocharnikov Alexandr

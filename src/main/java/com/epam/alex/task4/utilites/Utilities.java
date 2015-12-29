@@ -1,4 +1,4 @@
-package com.epam.alex.task4.service;
+package com.epam.alex.task4.utilites;
 
 import com.epam.alex.task4.entity.User;
 import org.apache.log4j.Logger;

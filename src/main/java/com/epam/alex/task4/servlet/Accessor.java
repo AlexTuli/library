@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Contains lists of action that allowed to some of role
  * Created by AlexTuli on 12/24/15.
  *
  * @author Bocharnikov Alexander
@@ -33,28 +34,24 @@ public final class Accessor {
         allowedActionsUser.addAll(allowedActionsAnonymous);
         allowedActionsUser.add("user-cabinet");
         allowedActionsUser.add("request-for-book");
-        allowedActionsUser.add("redirect-to-request-for-book");
-        allowedActionsUser.add("redirect-to-return-book");
-        allowedActionsUser.add("return-book");
         allowedActionsUser.add("return-book");
         allowedActionsUser.add("redirect-subscriptions");
         allowedActionsAdmin.addAll(allowedActionsAnonymous);
-        allowedActionsAdmin.add("redirect-delete-user");
         allowedActionsAdmin.add("get-users-list");
-        allowedActionsAdmin.add("redirect-promote-user");
         allowedActionsAdmin.add("admin-cabinet");
         allowedActionsAdmin.add("delete-user");
-        allowedActionsAdmin.add("redirect-notify");
         allowedActionsAdmin.add("create-notification");
         allowedActionsAdmin.add("promote-user");
         allowedActionsAdmin.add("add-book");
-        allowedActionsAdmin.add("redirect-add-book");
     }
 
     public static Accessor getInstance() {
         return INSTANCE;
     }
 
+    /**
+     * @return true if action is allowed to current role
+     */
     public boolean isAllowed(String actionName, Role role) {
         switch (role.getName()) {
             case "ADMINISTRATOR":

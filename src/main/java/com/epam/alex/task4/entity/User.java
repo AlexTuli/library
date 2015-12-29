@@ -1,8 +1,7 @@
 package com.epam.alex.task4.entity;
 
 /**
- * Class describes user of library. Have name of user, subscription of user and id of user.
- * <p>
+ * Class describes user of library. Have name of user, subscription of user and id of user. *
  * Created by AlexTuli on 11/22/15.
  *
  * @author Bocharnikov Alexandr

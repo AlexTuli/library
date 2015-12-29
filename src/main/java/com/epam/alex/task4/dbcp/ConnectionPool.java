@@ -13,6 +13,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * Connection pool used LinkedBlockedQueue to contain connection and get it to users, when it needs
  * Created by AlexTuli on 11/27/15.
  *
  * @author Bocharnikov Alexandr

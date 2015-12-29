@@ -1,6 +1,7 @@
 package com.epam.alex.task4.entity;
 
 /**
+ * Describe roles of user
  * Created by AlexTuli on 12/8/15.
  *
  * @author Bocharnikov Alexandr

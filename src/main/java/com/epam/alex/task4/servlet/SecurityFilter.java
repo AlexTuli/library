@@ -2,7 +2,7 @@ package com.epam.alex.task4.servlet;
 
 import com.epam.alex.task4.entity.Role;
 import com.epam.alex.task4.entity.User;
-import com.epam.alex.task4.service.Utilities;
+import com.epam.alex.task4.utilites.Utilities;
 import org.apache.log4j.Logger;
 
 import javax.servlet.*;

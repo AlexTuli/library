@@ -1,7 +1,7 @@
 package com.epam.alex.task4.entity;
 
 /**
- * Class describes book. Contains ID of the book and it's name
+ * Class describes book. Contains name of the book and the author
  * Created by AlexTuli on 11/20/15.
  *
  * @author Bocharnikov Alexandr

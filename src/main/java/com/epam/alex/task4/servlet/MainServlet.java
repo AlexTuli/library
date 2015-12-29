@@ -2,7 +2,7 @@ package com.epam.alex.task4.servlet;
 
 import com.epam.alex.task4.action.Action;
 import com.epam.alex.task4.action.ActionFactory;
-import com.epam.alex.task4.service.Utilities;
+import com.epam.alex.task4.utilites.Utilities;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;

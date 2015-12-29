@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
 /**
+ * Change encoding to UTF-8
  * Created by AlexTuli on 12/15/15.
  *
  * @author Bocharnikov Alexandr
@@ -22,7 +23,7 @@ public class EncodingFilter implements Filter {
     }
 
     /**
-     * Change encoding of request to UTF-8
+     * Change encoding to UTF-8
      */
 
     @Override

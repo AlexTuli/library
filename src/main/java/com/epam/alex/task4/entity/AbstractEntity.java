@@ -1,6 +1,7 @@
 package com.epam.alex.task4.entity;
 
 /**
+ * Abstract entity contains id and used to inheritance another entities
  * Created by AlexTuli on 12/6/15.
  *
  * @author Bocharnikov Alexandr

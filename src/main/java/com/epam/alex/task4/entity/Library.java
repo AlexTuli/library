@@ -1,7 +1,7 @@
 package com.epam.alex.task4.entity;
 
 /**
- * Class describes library. Library contains books.
+ * Class describes library.
  * Created by AlexTuli on 11/20/15.
  *
  * @author Bocharnikov Alexandr

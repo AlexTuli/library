@@ -8,7 +8,7 @@ import java.util.Properties;
 import java.util.Set;
 
 /**
- * This Property reader read propery by one
+ * This Property reader read all properties
  * Created by AlexTuli on 12/5/15.
  *
  * @author Bocharnikov Alexandr
