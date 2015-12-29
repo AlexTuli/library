@@ -5,7 +5,7 @@ import com.epam.alex.task4.dao.SubscriptionDao;
 import com.epam.alex.task4.entity.Book;
 import com.epam.alex.task4.entity.Subscription;
 import com.epam.alex.task4.entity.User;
-import com.epam.alex.task4.service.Service;
+import com.epam.alex.task4.service.Utilities;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +29,7 @@ public class RequestForBook extends AbstractAction {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         log.info("Start to adding book to subscription...");
-        int id = Service.getId(request);
+        int id = Utilities.getId(request);
         if (id <= 0) {
             daoFactory.close();
             return "redirect:get-new-book&info=Incorrect_book_ID";
@@ -44,7 +44,7 @@ public class RequestForBook extends AbstractAction {
         log.debug("Get subscriptionDao");
         SubscriptionDao subscriptionDao = daoFactory.getDao(SubscriptionDao.class);
         log.debug("Get user from session");
-        User user = Service.getUserFromSession(request);
+        User user = Utilities.getUserFromSession(request);
         log.debug("Read subscription from DB");
         Subscription readSubscription;
         subscription.setUser(user);

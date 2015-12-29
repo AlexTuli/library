@@ -4,7 +4,7 @@ import com.epam.alex.task4.dao.DaoException;
 import com.epam.alex.task4.dao.SubscriptionDao;
 import com.epam.alex.task4.entity.Subscription;
 import com.epam.alex.task4.entity.User;
-import com.epam.alex.task4.service.Service;
+import com.epam.alex.task4.service.Utilities;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,13 +20,13 @@ public class ShowSubscription extends AbstractAction {
     private static final Logger log = Logger.getLogger(ShowSubscription.class);
 
     /**
-     *
+     * Show all books in subscription of user
      */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         SubscriptionDao subscriptionDao = daoFactory.getDao(SubscriptionDao.class);
-        User user = Service.getUserFromSession(request);
+        User user = Utilities.getUserFromSession(request);
 
         if (user == null) {
             daoFactory.close();

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Dao to work with subscription in DB.
  * Created by AlexTuli on 11/23/15.
  *
  * @author Bocharnikov Alexandr

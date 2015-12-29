@@ -43,7 +43,7 @@ public class Authorize extends AbstractAction {
             user = userDao.read(user);
         } catch (DaoException e) {
             daoFactory.close();
-            log.debug("Failed to read user");
+            log.error("Failed to read user");
             return "redirect:index&info=User_not_found";
         }
 
@@ -56,16 +56,16 @@ public class Authorize extends AbstractAction {
         log.debug("Redirecting by role");
         if (role.getName().equalsIgnoreCase("USER")) {
             daoFactory.close();
-            log.debug("Authorize successfully");
+            log.info("Authorize successfully");
             return "redirect:user-cabinet";
         } else if (role.getName().equalsIgnoreCase("ADMINISTRATOR")) {
             daoFactory.close();
-            log.debug("Authorize successfully");
+            log.info("Authorize successfully");
             return "redirect:admin-cabinet";
         }
         daoFactory.close();
-        log.debug("Incorrect role");
-        return "redirect:index&info=Something_gonna_wrong...";
+        log.error("Incorrect role");
+        return "redirect:index&info=Incorrect_role";
 
     }
 

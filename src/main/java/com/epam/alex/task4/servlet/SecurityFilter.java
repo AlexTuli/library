@@ -2,7 +2,7 @@ package com.epam.alex.task4.servlet;
 
 import com.epam.alex.task4.entity.Role;
 import com.epam.alex.task4.entity.User;
-import com.epam.alex.task4.service.Service;
+import com.epam.alex.task4.service.Utilities;
 import org.apache.log4j.Logger;
 
 import javax.servlet.*;
@@ -39,8 +39,8 @@ public class SecurityFilter implements Filter {
         Accessor accessor = Accessor.getInstance();
 
         log.debug("Get user from session");
-        User userFromSession = Service.getUserFromSession(request);
-        String actionName = Service.getActionName(request);
+        User userFromSession = Utilities.getUserFromSession(request);
+        String actionName = Utilities.getActionName(request);
 
         Role role;
 

@@ -19,7 +19,10 @@ public class CreateNotification extends AbstractAction {
 
     private static final Logger log = Logger.getLogger(CreateNotification.class);
 
-
+    /**
+     * Create notification
+     * Not implement yet :D
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Abstract Dao. Here I use template pattern
+ * Abstract Dao. Here used the template pattern. Implements model part to work with DB
  * Created by AlexTuli on 12/6/15.
  *
  * @author Bocharnikov Alexandr

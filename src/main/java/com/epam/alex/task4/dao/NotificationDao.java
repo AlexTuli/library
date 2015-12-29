@@ -51,7 +51,7 @@ public class NotificationDao extends AbstractDao<Notification> {
 
     @Override
     protected String getReadByEntityQuery() {
-        return null;
+        throw new DaoException("Not implemented");
     }
 
     /**
@@ -74,7 +74,7 @@ public class NotificationDao extends AbstractDao<Notification> {
 
     @Override
     protected PreparedStatement setFieldsInReadByEntityStatement(PreparedStatement preparedStatement, Notification notification) {
-        return null;
+        throw new DaoException("Not implemented");
     }
 
     @Override
@@ -92,9 +92,11 @@ public class NotificationDao extends AbstractDao<Notification> {
         return result;
     }
 
+    /**
+     * Don't implemented
+     */
     @Override
     protected int parseGeneratedKeys(ResultSet generatedKeys) {
-
         return 0;
     }
 

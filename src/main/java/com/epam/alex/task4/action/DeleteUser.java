@@ -3,7 +3,7 @@ package com.epam.alex.task4.action;
 import com.epam.alex.task4.dao.DaoException;
 import com.epam.alex.task4.dao.UserDao;
 import com.epam.alex.task4.entity.User;
-import com.epam.alex.task4.service.Service;
+import com.epam.alex.task4.service.Utilities;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +31,7 @@ public class DeleteUser extends AbstractAction {
 
         log.info("Start to delete user");
 
-        int userId = Service.getId(request);
+        int userId = Utilities.getId(request);
 
         if (sessionUser.getId() == userId) {
             daoFactory.close();

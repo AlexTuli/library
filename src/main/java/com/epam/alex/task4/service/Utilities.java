@@ -7,16 +7,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
- * Utilites class for clear-up code from same blocks of code
+ * Utilities class for clear-up code from same blocks of code
  * Created by AlexTuli on 12/22/15.
  *
  * @author Bocharnikov Alexandr
  */
-public final class Service {
+public final class Utilities {
 
     private static final String PARAMETER_ACTION = "action";
 
-    private static final Logger log = Logger.getLogger(Service.class);
+    private static final Logger log = Logger.getLogger(Utilities.class);
 
     /**
      * Get "id" param from request
@@ -49,7 +49,6 @@ public final class Service {
             return (User) session.getAttribute("user");
         }
         return null;
-//        return (User) request.getSession(false).getAttribute("user");
     }
 
     /**

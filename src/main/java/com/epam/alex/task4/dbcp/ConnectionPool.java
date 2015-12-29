@@ -1,10 +1,13 @@
 package com.epam.alex.task4.dbcp;
 
+import com.epam.alex.task4.propmanager.FullPropertyReader;
+import com.epam.alex.task4.propmanager.PropertyReader;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -14,25 +17,27 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Bocharnikov Alexandr
  */
-public class ConnectionPool {
+public final class ConnectionPool {
 
     private static final Logger log = Logger.getLogger(ConnectionPool.class);
     private static final ConnectionPool INSTANCE = new ConnectionPool();
-    //TODO get it from property
-    public static final String MY_LIBRARY_URL = "jdbc:h2:tcp://127.0.0.1/E:/Back-Up/H2-db/myLibrary";
-    public static final String USER_NAME = "sa";
-    public static final String PASSWORD = "sa";
-    public static final String JDBC_H2_DRIVER = "org.h2.Driver";
+    private String myLibraryUrl;
+    private static final String USER_NAME = "sa";
+    private static final String PASSWORD = "sa";
+    private static final String JDBC_H2_DRIVER = "org.h2.Driver";
     private BlockingQueue<Connection> connections;
 
     private ConnectionPool() {
+        PropertyReader propertyReader = new FullPropertyReader();
+        Map<String, String> stringStringMap = propertyReader.readProperty("library.properties");
+        myLibraryUrl = stringStringMap.get("libraryURL");
         log.debug("Create connection pool");
         try {
             Class.forName(JDBC_H2_DRIVER); //Driver loading
             connections = new LinkedBlockingQueue<>();
             for (int i = 0; i < 10; i++) {
                 log.debug("Create connection #" + i);
-                Connection connection = DriverManager.getConnection(MY_LIBRARY_URL, USER_NAME, PASSWORD);
+                Connection connection = createConnection();
                 log.debug("Connection is " + connection);
                 connections.add(connection);
             }
@@ -46,7 +51,7 @@ public class ConnectionPool {
     }
 
     private Connection createConnection() throws SQLException {
-        return DriverManager.getConnection(MY_LIBRARY_URL, USER_NAME, PASSWORD);
+        return DriverManager.getConnection(myLibraryUrl, USER_NAME, PASSWORD);
     }
 
     public static ConnectionPool getInstance() {
@@ -64,7 +69,7 @@ public class ConnectionPool {
     }
 
     public void returnConnection(Connection connection) {
-        if (connection != null)
+        if (connection != null) {
             try {
                 if (connection.isValid(500)) {
                     log.debug("Return connection to pool.");
@@ -76,5 +81,6 @@ public class ConnectionPool {
             } catch (SQLException ignored) {
                 // It happens only when timeout less than 0, but it never happen
             }
+        }
     }
 }

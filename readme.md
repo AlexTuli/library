@@ -6,29 +6,24 @@ It's a library management system.
 -------------------
 1) USERS:
 
-Look for books in library +++
-Show list of books in subscription. +
-Login +
-Registration. +
-Request for new book.+
-Return old book++.
+Look for books in library.
+Show list of books in subscription.
+Request for new book.
+Return old book.
 
 
 2) ADMINISTRATION:
 
-Add new book to library++
-Get list of users ++
-Delete users +
-Make somebody administrator +
+Add new book to library.
+Get list of users.
+Look at books in library.
+Delete users.
+Promote to administrator.
 
-### To-Do
-------------------
-Add Date when user get book
-pagination
-Error handler
-Add more languages.
+3) ANONYMOUS:
 
+Registered.
+Look at books in library.
+Login.
 
-ADD COMMENTS!
-Refactor code
 

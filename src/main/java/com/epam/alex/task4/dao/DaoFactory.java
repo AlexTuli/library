@@ -10,6 +10,7 @@ import java.sql.SQLException;
 
 
 /**
+ * Factory to get different's dao with connection from CP.
  * Created by AlexTuli on 12/6/15.
  *
  * @author Bocharnikov Alexandr

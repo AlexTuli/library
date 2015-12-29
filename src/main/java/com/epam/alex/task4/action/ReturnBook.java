@@ -5,6 +5,7 @@ import com.epam.alex.task4.dao.SubscriptionDao;
 import com.epam.alex.task4.entity.Book;
 import com.epam.alex.task4.entity.Subscription;
 import com.epam.alex.task4.entity.User;
+import com.epam.alex.task4.service.Utilities;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,20 +20,19 @@ public class ReturnBook extends AbstractAction {
 
     private static final Logger log = Logger.getLogger(ReturnBook.class);
 
-
+    /**
+     * Delete book from subscription of user
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         log.info("Starting to delete book from subscription");
-        String sId = request.getParameter("id");
-        int id;
-        try {
-            id = Integer.parseInt(sId);
-        } catch (NumberFormatException e) {
-            log.error("Incorrect book ID");
+        int id = Utilities.getId(request);
+        if (id < 1) {
             daoFactory.close();
-            return "redirect:return-book&info=Incorrect_book_ID";
+            return "redirect::return-book&info=Wrong_ID_format";
         }
+
         Book book = new Book();
         book.setId(id);
         Subscription subscription = new Subscription();
@@ -40,26 +40,34 @@ public class ReturnBook extends AbstractAction {
         SubscriptionDao subscriptionDao = daoFactory.getDao(SubscriptionDao.class);
 
         log.debug("Get user from session");
-        User user = (User) request.getSession(false).getAttribute("user");
+        User user = Utilities.getUserFromSession(request);
+        if (user == null) {
+            daoFactory.close();
+            return "redirect:index&info=You're_not_logged";
+        }
         log.debug("Get subscription by user");
         int idSubscription = subscriptionDao.read(user.getId()).getId();
         subscription.setId(idSubscription);
-
         log.debug("Start to delete book");
 
         startTransaction();
+        int delete;
 
         try {
-            subscriptionDao.delete(subscription);
+            delete = subscriptionDao.delete(subscription);
         } catch (DaoException e) {
             log.warn("Can't remove book, check ID", e);
             rollback();
             daoFactory.close();
             return "redirect:return-book&info=Can't_remove_book,_check_ID";
         }
-
+        if (delete == 0) {
+            log.error("User not found, can't delete");
+            rollback();
+            daoFactory.close();
+            return "redirect:return-book&info=Book_not_found";
+        }
         commit();
-
         daoFactory.close();
         log.info("Book deleted from subscription successfully!");
         return "redirect:user-cabinet&notification=Book_returned!";

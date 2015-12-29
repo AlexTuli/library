@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 /**
+ * Actions used to do something work. Implements controller part of MVC
  * Created by AlexTuli on 12/1/15.
  *
  * @author Bocharnikov Alexandr

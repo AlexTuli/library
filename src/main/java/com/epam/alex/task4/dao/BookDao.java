@@ -1,6 +1,7 @@
 package com.epam.alex.task4.dao;
 
 import com.epam.alex.task4.entity.Book;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,12 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Dao to work with Books entities in DB
  * Created by AlexTuli on 11/26/15.
  *
  * @author Bocharnikov Alexandr
  */
 public class BookDao extends AbstractDao<Book> {
 
+    private static final Logger log = Logger.getLogger(BookDao.class);
     public static final String CREATE_QUERY = "INSERT INTO BOOK (ID, AUTHOR, TITLE) VALUES (DEFAULT, ?, ?)";
     public static final String READ_BY_ID = "SELECT * FROM BOOK WHERE  ID LIKE ?";
     public static final String READ_ALL = "SELECT * FROM BOOK";
@@ -49,7 +52,7 @@ public class BookDao extends AbstractDao<Book> {
 
     @Override
     protected String getReadByEntityQuery() {
-        return null;
+        throw new DaoException("Not implemented.");
     }
 
     @Override
@@ -59,7 +62,7 @@ public class BookDao extends AbstractDao<Book> {
 
     @Override
     protected PreparedStatement setFieldsInReadByEntityStatement(PreparedStatement preparedStatement, Book book) {
-        return null;
+        throw new DaoException("Not implemented.");
     }
 
     @Override
@@ -99,7 +102,8 @@ public class BookDao extends AbstractDao<Book> {
         try {
             statement.setInt(1, book.getId());
         } catch (SQLException e) {
-            throw new DaoException("Trouble in BookDao by setFieldsInDeleteStatement()", e);
+            log.error("Trouble in book dao by setFieldsInDeleteStatement()");
+            throw new DaoException(e);
         }
         return statement;
     }
@@ -122,9 +126,11 @@ public class BookDao extends AbstractDao<Book> {
         return result;
     }
 
+    /**
+     * Don't implemented.
+     */
     @Override
     protected int parseGeneratedKeys(ResultSet generatedKeys) {
-
         return 0;
     }
 

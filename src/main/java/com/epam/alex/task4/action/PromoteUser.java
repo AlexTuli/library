@@ -4,7 +4,7 @@ import com.epam.alex.task4.dao.DaoException;
 import com.epam.alex.task4.dao.UserDao;
 import com.epam.alex.task4.entity.Role;
 import com.epam.alex.task4.entity.User;
-import com.epam.alex.task4.service.Service;
+import com.epam.alex.task4.service.Utilities;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,19 +19,19 @@ public class PromoteUser extends AbstractAction {
 
     private static final Logger log = Logger.getLogger(PromoteUser.class);
 
-
+    /**
+     * Promote user to Administrator
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         log.info("Start to promote user");
-
-        int id = Service.getId(request);
+        int id = Utilities.getId(request);
         if (id <= 0) {
             return "redirect:promote-user&info=Wrong_id";
         }
-
+        // First, read user
         UserDao userDao = daoFactory.getDao(UserDao.class);
-
         startTransaction();
         User user;
         try {
@@ -42,10 +42,10 @@ public class PromoteUser extends AbstractAction {
             daoFactory.close();
             return "redirect:promote-user&info=Can't_find_user";
         }
-
+        //Set to user role - Admin
         Role adminRole = Role.getAdminRole();
         user.setRole(adminRole);
-
+        //Update and commit user
         try {
             userDao.update(user);
         } catch (DaoException e) {

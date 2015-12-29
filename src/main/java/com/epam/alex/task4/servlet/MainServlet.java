@@ -2,7 +2,7 @@ package com.epam.alex.task4.servlet;
 
 import com.epam.alex.task4.action.Action;
 import com.epam.alex.task4.action.ActionFactory;
-import com.epam.alex.task4.service.Service;
+import com.epam.alex.task4.service.Utilities;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -40,7 +40,7 @@ public class MainServlet extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
         logger.debug("Start process request");
-        String actionName = Service.getActionName(request);
+        String actionName = Utilities.getActionName(request);
         logger.debug("Get Action " + actionName);
         Action action = factory.getAction(actionName);
         logger.debug("Action " + action + " start");

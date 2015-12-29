@@ -16,6 +16,12 @@ public class ShowPage extends AbstractAction {
     public static final String JSP_EXTENSION = ".jsp";
     public static final String PATH_TO_JSP = "/WEB-INF/jsp/";
 
+    /**
+     * Forward to page that content in parameter "redirect"
+     * @param request
+     * @param response
+     * @return
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
