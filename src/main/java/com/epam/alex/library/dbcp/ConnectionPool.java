@@ -2,7 +2,8 @@ package com.epam.alex.library.dbcp;
 
 import com.epam.alex.library.propmanager.FullPropertyReader;
 import com.epam.alex.library.propmanager.PropertyReader;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,7 +21,7 @@ import java.util.concurrent.TimeUnit;
  */
 public final class ConnectionPool {
 
-    private static final Logger log = Logger.getLogger(ConnectionPool.class);
+    private static final Logger log = LoggerFactory.getLogger(ConnectionPool.class);
     private static final ConnectionPool INSTANCE = new ConnectionPool();
     private String myLibraryUrl;
     private static final String USER_NAME = "sa";

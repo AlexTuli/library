@@ -1,7 +1,8 @@
 package com.epam.alex.library.dao;
 
 import com.epam.alex.library.dbcp.ConnectionPool;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -18,7 +19,7 @@ import java.sql.SQLException;
 public class DaoFactory {
 
 
-    private static final Logger log = Logger.getLogger(DaoFactory.class);
+    private static final Logger log = LoggerFactory.getLogger(DaoFactory.class);
     private Connection connection;
     private ConnectionPool connectionPool;
 

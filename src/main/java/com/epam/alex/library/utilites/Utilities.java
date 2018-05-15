@@ -1,7 +1,8 @@
 package com.epam.alex.library.utilites;
 
 import com.epam.alex.library.entity.User;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,7 +17,7 @@ public final class Utilities {
 
     private static final String PARAMETER_ACTION = "action";
 
-    private static final Logger log = Logger.getLogger(Utilities.class);
+    private static final Logger log = LoggerFactory.getLogger(Utilities.class);
 
     /**
      * Get "id" param from request

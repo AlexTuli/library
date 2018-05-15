@@ -1,7 +1,7 @@
 package com.epam.alex.library.action;
 
-
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class ActionFactory {
 
-    private static final Logger log = Logger.getLogger(ActionFactory.class);
+    private static final Logger log = LoggerFactory.getLogger(ActionFactory.class);
     private static final ActionFactory INSTANCE = new ActionFactory();
     private static Map<String, Class<? extends AbstractAction>> actionMap;
 

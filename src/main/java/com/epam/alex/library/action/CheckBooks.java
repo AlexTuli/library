@@ -2,6 +2,8 @@ package com.epam.alex.library.action;
 
 import com.epam.alex.library.dao.BookDao;
 import com.epam.alex.library.entity.Book;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +16,7 @@ import java.util.List;
  */
 public class CheckBooks extends AbstractAction {
 
-    private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(CheckBooks.class);
+    private static final Logger log = LoggerFactory.getLogger(CheckBooks.class);
 
 
     /**

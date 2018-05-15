@@ -5,7 +5,8 @@ import com.epam.alex.library.dao.SubscriptionDao;
 import com.epam.alex.library.entity.Subscription;
 import com.epam.alex.library.entity.User;
 import com.epam.alex.library.utilites.Utilities;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ShowSubscription extends AbstractAction {
 
-    private static final Logger log = Logger.getLogger(ShowSubscription.class);
+    private static final Logger log = LoggerFactory.getLogger(ShowSubscription.class);
 
     /**
      * Show all books in subscription of user

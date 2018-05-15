@@ -1,6 +1,7 @@
 package com.epam.alex.library.action;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ShowPage extends AbstractAction {
 
-    private static final Logger log = Logger.getLogger(ShowPage.class);
+    private static final Logger log = LoggerFactory.getLogger(ShowPage.class);
     public static final String JSP_EXTENSION = ".jsp";
     public static final String PATH_TO_JSP = "/WEB-INF/jsp/";
 

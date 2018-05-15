@@ -3,7 +3,8 @@ package com.epam.alex.library.servlet;
 import com.epam.alex.library.action.Action;
 import com.epam.alex.library.action.ActionFactory;
 import com.epam.alex.library.utilites.Utilities;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,7 +23,7 @@ import java.io.IOException;
 public class MainServlet extends HttpServlet {
 
 
-    private final static Logger logger = Logger.getLogger(MainServlet.class);
+    private final static Logger logger = LoggerFactory.getLogger(MainServlet.class);
 
     private ActionFactory factory;
 

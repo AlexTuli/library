@@ -1,7 +1,8 @@
 package com.epam.alex.library.dao;
 
 import com.epam.alex.library.entity.Book;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,7 +19,7 @@ import java.util.List;
  */
 public class BookDao extends AbstractDao<Book> {
 
-    private static final Logger log = Logger.getLogger(BookDao.class);
+    private static final Logger log = LoggerFactory.getLogger(BookDao.class);
     public static final String CREATE_QUERY = "INSERT INTO BOOK (ID, AUTHOR, TITLE) VALUES (DEFAULT, ?, ?)";
     public static final String READ_BY_ID = "SELECT * FROM BOOK WHERE  ID LIKE ?";
     public static final String READ_ALL = "SELECT * FROM BOOK";

@@ -1,7 +1,8 @@
 package com.epam.alex.library.dao;
 
 import com.epam.alex.library.entity.AbstractEntity;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,7 +19,7 @@ import java.util.List;
  */
 public abstract class AbstractDao<T extends AbstractEntity> {
 
-    private final static Logger logger = Logger.getLogger(AbstractDao.class);
+    private final static Logger logger = LoggerFactory.getLogger(AbstractDao.class);
 
     protected Connection connection;
 

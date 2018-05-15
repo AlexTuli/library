@@ -2,7 +2,8 @@ package com.epam.alex.library.dao;
 
 import com.epam.alex.library.entity.Book;
 import com.epam.alex.library.entity.Subscription;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import java.util.List;
  */
 public class SubscriptionDao extends AbstractDao<Subscription> {
 
-    private static final Logger log = Logger.getLogger(SubscriptionDao.class);
+    private static final Logger log = LoggerFactory.getLogger(SubscriptionDao.class);
     public static final String CREATE_QUERY = "INSERT INTO SUBSCRIPTION (ID, USER_ID) " +
             "VALUES (DEFAULT , ?)";
     public static final String READ_BY_ID_QUERY = "SELECT SUBSCRIPTION.ID, BOOK.TITLE, BOOK.AUTHOR, BOOK_ID FROM SUBSCRIPTION\n" +

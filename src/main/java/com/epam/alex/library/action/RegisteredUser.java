@@ -6,7 +6,8 @@ import com.epam.alex.library.dao.UserDao;
 import com.epam.alex.library.entity.Role;
 import com.epam.alex.library.entity.Subscription;
 import com.epam.alex.library.entity.User;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +21,8 @@ import java.util.regex.Pattern;
  */
 public class RegisteredUser extends AbstractAction {
 
-    private final static Logger logger = Logger.getLogger(RegisteredUser.class);
+    private final static Logger logger = LoggerFactory.getLogger(RegisteredUser.class);
+
     public static final String WORD_REGEX = "\\w+";
 
 

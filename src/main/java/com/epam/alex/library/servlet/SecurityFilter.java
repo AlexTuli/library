@@ -3,7 +3,8 @@ package com.epam.alex.library.servlet;
 import com.epam.alex.library.entity.Role;
 import com.epam.alex.library.entity.User;
 import com.epam.alex.library.utilites.Utilities;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -20,7 +21,7 @@ import java.io.IOException;
 public class SecurityFilter implements Filter {
 
 
-    private static final Logger log = Logger.getLogger(SecurityFilter.class);
+    private static final Logger log = LoggerFactory.getLogger(SecurityFilter.class);
 
     public void destroy() {
         log.info("Security filter destroyed");
